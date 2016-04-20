@@ -1,0 +1,144 @@
+*{
+	margin: 0;
+	padding:0;
+}
+#testimonials_row{
+	background-color: #EBEBEB;	
+	position: relative;
+}
+#testimonials_row .main_row{
+	padding-left: 0px;
+}
+.testimonials{
+	padding-top: 100px;
+}
+.testimonials h2{
+	font-size: 28px;
+	text-align: center;
+	padding-bottom: 0px;
+	margin-top: -73px;
+	margin-bottom: -35px;
+	color: #656D77;
+	margin-left: -112px;
+}
+.testimonials .quot1{
+	font-size: 96px;
+	padding-bottom: 0px;
+	color: #656C77;
+
+}
+.testimonials .quot2{
+	font-size: 96px;
+	margin-left: 490px;
+	color: #656C77;
+}
+.testimonials h3{
+	font-size: 26px;
+	color:#0C0C0C;
+	text-align: center;
+	margin-left: -112px;
+}
+.testimonials p{
+	font-size: 18px;
+	color:#636363;
+	text-align: center;
+	margin-left: -112px;
+}
+.myCircle {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	width: 350px;
+	height: 350px;
+	border-radius: 50%;
+	border: 35px solid #187AFF;
+	z-index: 9;
+	position: relative;
+	left: 373px;
+}
+.half-circle {
+    width: 500px;
+	height: 425px;
+	background-color: #656D7A;
+	border-top-left-radius: 250px;
+	border-top-right-radius: 258px;
+	border-bottom-right-radius: 70px;
+	border: 10px solid #656D7A;
+	border-bottom: 0;
+	position: absolute;
+	bottom: -108px;
+	left: -42px;
+	
+}
+.gyp_icon{
+	position: relative;
+	top: -40px;
+	left: 215px;
+	display: inline-block;
+	font-weight: 400;
+	line-height: 1;
+	font-family: 'Glyphicons Halflings';
+	background-color: white;
+	width: 50px !important;
+	height: 50px !important;
+	border-radius: 25px;
+	padding: 15px;
+	color: #cccccc;
+	font-size: 20px;
+}
+.gyp_icon:hover{
+	background-color: #187AFF;
+	color: #ffffff;
+}
+@media(max-width: 768px){
+	.half-circle{
+	    display: none;
+	}
+	.myCircle {
+		margin-top: 20px;
+		width: 275px;
+		height: 275px;
+		border-radius: 50%;
+		border: 25px solid #187AFF;
+		position: relative;
+		left: 175px;
+	}
+	.testimonials{
+		padding-top: 20px;
+	}
+	.gyp_icon{
+		position: relative;
+		left: 266px;
+		top: -6px;
+	}
+}
+@media(max-width: 480px){
+	.half-circle{
+		display: none;
+	}
+	.myCircle {
+		margin-top: 20px;
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+		border: 20px solid #187AFF;
+		position: relative;
+		left: 53px;
+	}
+	.testimonials{
+		padding-top: 20px;
+	}
+	.gyp_icon{
+		position: relative;
+		left: 110px;
+		top: -6px;
+	}
+	.testimonials .quot2{
+	font-size: 96px;
+	margin-left: 245px;
+	color: #646B77;
+	}
+	.testimonials h3, .testimonials h2, .testimonials p{
+		margin-left: 0px;
+	}
+
+}
