@@ -1,5 +1,5 @@
 <?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?>
-
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap-datepicker.min.css');?>">
 <div class="container">
 
 <div class="row">
@@ -28,8 +28,11 @@
                              </button>
                               <ul class="dropdown-menu">
                               <?php foreach($lis as $list) {  ?>
-                                <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/editFamily/{$list->id}");?>'>Edit</a>|<a href="<?php echo base_url("user/delete/{$list->id}");?>">Delete</a></span></li>
+                                <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|<span onclick="del_family(<?php echo $list->id; ?>,$(this))" id="del_<?php echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span></span></li>
                             <?php } ?>
+
+                            <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
+                            <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
                                 
                               </ul>
                             </div>
@@ -64,7 +67,7 @@
                                 </div>
                                 <div class="col-md-6" style="padding-right: 0;">
                                     <label>Date of Birth</label><br>
-                                    <input type="text" id="datepicker" name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
+                                    <input type="text" id="datePick" name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
                                 </div>
                               </div>
 
@@ -92,8 +95,8 @@
                               </div>
 
                               <br><br>
-                               <div class="status">
-                                <div class="radio3">
+                                <div class="gender">
+                                <div class="radio"> 
 
                                 <?php foreach($st as $sta) {  ?>
                                     <input id="<?php echo $sta->id_value ?>" type="radio" name="status" value="<?php echo $sta->status; ?>" <?php if(isset($families->status)) if($families->status == $sta->status) {echo "checked"; } ?> >
@@ -106,7 +109,7 @@
 
                               <br><br><br>
                               <div class="continue">
-                                 <span style="display: inline;"><input id="submt" type="submit" value="Save & Add More"/> <a>or</a> <a href="<?php echo base_url('user/property'); ?>"><input id="contnu" type="button" value="Continue&#62;&#62;"/></a></span>
+                                 <span style="display: inline;"><input id="submt" type="submit" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
                               </div>
                             </form>
                             <center><p>See <a href="">Terms</a> & <a href="">Privacy Policy</a></p></center>
@@ -154,14 +157,88 @@
 
 </section>
 </section>
-<!-- jquery library file -->
-    <script type="text/javascript" src="<?php //echo base_url('js/jquery-1.11.3.min.js');?>"></script>
-<script type="text/javascript">
-   /* $('#submt').on('click',function(event)
-    {
-        $(event).preventDefault();
-        $('#form').attr("action","<?php// echo base_url('user/addFamily'); ?>");
-        $('#form').submit();
-    });*/
+<script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
+    <script type="text/javascript">
+           $(document).ready(function(){
+                $('#datePick').datepicker({
+                    todayHighlight: true,dateFormat:'yy-mm-dd'
+                });
+           });
 
-</script>
+        </script>
+<script type="text/javascript">
+ 
+    $(function(){
+
+    });
+    
+    function del_family(id,ele){ 
+        if(confirm('Want to Delete'))
+        {
+        var data = {id:id};
+        //console.log(data);
+        $.ajax({
+
+            type:"POST",
+            url:"<?php echo base_url(); ?>user/delete",
+            data:data,
+            success:function(res)
+            {  console.log(ele.parent().parent().remove());
+                return false;
+             //  window.location="<?php echo base_url('user/family'); ?>";
+            }
+        });
+        return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    $('#contnu').on('click',function(){
+
+        var list = $.parseJSON($('#list').val());
+        var rel = $.parseJSON($('#rel').val());
+        var id = new Array();
+        var name= new Array();
+        var i=0;
+        $.each(rel,function(k,v){
+           if(v['name']=="Son"){
+                 $.each(list,function(key,ele){
+              if(ele['relationship'] == v['rel_id'])
+              {
+                    if(ele['marital_status'] == "Married")
+                    {
+                         //status.push(ele['marital_status']);
+                         //name.push(ele['name']);
+                         name = ele['name'];
+                         if(confirm(name + ' ,You want enter Wife details'))
+                             {
+                           window.location="<?php echo base_url('user/family');?>";
+                            }
+                         else{ 
+                           window.location="<?php echo base_url('user/property');?>";
+                              }
+                         
+                    }
+              } 
+                 
+                  }); }
+
+        });
+        
+       /*  $.each(name,function(){ 
+            if(confirm(name[i] + ' ,You want enter Wife details'))
+            {
+               window.location="<?php //echo base_url('user/family');?>";
+            }
+            else{ 
+                window.location="<?php //echo base_url('user/property');?>";
+            }
+            
+              });  */
+
+        //console.log(name);
+     });
+  </script>

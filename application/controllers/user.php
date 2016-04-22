@@ -16,6 +16,21 @@ class User extends CI_Controller
 		$this->load->view('footer');
 	}
 
+	function signin()
+	{
+		$this->load->view('header');
+		$this->load->view('sign');
+		$this->load->view('footer');
+	}
+
+	
+	function yServices()
+	{
+		$this->load->view('header');
+		$this->load->view('yServices');
+		$this->load->view('footer');
+	}
+
 	function service()
 	{
 		$data['personal'] = $this->user_model->personal_details();
@@ -44,6 +59,7 @@ class User extends CI_Controller
 
 	function family()
 	{
+		$id = $this->uri->segment(3,0);
 		$data['lis'] = $this->family_model->get_paged_list()->result();
 		$data['rel'] = $this->family_model->get_relation()->result();
 		$data['gen'] = $this->family_model->get_gender()->result();
@@ -53,7 +69,12 @@ class User extends CI_Controller
 		$data['width'] = "36%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
-		$this->load->view('family',$data);
+		if(isset($id)){
+			$family = $this->family_model->get_by_id($id)->row();
+			$data['families']= $family;
+			$this->load->view('family',$data);
+		}else{
+		$this->load->view('family',$data);}
 		$this->load->view('footer');
 	}
 
@@ -76,24 +97,6 @@ class User extends CI_Controller
 			}		
 	}		
 	
-	function editFamily($id)
-	{
-		$data['lis'] = $this->family_model->get_paged_list()->result();
-		$data['rel'] = $this->family_model->get_relation()->result();
-		$data['gen'] = $this->family_model->get_gender()->result();
-		$data['m_sta'] = $this->family_model->get_marital_status()->result();
-		$data['st'] = $this->family_model->get_status()->result();
-		// prefill form values
-		$family = $this->family_model->get_by_id($id)->row();
-		//print_r($family); die();		
-		$data['families']= $family; 
-	
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('family',$data);
-		$this->load->view('footer');
-	}
-
 	function updateFamily()
 	{
 			$id = $this->input->post('id');
@@ -108,10 +111,12 @@ class User extends CI_Controller
 			$this->family_model->update($id,$family);
 	}
 
-	function delete($id)
+	function delete()
 	{
+		$id = $this->input->post('id');
 		$this->family_model->delete($id);
-		redirect('user/family','refresh');
+
+		//redirect('user/family','refresh');
 	}
 
 	/*  END Of Family Panel      */

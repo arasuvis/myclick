@@ -9,7 +9,9 @@ class family_model extends CI_Model
 
     function get_paged_list()
 	{
-		return $this->db->get('tbl_family');
+		$will_id = 7;
+		return $this->db->where('will_id',$will_id)
+						->get('tbl_family');
 	}
 
     function get_relation()
