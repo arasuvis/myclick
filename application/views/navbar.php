@@ -11,17 +11,17 @@
 
                         <li class="<?php if(isset($tab)) if($tab == "profile") echo "active";?>"><a href="<?php echo base_url('user/profile'); ?>">PERSONAL INFO</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "family") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/family'); ?>">FAMILY DETAILS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "family") echo "active";?>"><a  href="<?php echo base_url('user/family'); ?>">FAMILY DETAILS</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/property'); ?>">PROPERTY DETAILS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/property'); ?>">PROPERTY DETAILS</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property_alloc") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/property_alloc'); ?>">PROPERTY ALLOCATION</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "property_alloc") echo "active";?>"><a  href="<?php echo base_url('user/property_alloc'); ?>">PROPERTY ALLOCATION</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/witness'); ?>">WITNESS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/witness'); ?>">WITNESS</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/lawyer'); ?>">LAWYERS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/lawyer'); ?>">LAWYERS</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a data-toggle="tab" href="<?php echo base_url('user/finish'); ?>">PREVIEW & FINISH</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/finish'); ?>">PREVIEW & FINISH</a></li>
                       </ul>
 						
                       <div id="bar" class="progress">
