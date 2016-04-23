@@ -40,8 +40,8 @@
 					<div class="firstRightHeader">
 						<ul class="list-inline text-right">
 							<li style="margin-right: 15px;">TOLL FREE - 1800 6543 7654</li>
-							<li><a href="javascript:void(0);">SIGN IN</a></li><span style="color:#AFB0B2;font-weight: 600">|</span>
-							<li><a href="javascript:void(0);">SIGN UP</a></li>
+							<!--<li><a href="javascript:void(0);">SIGN IN</a></li><span style="color:#AFB0B2;font-weight: 600">|</span>
+							<li><a href="javascript:void(0);">SIGN UP</a></li>-->
 						</ul>
 					</div>
 					<div class="secondRightHeader">
@@ -77,7 +77,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0);">
-										CONATACT US
+										CONTACT US
 									</a>
 								</li>
 								<li>
@@ -90,12 +90,12 @@
 								</li>
 								<li class="socialIcon">
 									<a href="javascript:void(0);">
-										<i class="fa fa-facebook"></i>
+										<!--<i class="fa fa-facebook"></i>-->
 									</a>
 								</li>
 								<li class="socialIcon">
 									<a href="javascript:void(0);">
-										<i class="fa fa-twitter"></i>
+										<!--<i class="fa fa-twitter"></i>-->
 									</a>
 								</li>
 						      </ul>

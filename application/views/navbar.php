@@ -7,7 +7,8 @@
                <article class="col-sm-12">
                     <ul class="nav nav-tabs">
 
-                        <li  class="<?php if(isset($tab)) if($tab == "service") echo "active";?>"><a  href="<?php echo base_url('user/service'); ?>">SIGN IN</a></li>
+                       <!-- <li  class="<?php if(isset($tab)) if($tab == "service") echo "active";?>"><a  href="<?php echo base_url('user/service'); ?>">SIGN IN</a></li>-->
+					   <li ><a  href="#">SIGN IN</a></li>
 
                         <li class="<?php if(isset($tab)) if($tab == "profile") echo "active";?>"><a href="<?php echo base_url('user/profile'); ?>">PERSONAL INFO</a></li>
 

@@ -5,6 +5,9 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->library('form_validation');		
+		$this->load->library('session');
+		$this->load->library('email');
 		$this->load->model('user_model');
 		$this->load->model('family_model');
 	}
@@ -22,6 +25,73 @@ class User extends CI_Controller
 		$this->load->view('sign');
 		$this->load->view('footer');
 	}
+	
+	function reg_details()
+	{
+		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
+		$this->form_validation->set_rules('mname','Middle Name','trim|required');
+		$this->form_validation->set_rules('surname','Surname','trim|required');
+		$this->form_validation->set_rules('email','Email Id','trim|required|valid_email|is_unique[user_register.email]');
+		$this->form_validation->set_rules('password','Password','trim|required');
+		$this->form_validation->set_rules('confirm_password','Confirm Password','trim|required|matches[password]');
+		$this->form_validation->set_rules('age','Age','trim|required|integer');
+		$this->form_validation->set_rules('gender','Gender','trim|required|alpha');
+		$this->form_validation->set_rules('address','Address','trim|required');
+		$this->form_validation->set_rules('mobile','Mobile Number','trim|required|exact_length[10]|integer');
+
+		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
+
+		if($this->form_validation->run() == False)
+		{
+		//echo "error"; 
+			$this->load->view('header');
+		$this->load->view('sign');
+		$this->load->view('footer');
+		}
+		else
+		{
+
+		$data = array(
+			'fname' => $this->input->post('fname'),
+			'mname' => $this->input->post('mname'),
+			'surname' => $this->input->post('surname'),
+			'email' => $this->input->post('email'),
+			'password' =>md5($this->input->post('password')),
+			'age' => $this->input->post('age'),
+			'gender' => $this->input->post('gender'),
+			'address' => $this->input->post('address'),
+			'mobile' => $this->input->post('mobile')
+						);
+		
+		 $id = $this->user_model->save_reg($data);
+		 $session_data = $this->session->userdata('is_userlogged_in');
+		 $will_id=$this->user_model->get_will_id($id);
+				$session_data['user_id'] = $id;
+				$session_data['will_id'] = $will_id;
+
+				$this->session->set_userdata("is_userlogged_in", $session_data);
+		
+		if($id)
+		{
+			if($this->user_model->reg_will_id($id))
+			{
+				redirect('user/profile');
+			 }
+			else
+			{
+		$this->load->view('header');
+		$this->load->view('sign');
+		$this->load->view('footer');
+			}
+		}
+		else
+		{
+			$this->load->view('header');
+		$this->load->view('sign');
+		$this->load->view('footer');
+		}
+	}
+	}
 
 	
 	function yServices()
@@ -33,18 +103,20 @@ class User extends CI_Controller
 
 	function service()
 	{
-		$data['personal'] = $this->user_model->personal_details();
+		$session = $this->session->userdata('is_userlogged_in');
+		$data['personal'] = $this->user_model->personal_details($session);
 		$data['tab'] = "service";
 		$data['width'] = "13%";
-		$this->load->view('header');
 		$this->load->view('navbar',$data);
+		$this->load->view('header');
 		$this->load->view('service',$data);
 		$this->load->view('footer');
 		
 	}
 	function profile()
 	{
-		$data['personal'] = $this->user_model->personal_details();
+		$session = $this->session->userdata('is_userlogged_in');
+		$data['personal'] = $this->user_model->personal_details($session);
 		//print_r($data); die();
 		$data['gen'] = $this->family_model->get_gender()->result();
 		$data['tab'] = "profile";

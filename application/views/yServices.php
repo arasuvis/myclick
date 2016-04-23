@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-<link href="<?php echo base_url('plugins/bootstrap/css/bootstrap.css');?>" rel="stylesheet">
- <link href="<?php echo base_url('plugins/bootstrap/css/bootstrap-theme.css');?>" rel="stylesheet">
-  <!-- jquery ui css links -->
- <link rel="stylesheet" type="text/css" href="<?php echo base_url('plugins/jquery-ui-1.11.4/jquery-ui.css');?>">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url('plugins/font-awesome-4.5.0/css/font-awesome.min.css');?>">
-   <!-- Google fonts link -->
-   <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel='stylesheet' type='text/css'> 
-  <!-- my style sheet -->
- <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style.css');?>">
-
-
-  <div class="ysrvs">
+ <div class="ysrvs">
   	<div class="serviceBanner">
 	<div class="container">
 		<div class="onbannr">
@@ -21,7 +6,7 @@
 				<h1>Protect your loved ones<br>a legally binding will. </h1>
 				<h4 class="manypeople"><b>Many people finish in 15 minitus.</b></h4>
 				<div class="btnBanner">
-					<button type="button" class="btn btn-default"><h3>Start My Last Will</h3></button>
+					<a href="<?php echo base_url('user/signin');?>"><button type="button" class="btn btn-default"><h3>Start My Last Will</h3></button></a>
 				</div>
 			</div>
 			<div class="scrollDown text-center">
@@ -217,21 +202,3 @@
 	</div>
 	</div>
   </div>
-
-	<script type="text/javascript" src="<?php echo base_url('plugins/bootstrap/js/bootstrap.js');?>"></script>
-
-  <script type="text/javascript" src="<?php echo base_url('plugins/bootstrap/js/jquery.bootstrap.wizard.min.js');?>"></script>
-    <!-- jquery ui js links -->
-  <script type="text/javascript" src="<?php echo base_url('plugins/jquery-ui-1.11.4/jquery-ui.js')?>"></script> 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-	<script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event){   
-            	event.preventDefault();
-                    $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-             });
-        });
-    </script>
-
-</body>
-</html>

@@ -5,11 +5,13 @@ class family_model extends CI_Model
 	
 	function __construct(){
 		parent::__construct();
+		
     }
 
     function get_paged_list()
 	{
-		$will_id = 7;
+	$session_variable = $this->session->userdata('is_userlogged_in');
+	 $will_id = $session_variable['will_id'];
 		return $this->db->where('will_id',$will_id)
 						->get('tbl_family');
 	}
@@ -37,7 +39,8 @@ class family_model extends CI_Model
 	}
 
 	function save($family){	
-		$family['will_id'] = 7;	
+	$session_variable = $this->session->userdata('is_userlogged_in');
+		$family['will_id'] = $session_variable['will_id'];
 		 $this->db->insert('tbl_family', $family);
 		 return $this->db->insert_id();
 	}

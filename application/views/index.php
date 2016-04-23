@@ -3,7 +3,7 @@
 		<div class="allservices">
 			<ul class="list-inline">
 				<li>
-					<img src="images/service-1.jpg">
+					<a href="user/yServices"><img src="images/service-1.jpg"></a>
 					<h4>Will & Testaments</h4>
 				</li>
 				<li>
@@ -307,7 +307,7 @@
 
 
 
-    <script src="<?php echo base_url('http://maps.googleapis.com/maps/api/js');?>"></script>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
 	<script>
 function initialize() {
   var mapProp = {
