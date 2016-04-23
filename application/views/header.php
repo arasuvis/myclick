@@ -40,7 +40,7 @@
 					<div class="firstRightHeader">
 						<ul class="list-inline text-right">
 							<li style="margin-right: 15px;">TOLL FREE - 1800 6543 7654</li>
-							<!--<li><a href="javascript:void(0);">SIGN IN</a></li><span style="color:#AFB0B2;font-weight: 600">|</span>
+							<!--<span style="color:#AFB0B2;font-weight: 600">|</span>
 							<li><a href="javascript:void(0);">SIGN UP</a></li>-->
 						</ul>
 					</div>
@@ -59,6 +59,9 @@
     						<!-- Collect the nav links, forms, and other content for toggling -->
 						    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						      <ul class="nav navbar-nav">
+							<?php   if(isset($this->session->userdata['is_userlogged_in']['user_id'])) { ?> <div class="navbar-header">
+								<a class="navbar-brand" href="<?php echo base_url('user/logout');?>">Logout</a>
+							</div><?php } ?>
 						        <li class="active">
 						        	<a href="javascript:void(0);">ABOUT US <span class="sr-only">(current)</span></a>
 						        </li>

@@ -1,43 +1,59 @@
-  <div class="container-fluid signs_page">
-<div class="container">
-	<div class="row sign_reg">
-		<div class="col-md-6 sign_in">
-      <div class="signn">
-	     <h2><span>Sign In</span></h2>
-       <span id="login_error"></span>
-				
-				<form>
-          <div class=" row form-group">
-              <label for="name" class="col-md-3">Name:</label>
-              <input type="text" class="col-md-6" class="form-control" name = "name" id="name">
-             <span class="error" id="name_error"></span>
-            </div>
-          
-            <div class=" row form-group">
-              <label for="pass" class="col-md-3">Password:</label>
-              <input type="pass" class="col-md-6" class="form-control" id="pass" name="pass">
-           <span class="error" id="pass_error"></span>
-            </div>
-            <div class="signbtn">
-            <button type="submit" class="btn btn-default" id="sign">Sign In</button>
-            </div>
-        </form>
-      </div>
-		</div>
-		<div class="col-md-6 register">
-	       <div class="regii">
-				<h2>Register</h2>
-				
-<form class="form-horizontal" method="post" action="<?php echo base_url(); ?>user/reg_details">
+
+<div class=" container_fluid sign_page">
+	<div class="container">
+		<h1 class="text-center">Sign In & Register Form</h1>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<div class="sign_in ">
+				<h3 class="signmove">Sign In</h3>
+				 <span id="login_error"></span>
+		 			<div class="sign_details text-center">
+					<form>
+						<div class=" row form-group">
+							<div class="col-md-12">
+      							<input type="text" class="form-control" name="name" id="name" placeholder="user name">
+    						</div>
+							 <span class="error" id="name_error"></span>
+						</div>
+						<div class=" row form-group">
+							<div class="col-md-12">
+      							<input type="password" class="form-control" name="pass" id="pass" placeholder="password">
+    						</div>
+							 <span class="error" id="name_error"></span>
+						</div>
+						<div class="row form-group signbtn">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-default" id="sign">Sign In</button>
+							</div>
+						</div>
+						<div class="sign_social">
+							<span>...Or Sign In With</span>
+							<div class="social">
+								<ul class="list-inline">
+									<li><i class="fa fa-facebook" aria-hidden="true"></i></li>
+									<li><i class="fa fa-twitter" aria-hidden="true"></i></li>
+									<li><i class="fa fa-google" aria-hidden="true"></i></li>
+									<li></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div> 
+				</div>
+			</div>
+			<div class="col-md-6 ">
+				<div class="Register">
+				<h3 class="regmove">Register</h3>
+				<form class="form-horizontal" method="post" action="<?php echo base_url(); ?>user/reg_details">
 <fieldset>
 
-<!-- Form Name -->
-<legend>REGISTER PAGE</legend>
+
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="text">First Name</label>  
-  <div class="col-md-3">
+  
+  <div class="col-md-12">
   <input id="text" name="fname" type="text" placeholder="First Name" class="form-control input-md" required="" value="<?php echo set_value('fname') ?>">
    <?php echo form_error('fname'); ?>
   </div>
@@ -45,8 +61,8 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="text">Middle Name</label>  
-  <div class="col-md-3">
+  
+  <div class="col-md-12">
   <input id="text" name="mname" type="text" placeholder="Middle Name" class="form-control input-md" required="" value="<?php echo set_value('mname') ?>">
   <?php echo form_error('mname'); ?> 
   </div>
@@ -54,8 +70,8 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="text">Surname</label>  
-  <div class="col-md-3">
+
+  <div class="col-md-12">
   <input id="text" name="surname" type="text" placeholder="Surname" class="form-control input-md" required="" value="<?php echo set_value('surname') ?>">
   <?php echo form_error('surname'); ?>  
   </div>
@@ -63,8 +79,8 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="email">Email Id</label>  
-  <div class="col-md-3">
+
+  <div class="col-md-12">
   <input id="email" name="email" type="email" placeholder="Email Id" class="form-control input-md" required="" value="<?php echo set_value('email') ?>">
 <?php echo form_error('email'); ?> 
   </div>
@@ -72,8 +88,8 @@
 
 <!-- Password input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="password">Password </label>
-  <div class="col-md-3">
+
+  <div class="col-md-12">
     <input id="password" name="password" type="password" placeholder="Password " class="form-control input-md" required="" value="<?php echo set_value('password') ?>">
   <?php echo form_error('password'); ?> 
   </div>
@@ -81,8 +97,8 @@
 
 <!-- Password input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="password">Confirm Password </label>
-  <div class="col-md-3">
+
+  <div class="col-md-12">
     <input id="password" name="confirm_password" type="password" placeholder="Confirm Password " class="form-control input-md" required="" value="<?php echo set_value('confirm_password') ?>">
    <?php echo form_error('confirm_password'); ?> 
   </div>
@@ -90,8 +106,8 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="number">Age</label>  
-  <div class="col-md-3">
+ 
+  <div class="col-md-12">
   <input id="number" name="age" type="text" placeholder="Age" class="form-control input-md" required="" value="<?php echo set_value('age') ?>">
     <?php echo form_error('age'); ?>  
   </div>
@@ -99,8 +115,8 @@
 
 <!-- Multiple Radios (inline) -->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="radios">Gender</label>
-  <div class="col-md-3"> 
+ 
+  <div class="col-md-12"> 
     <label class="radio-inline" for="radios-0">
       <input type="radio" name="gender" id="radios-0" value="M" checked="checked">
       Male
@@ -119,38 +135,37 @@
 
 <!-- Textarea -->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="textarea">Address</label>
-  <div class="col-md-3">                     
+  
+  <div class="col-md-12">                     
     <textarea class="form-control" id="textarea" name="address" placeholder="Enter Address" value="<?php echo set_value('address') ?>"> </textarea>
   </div>
 </div>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-3 control-label" for="number">Mobile Number</label>  
-  <div class="col-md-3">
+  
+  <div class="col-md-12">
   <input id="number" name="mobile" type="text" placeholder="Mobile Number" class="form-control input-md" required="" value="<?php echo set_value('mobile') ?>">
    <?php echo form_error('mobile'); ?> 
   </div>
 </div>
 
 <!-- Button -->
-<div class="form-group">
-  <label class="col-md-3 control-label" for="singlebutton"></label>
-  <div class="col-md-3">
-    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
-  </div>
-</div>
+<div class="row form-group signbtn">
+							<div class="col-md-12">
+								<button id="singlebutton" class="btn btn-default" type="submit">Submit</button>
+							</div>
+						</div>
+
 
 </fieldset>
 </form>
-      </div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
-</div>
 
-  
+</div>
 
 
     <script src="http://maps.googleapis.com/maps/api/js"></script>
@@ -202,7 +217,7 @@
             }
             else if(result == 1)
             {
-              window.location="<?php echo base_url(); ?>user/service";
+              window.location="<?php echo base_url(); ?>user/profile";
             }
           }
         });

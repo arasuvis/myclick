@@ -24,7 +24,7 @@
 
                         <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/finish'); ?>">PREVIEW & FINISH</a></li>
 
-                        <li ><a data-toggle="tab"  href="<?php echo base_url('user/logout'); ?>">Logout</a></li>
+                       <!-- <li ><a data-toggle="tab"  href="<?php echo base_url('user/logout'); ?>">Logout</a></li>-->
                       </ul>
 						          
                       <div id="bar" class="progress">

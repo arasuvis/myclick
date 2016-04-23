@@ -38,19 +38,20 @@
                               </ul>
                             </div>
                         </div>
-                          <form id = "form" action="<?php echo base_url('user/addFamily'); ?>" method="POST">
+						<?php if(isset($families->id)) $var = 'user/updateFamily'; else $var = 'user/addFamily';?>
+                          <form id = "form" action="<?php echo base_url($var); ?>" method="POST">
                           <div class="family_form">
                           <br>
-                            <form>
+						  <input type="hidden" name="id" value="<?php if(isset($families->id)) echo $families->id;?>">
                               <div class="row family">
                                 <div class="col-md-6" style="padding-left: 0;">
                                   <label>Name</label><br>
-                                  <input type="text" name="name" value="<?php if(isset($families->name)) echo $families->name?>">
+                                  <input type="text" required name="name" value="<?php if(isset($families->name)) echo $families->name?>">
                                 </div>
                                  <div class="col-md-6" style="padding-right: 0;">
                                   <label>Relationship</label><br>
                                     <div class="select-style" >
-                                        <select name="relationship">
+                                        <select required name="relationship">
                                         <option value="none"></option>
                                         <?php  foreach($rel as $relation) {  ?>
                                         <option <?php if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $relation->rel_id; ?>"> <?php echo $relation->name; ?></option>
@@ -64,11 +65,11 @@
                               <div class="row requirement_age">
                                 <div class="col-md-6" style="padding-left: 0;">
                                     <label>Age</label><br>
-                                    <input type="text" name="age" value="<?php if(isset($families->age)) echo $families->age;?>">
+                                    <input required type="text" name="age" value="<?php if(isset($families->age)) echo $families->age;?>">
                                 </div>
                                 <div class="col-md-6" style="padding-right: 0;">
                                     <label>Date of Birth</label><br>
-                                    <input type="text" id="datePick" name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
+                                    <input required type="text" id="datePick" name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
                                 </div>
                               </div>
 
@@ -77,7 +78,7 @@
                                 <div class="radio">
 
                                 <?php foreach($gen as $gender) {  ?>
-                                    <input id="<?php echo $gender->id_value ?>" type="radio" name="gender" value="<?php echo $gender->gender_type; ?>" <?php if(isset($families->gender)) if($families->gender == $gender->gender_type) {echo "checked"; } ?> >
+                                    <input id="<?php echo $gender->id_value ?>" type="radio"  name="gender" value="<?php echo $gender->gender_type; ?>" <?php if(isset($families->gender)) if($families->gender == $gender->gender_type) {echo "checked"; } ?> >
                                     <label for="<?php echo $gender->id_value ?>"><?php echo $gender->gender_type ?></label>
                                 <?php } ?>
                                   
@@ -112,7 +113,6 @@
                               <div class="continue">
                                  <span style="display: inline;"><input id="submt" type="submit" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
                               </div>
-                            </form>
                             <center><p>See <a href="">Terms</a> & <a href="">Privacy Policy</a></p></center>
                           </div>
                           </form>
@@ -211,7 +211,7 @@
               {
                     if(ele['marital_status'] == "Married")
                     {
-                         //status.push(ele['marital_status']);
+                       //alert(1);  //status.push(ele['marital_status']);
                          //name.push(ele['name']);
                          name = ele['name'];
                          if(confirm(name + ' ,You want to enter Wife details'))
@@ -225,14 +225,19 @@
                     }
                     else
                      {
-                          window.location="<?php //echo base_url('user/property');?>"; 
+                          window.location="<?php echo base_url('user/property');?>"; 
                      } 
+				
               } 
-                 
+			  else
+                     {
+                          window.location="<?php echo base_url('user/property');?>"; 
+                     } 
+                	// alert(2); 
                   }); }
             else
             {
-               window.location="<?php //echo base_url('user/property');?>"; 
+              // window.location="<?php echo base_url('user/property');?>"; 
             } 
 
         });

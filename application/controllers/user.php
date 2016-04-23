@@ -35,6 +35,13 @@ class User extends CI_Controller
 		$email_address = $_POST['email_address'];
 		$password = $_POST['password'];
 		$valid_check = $this->user_model->login_valid($email_address,$password);
+		$session_data = $this->session->userdata('is_userlogged_in');
+		 $will_id=$this->user_model->get_will_id($valid_check);
+				$session_data['user_id'] = $valid_check;
+				$session_data['will_id'] = $will_id;
+
+				$this->session->set_userdata("is_userlogged_in", $session_data);
+		
 		if($valid_check == true)
 		{
 			echo 1;
@@ -179,6 +186,7 @@ class User extends CI_Controller
 
 	function addFamily()
 	{
+			$id = $this->input->post('id');
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
 			'age'=>$this->input->post('age'),
@@ -206,8 +214,9 @@ class User extends CI_Controller
 							'gender'=>$this->input->post('gender'),
 							'marital_status' => $this->input->post('marital_status'),
 							'status' => $this->input->post('status'));
-
+							
 			$this->family_model->update($id,$family);
+			redirect('user/family');
 	}
 
 	function delete($id)
