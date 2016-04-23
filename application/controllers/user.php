@@ -10,6 +10,9 @@ class User extends CI_Controller
 		$this->load->library('email');
 		$this->load->model('user_model');
 		$this->load->model('family_model');
+
+		//if( ! $this->session->userdata('is_userlogged_in'))
+			//redirect('user/signin');
 	}
 
 	function index()
@@ -26,6 +29,28 @@ class User extends CI_Controller
 		$this->load->view('footer');
 	}
 	
+    function signin_form()
+	{
+	
+		$email_address = $_POST['email_address'];
+		$password = $_POST['password'];
+		$valid_check = $this->user_model->login_valid($email_address,$password);
+		if($valid_check == true)
+		{
+			echo 1;
+		}
+		else
+		{
+			echo 2;
+		}
+	}
+
+	function logout()
+	{
+		$this->session->unset_userdata('is_userlogged_in');
+		redirect('user/signin');	
+	}	
+
 	function reg_details()
 	{
 		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
@@ -104,6 +129,7 @@ class User extends CI_Controller
 	function service()
 	{
 		$session = $this->session->userdata('is_userlogged_in');
+		//print_r($session);
 		$data['personal'] = $this->user_model->personal_details($session);
 		$data['tab'] = "service";
 		$data['width'] = "13%";
@@ -116,6 +142,7 @@ class User extends CI_Controller
 	function profile()
 	{
 		$session = $this->session->userdata('is_userlogged_in');
+
 		$data['personal'] = $this->user_model->personal_details($session);
 		//print_r($data); die();
 		$data['gen'] = $this->family_model->get_gender()->result();
@@ -183,12 +210,12 @@ class User extends CI_Controller
 			$this->family_model->update($id,$family);
 	}
 
-	function delete()
+	function delete($id)
 	{
-		$id = $this->input->post('id');
+		//$id = $this->input->post('id');
 		$this->family_model->delete($id);
 
-		//redirect('user/family','refresh');
+		redirect('user/family','refresh');
 	}
 
 	/*  END Of Family Panel      */

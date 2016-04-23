@@ -4,19 +4,22 @@
 		<div class="col-md-6 sign_in">
       <div class="signn">
 	     <h2><span>Sign In</span></h2>
+       <span id="login_error"></span>
 				
 				<form>
           <div class=" row form-group">
               <label for="name" class="col-md-3">Name:</label>
-              <input type="text" class="col-md-6" class="form-control" id="name">
+              <input type="text" class="col-md-6" class="form-control" name = "name" id="name">
+             <span class="error" id="name_error"></span>
             </div>
           
             <div class=" row form-group">
-              <label for="passwd" class="col-md-3">Password:</label>
-              <input type="password" class="col-md-6" class="form-control" id="passwd">
+              <label for="pass" class="col-md-3">Password:</label>
+              <input type="pass" class="col-md-6" class="form-control" id="pass" name="pass">
+           <span class="error" id="pass_error"></span>
             </div>
             <div class="signbtn">
-            <button type="button" class="btn btn-default">Sign In</button>
+            <button type="submit" class="btn btn-default" id="sign">Sign In</button>
             </div>
         </form>
       </div>
@@ -151,4 +154,60 @@
 
 
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+     <script>
+    $(function() {
+      
+      $("#sign").click(function(){
+
+        $(".error").html('');
+        
+        if($("#name").val() == '')
+        {
+          $("#name").focus().val('');
+          $("#name_error").html("Enter Email Id");
+          return false;
+        }
+
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        if(!(emailReg.test($("#name").val())))
+        {
+          $("#name").focus().val('');
+          $("#name_error").html("Invalid Email");
+          return false;
+        }
+
+        if($("#pass").val() == '')
+        {
+          $("#pass").focus().val('');
+          $("#pass_error").html("Password required");
+          return false;
+        }
+
+        var email_address = $("#name").val();
+        var password = $("#pass").val();
+
+        var data = {email_address:email_address,password:password};
+        
+        $.ajax({
+          
+          type:"POST",
+          url:"<?php echo base_url(); ?>user/signin_form",
+          data:data,
+          success:function(result)
+          {
+            if(result == 2)
+            {
+              //alert("valid");
+              $("#login_error").html("Username or password is invalid");
+            }
+            else if(result == 1)
+            {
+              window.location="<?php echo base_url(); ?>user/service";
+            }
+          }
+        });
+        return false;
+      });
+    });
+  </script>
 

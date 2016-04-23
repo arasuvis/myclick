@@ -23,14 +23,18 @@
                         <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/lawyer'); ?>">LAWYERS</a></li>
 
                         <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/finish'); ?>">PREVIEW & FINISH</a></li>
+
+                        <li ><a data-toggle="tab"  href="<?php echo base_url('user/logout'); ?>">Logout</a></li>
                       </ul>
-						
+						          
                       <div id="bar" class="progress">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:<?php if(isset($width)) echo $width; ?> ">
 
       
         </div>
+
         </div>
+
                </article>
             </div>
 

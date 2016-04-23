@@ -28,7 +28,8 @@
                              </button>
                               <ul class="dropdown-menu">
                               <?php foreach($lis as $list) {  ?>
-                                <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|<span onclick="del_family(<?php echo $list->id; ?>,$(this))" id="del_<?php echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span></span></li>
+                                <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|
+                                <a href='<?php echo base_url("user/delete/{$list->id}");?>'>Delete</a><!-- <span onclick="del_family(<?php// echo $list->id; ?>,$(this))" id="del_<?php// echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span> --></span></li>
                             <?php } ?>
 
                             <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
@@ -172,7 +173,7 @@
 
     });
     
-    function del_family(id,ele){ 
+  /*  function del_family(id,ele){ 
         if(confirm('Want to Delete'))
         {
         var data = {id:id};
@@ -180,12 +181,12 @@
         $.ajax({
 
             type:"POST",
-            url:"<?php echo base_url(); ?>user/delete",
+            url:"<?php // echo base_url(); ?>user/delete",
             data:data,
             success:function(res)
             {  console.log(ele.parent().parent().remove());
                 return false;
-             //  window.location="<?php echo base_url('user/family'); ?>";
+             //  window.location="<?php // echo base_url('user/family'); ?>";
             }
         });
         return false;
@@ -194,7 +195,7 @@
         {
             return false;
         }
-    }
+    } */
 
     $('#contnu').on('click',function(){
 
@@ -213,7 +214,7 @@
                          //status.push(ele['marital_status']);
                          //name.push(ele['name']);
                          name = ele['name'];
-                         if(confirm(name + ' ,You want enter Wife details'))
+                         if(confirm(name + ' ,You want to enter Wife details'))
                              {
                            window.location="<?php echo base_url('user/family');?>";
                             }
@@ -222,9 +223,17 @@
                               }
                          
                     }
+                    else
+                     {
+                          window.location="<?php //echo base_url('user/property');?>"; 
+                     } 
               } 
                  
                   }); }
+            else
+            {
+               window.location="<?php //echo base_url('user/property');?>"; 
+            } 
 
         });
         

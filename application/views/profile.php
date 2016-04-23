@@ -1,4 +1,5 @@
-<?php //print_r($personal); die();?>
+<?php print_r($this->session->userdata('is_userlogged_in')['user_id']);
+         die();?>
 
 <div class="container">
 
