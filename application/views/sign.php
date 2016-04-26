@@ -1,4 +1,12 @@
+<style> .mygend{
+  font-style: normal;
+  font-weight: 100} 
 
+  .mysta{
+   font-weight: 100; 
+  }
+
+  </style>
 <div class=" container_fluid sign_page">
 	<div class="container">
 		<h1 class="text-center">Sign In & Register Form</h1>
@@ -27,7 +35,7 @@
 								<button type="submit" class="btn btn-default" id="sign">Sign In</button>
 							</div>
 						</div>
-						<div class="sign_social">
+						<!-- <div class="sign_social">
 							<span>...Or Sign In With</span>
 							<div class="social">
 								<ul class="list-inline">
@@ -37,7 +45,7 @@
 									<li></li>
 								</ul>
 							</div>
-						</div>
+						</div> -->
 					</form>
 				</div> 
 				</div>
@@ -108,8 +116,8 @@
 <div class="form-group">
  
   <div class="col-md-12">
-  <input id="number" name="age" type="text" placeholder="Age" class="form-control input-md" required="" value="<?php echo set_value('age') ?>">
-    <?php echo form_error('age'); ?>  
+  <input  name="dob" id="dob" type="text" placeholder="DOB" class="form-control input-md" required="" value="<?php echo set_value('dob') ?>">
+    <?php echo form_error('dob'); ?>  
   </div>
 </div>
 
@@ -117,27 +125,31 @@
 <div class="form-group">
  
   <div class="col-md-12"> 
-    <label class="radio-inline" for="radios-0">
-      <input type="radio" name="gender" id="radios-0" value="M" checked="checked">
-      Male
-    </label> 
-    <label class="radio-inline" for="radios-1">
-      <input type="radio" name="gender" id="radios-1" value="F">
-      Female
-    </label> 
-    <label class="radio-inline" for="radios-2">
-      <input type="radio" name="gender" id="radios-2" value="O">
-      Other
-    </label>
+    <?php foreach($gen as $gender) {  ?>
+    <input  id="<?php echo $gender->id_value ?>" type="radio"  name="gender" value="<?php echo $gender->gender_type; ?>" <?php if(isset($families->gender)) if($families->gender == $gender->gender_type) {echo "checked"; } ?> class = "gend" >
+    <label class="mygend" for="<?php echo $gender->id_value ?>"><?php echo $gender->gender_type ?></label>
+                                <?php } ?>
   </div>
 </div>
 
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+ 
+  <div class="col-md-12"> 
+  
+   <?php foreach($m_sta as $m_status) { ?>
+   <input  id="<?php echo $m_status->id_value ?>" type="radio" name="marital_status" value="<?php echo $m_status->status_type ?>" <?php if(isset($families->marital_status)) if($families->marital_status == $m_status->status_type) {echo "checked"; } ?>>
+    <label class="mysta" for="<?php echo $m_status->id_value ?>"><?php echo $m_status->status_type ?></label>
+                                    <?php } ?>
+                                    
+  </div>
+</div>
 
 <!-- Textarea -->
 <div class="form-group">
   
   <div class="col-md-12">                     
-    <textarea class="form-control" id="textarea" name="address" placeholder="Enter Address" value="<?php echo set_value('address') ?>"> </textarea>
+    <textarea class="form-control" id="textarea" name="address" placeholder="Address" ></textarea>
   </div>
 </div>
 
@@ -168,8 +180,21 @@
 </div>
 
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="<?php echo base_url('js/map_api.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
+    <script type="text/javascript">
+           $(document).ready(function(){
+                $('#dob').datepicker({
+                    todayHighlight: true,dateFormat:'yy-mm-dd'
+                });
+           });
+
+        </script>
      <script>
+
+    $('input').attr('maxlength',30);
+
+
     $(function() {
       
       $("#sign").click(function(){
@@ -224,5 +249,8 @@
         return false;
       });
     });
+
+    
+
   </script>
 

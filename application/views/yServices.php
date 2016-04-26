@@ -4,7 +4,7 @@
 		<div class="onbannr">
 			<div class="bannerContent">
 				<h1>Protect your loved ones<br>a legally binding will. </h1>
-				<h4 class="manypeople"><b>Many people finish in 15 minitus.</b></h4>
+				<h4 class="manypeople"><b>Many people finish in 15 minutes.</b></h4>
 				<div class="btnBanner">
 					<a href="<?php echo base_url('user/signin');?>"><button type="button" class="btn btn-default"><h3>Start My Last Will</h3></button></a>
 				</div>

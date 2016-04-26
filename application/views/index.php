@@ -3,43 +3,43 @@
 		<div class="allservices">
 			<ul class="list-inline">
 				<li>
-					<a href="user/yServices"><img src="images/service-1.jpg"></a>
+					<a href="user/yServices"><img src="<?php echo base_url('images/service-1.jpg'); ?>"></a>
 					<h4>Will & Testaments</h4>
 				</li>
 				<li>
-					<img src="images/service-2.jpg">
+					<img src="<?php echo base_url('images/service-2.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-3.jpg">
+					<img src="<?php echo base_url('images/service-3.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-2.jpg">
+					<img src="<?php echo base_url('images/service-2.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-3.jpg">
+					<img src="<?php echo base_url('images/service-3.jpg'); ?>">
 					<p>Service 1</p>	
 				</li>
 				<li>
-					<img src="images/service-2.jpg">
+					<img src="<?php echo base_url('images/service-2.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-3.jpg">
+					<img src="<?php echo base_url('images/service-3.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-2.jpg">
+					<img src="<?php echo base_url('images/service-2.jpg'); ?>">
 					<p>Service 1</p>
 				</li>
 				<li>
-					<img src="images/service-3.jpg">
+					<img src="<?php echo base_url('images/service-3.jpg'); ?>">
 					<p>Service 1</p>	
 				</li>
 				<li>
-					<img src="images/service-3.jpg">
+					<img src="<?php echo base_url('images/service-3.jpg'); ?>">
 					<p>Service 1</p>	
 				</li>
 			</ul>
@@ -50,7 +50,7 @@
 	<div class="thirdsection">
 		<div class="row">
 			<div class="col-md-5" text-right>
-				<img src="images/man.png" align="right">
+				<img src="<?php echo base_url('images/man.png'); ?>" align="right">
 			</div>
 			<div class="col-md-5 col-md-offset-1 righttextcolor">
 				<h1>A NEW BREED <br>OF LEGAL SUPPORT</h1>
@@ -69,7 +69,7 @@
 								<div class="col-md-6">
 									<div class="half-circle"></div>
 									<div class="myCircle">
-										<img alt="" src="images/pic.png" class="img-circle img-responsive"/>
+										<img alt="" src="<?php echo base_url('images/pic.png');?>" class="img-circle img-responsive"/>
 									</div>
 								</div>
 								<div class="testimonials col-md-6">
@@ -86,7 +86,7 @@
 								<div class="col-md-6">
 									<div class="half-circle"></div>
 									<div class="myCircle">
-										<img alt="" src="images/pic.png" class="img-circle img-responsive"/>
+										<img alt="" src="<?php echo base_url('images/pic.png');?>" class="img-circle img-responsive"/>
 									</div>
 								</div>
 								<div class="testimonials col-md-6">
@@ -103,7 +103,7 @@
 								<div class="col-md-6">
 									<div class="half-circle"></div>
 									<div class="myCircle">
-										<img alt="" src="images/pic.png" class="img-circle img-responsive"/>
+										<img alt="" src="<?php echo base_url('images/pic.png');?>" class="img-circle img-responsive"/>
 									</div>
 								</div>
 								<div class="testimonials col-md-6">
@@ -157,7 +157,7 @@
 	                    <div class="subCircle5"><p>100% Legal</p></div>    
 	                    <div class="subCircle6"><p>Experienced Lawyer</p></div>    
 		                    <div class="bgImage">
-		                        <img src="images/bgimages.png" width="350px" height="350px" class="photo">
+		                        <img src="<?php echo base_url('images/bgimages.png');?>" width="350px" height="350px" class="photo">
 		                    </div>
 	                    <div class="Benifits"><h1><span class="shawdow">Bene</span>fits</h1></div>
 					</div>
@@ -191,7 +191,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial-1.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial-1.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -204,7 +204,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -217,7 +217,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial-3.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial-3.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -230,7 +230,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial-4.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial-4.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -243,7 +243,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial-5.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial-5.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -256,7 +256,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial-6.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial-6.png');?>" class="img-responsive">
 						</div>
 					</li>
 					<li>
@@ -269,7 +269,7 @@
 							<div class="tringle">
 								
 							</div>
-							<img src="images/testimonial.png" class="img-responsive">
+							<img src="<?php echo base_url('images/testimonial.png');?>" class="img-responsive">
 						</div>
 					</li>
 				</ul>
@@ -307,7 +307,7 @@
 
 
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="<?php echo base_url('js/map_api.js'); ?>"></script>
 	<script>
 function initialize() {
   var mapProp = {

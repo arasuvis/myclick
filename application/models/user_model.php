@@ -139,5 +139,12 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	function profileUpdate($id,$profile)
+	{
+		return $query = $this->db->where('user_id', $id)
+						  ->update('user_register', $profile); 
+
+	}
 }
 ?>

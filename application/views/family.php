@@ -1,5 +1,5 @@
-<?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap-datepicker.min.css');?>">
+<?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?><style>.error{color:red;}</style>
+
 <div class="container">
 
 <div class="row">
@@ -29,7 +29,7 @@
                               <ul class="dropdown-menu">
                               <?php foreach($lis as $list) {  ?>
                                 <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|
-                                <a href='<?php echo base_url("user/delete/{$list->id}");?>'>Delete</a><!-- <span onclick="del_family(<?php// echo $list->id; ?>,$(this))" id="del_<?php// echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span> --></span></li>
+                                <!-- <a href='<?php //echo base_url("user/delete/{$list->id}");?>'> --><a><span id="deleterec">Delete</span></a><!--</a> <span onclick="del_family(<?php// echo $list->id; ?>,$(this))" id="del_<?php// echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span> --></span></li>
                             <?php } ?>
 
                             <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
@@ -42,34 +42,33 @@
                           <form id = "form" action="<?php echo base_url($var); ?>" method="POST">
                           <div class="family_form">
                           <br>
-						  <input type="hidden" name="id" value="<?php if(isset($families->id)) echo $families->id;?>">
+						  <input autocomplete="off" type="hidden" name="id" value="<?php if(isset($families->id)) echo $families->id;?>">
                               <div class="row family">
                                 <div class="col-md-6" style="padding-left: 0;">
                                   <label>Name</label><br>
-                                  <input type="text" required name="name" value="<?php if(isset($families->name)) echo $families->name?>">
+                                  <input autocomplete="off" type="text" id="name" name="name" value="<?php if(isset($families->name)) echo $families->name?>">
+                                  <span id="error_name" class="error"></span>
                                 </div>
                                  <div class="col-md-6" style="padding-right: 0;">
                                   <label>Relationship</label><br>
                                     <div class="select-style" >
-                                        <select required name="relationship">
+                                        <select  name="relationship">
                                         <option value="none"></option>
                                         <?php  foreach($rel as $relation) {  ?>
                                         <option <?php if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $relation->rel_id; ?>"> <?php echo $relation->name; ?></option>
                                         <?php } ?> 
                                         </select>
                                     </div>
+                                    <span id="error_relation" class="error"></span>
                                 </div>
                               </div>
                               <br>
 
                               <div class="row requirement_age">
                                 <div class="col-md-6" style="padding-left: 0;">
-                                    <label>Age</label><br>
-                                    <input required type="text" name="age" value="<?php if(isset($families->age)) echo $families->age;?>">
-                                </div>
-                                <div class="col-md-6" style="padding-right: 0;">
                                     <label>Date of Birth</label><br>
-                                    <input required type="text" id="datePick" name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
+                                    <input id="dob" type="text"  name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
+                                    <span id="error_dob" class="error"></span>
                                 </div>
                               </div>
 
@@ -78,22 +77,25 @@
                                 <div class="radio">
 
                                 <?php foreach($gen as $gender) {  ?>
-                                    <input id="<?php echo $gender->id_value ?>" type="radio"  name="gender" value="<?php echo $gender->gender_type; ?>" <?php if(isset($families->gender)) if($families->gender == $gender->gender_type) {echo "checked"; } ?> >
+                                    <input  id="<?php echo $gender->id_value ?>" type="radio"  name="gender" value="<?php echo $gender->gender_type; ?>" <?php if(isset($families->gender)) if($families->gender == $gender->gender_type) {echo "checked"; } ?> class = "gend" >
                                     <label for="<?php echo $gender->id_value ?>"><?php echo $gender->gender_type ?></label>
                                 <?php } ?>
+                              
                                   
                                 </div>
+                                  <span id="error_gender" class="error"></span>
                               </div>
 
                                    <br><br>
                                <div class="martial">
                                 <div class="radio1">
                                 <?php foreach($m_sta as $m_status) { ?>
-                                    <input id="<?php echo $m_status->id_value ?>" type="radio" name="marital_status" value="<?php echo $m_status->status_type ?>" <?php if(isset($families->marital_status)) if($families->marital_status == $m_status->status_type) {echo "checked"; } ?>>
+                                    <input  id="<?php echo $m_status->id_value ?>" type="radio" name="marital_status" value="<?php echo $m_status->status_type ?>" <?php if(isset($families->marital_status)) if($families->marital_status == $m_status->status_type) {echo "checked"; } ?>>
                                     <label for="<?php echo $m_status->id_value ?>"><?php echo $m_status->status_type ?></label>
                                     <?php } ?>
                                     
                                 </div>
+                                <span id="error_marital" class="error"></span>
                               </div>
 
                               <br><br>
@@ -101,11 +103,12 @@
                                 <div class="radio"> 
 
                                 <?php foreach($st as $sta) {  ?>
-                                    <input id="<?php echo $sta->id_value ?>" type="radio" name="status" value="<?php echo $sta->status; ?>" <?php if(isset($families->status)) if($families->status == $sta->status) {echo "checked"; } ?> >
+                                    <input  id="<?php echo $sta->id_value ?>" type="radio" name="status" value="<?php echo $sta->status; ?>" <?php if(isset($families->status)) if($families->status == $sta->status) {echo "checked"; } ?> >
                                     <label for="<?php echo $sta->id_value ?>"><?php echo $sta->status ?></label>
                                 <?php } ?>
-                                  
+                                 
                                 </div>
+                                 <span id="error_status" class="error"></span>
                               </div>
 
 
@@ -158,20 +161,100 @@
 
 </section>
 </section>
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+    <script data-require="jquery@*" data-semver="2.1.4" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     <script type="text/javascript">
            $(document).ready(function(){
-                $('#datePick').datepicker({
+                $('#dob').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
            });
 
-        </script>
-<script type="text/javascript">
- 
-    $(function(){
+$('#deleterec').on('click',function(e){ 
 
-    });
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            (confirmed) =>
+            if confirmed
+            $.ajax(
+              url: $(this).attr("href")
+              dataType: "JSON"
+              method: "DELETE"
+              success: =>
+              swal 'Deleted!', 'Your imaginary file has been deleted.', 'success'
+           
+        )
+            function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: 'Successfully Deleted!',
+                        type: 'success'
+                    }, function() {
+                        window.location = '<?php echo base_url("user/delete/{$list->id}");?>';
+                    });
+                    
+                } else {
+                    swal("Cancelled");
+                }
+            });
+
+});
+        </script>
+
+<script type="text/javascript">
+$('#form').on('keyup','input',function(){
+  $(this).next().html('');
+});
+
+
+
+ $('#submt').on('click',function(e){
+  $('.error').html('');
+  e.preventDefault();
+  var name = /^[a-zA-Z\s]+$/;
+  var age = /^[0-9]+$/;
+  if($('#name').val() == ''){
+    $('#error_name').html("Enter Name");
+    $('#name').focus(); return false;}
+  else if(! (name.test($('#name').val()))) {
+    $('#error_name').html("Enter only Alphabets");$('#name').focus(); return false; }
+
+  if($('select').val()=='none'){
+    $('#error_relation').html('Please, choose an option');
+  $('select').focus(); return false; }
+  
+
+
+  if($('#dob').val() == ''){
+    $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
+
+  if( $('input[name=gender]:checked').length<=0 ) { 
+    $('#error_gender').html("Select gender"); $('input[name=gender]:checked').focus(); return false; }
+
+  if( $('input[name=marital_status]:checked').length<=0 ) { 
+    $('#error_marital').html("Select Marital Status"); $('input[name=marital_status]:checked').focus(); return false; }
+
+  if( $('input[name=status]:checked').length<=0 ) { 
+    $('#error_status').html("Select Status");
+     $('input[name=status]:checked').focus(); return false; }
+
+    $('#form').submit();
+});
+
+    
     
   /*  function del_family(id,ele){ 
         if(confirm('Want to Delete'))
@@ -242,17 +325,7 @@
 
         });
         
-       /*  $.each(name,function(){ 
-            if(confirm(name[i] + ' ,You want enter Wife details'))
-            {
-               window.location="<?php //echo base_url('user/family');?>";
-            }
-            else{ 
-                window.location="<?php //echo base_url('user/property');?>";
-            }
-            
-              });  */
+   
 
-        //console.log(name);
      });
   </script>

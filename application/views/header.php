@@ -12,9 +12,13 @@
  <link rel="stylesheet" type="text/css" href="<?php echo base_url('plugins/jquery-ui-1.11.4/jquery-ui.css');?>">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('plugins/font-awesome-4.5.0/css/font-awesome.min.css');?>">
   <!-- Google fonts link -->
-   <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel='stylesheet' type='text/css'> 
+   <link href="<?php echo base_url('css/fonts.css');?>" rel='stylesheet' type='text/css'> 
   <!-- my style sheet -->
  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style.css');?>">
+ <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap-datepicker.min.css');?>">
+ <link rel="icon" 
+      type="image/png" 
+      href="<?php echo base_url('images/fevicon.png');?>" />
 
 	<script type="text/javascript" src="<?php echo base_url('js/jquery-1.11.3.min.js');?>"></script>
   <script type="text/javascript">

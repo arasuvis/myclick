@@ -17,16 +17,24 @@ class User extends CI_Controller
 
 	function index()
 	{
+		if($this->session->userdata('is_userlogged_in')){
+			redirect('user/profile'); 
+		} else{
 		$this->load->view('header');
 		$this->load->view('index');
-		$this->load->view('footer');
+		$this->load->view('footer'); }
 	}
 
 	function signin()
 	{
+		if($this->session->userdata('is_userlogged_in')){
+			redirect('user/profile'); 
+		} else{
+			$data['gen'] = $this->family_model->get_gender()->result();
+			$data['m_sta'] = $this->family_model->get_marital_status()->result();
 		$this->load->view('header');
-		$this->load->view('sign');
-		$this->load->view('footer');
+		$this->load->view('sign',$data);
+		$this->load->view('footer'); }
 	}
 	
     function signin_form()
@@ -60,14 +68,15 @@ class User extends CI_Controller
 
 	function reg_details()
 	{
+		
 		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
 		$this->form_validation->set_rules('mname','Middle Name','trim|required');
 		$this->form_validation->set_rules('surname','Surname','trim|required');
 		$this->form_validation->set_rules('email','Email Id','trim|required|valid_email|is_unique[user_register.email]');
 		$this->form_validation->set_rules('password','Password','trim|required');
 		$this->form_validation->set_rules('confirm_password','Confirm Password','trim|required|matches[password]');
-		$this->form_validation->set_rules('age','Age','trim|required|integer');
-		$this->form_validation->set_rules('gender','Gender','trim|required|alpha');
+		$this->form_validation->set_rules('dob','DOB','trim|required');
+		$this->form_validation->set_rules('gender','Gender','trim|required');
 		$this->form_validation->set_rules('address','Address','trim|required');
 		$this->form_validation->set_rules('mobile','Mobile Number','trim|required|exact_length[10]|integer');
 
@@ -89,7 +98,7 @@ class User extends CI_Controller
 			'surname' => $this->input->post('surname'),
 			'email' => $this->input->post('email'),
 			'password' =>md5($this->input->post('password')),
-			'age' => $this->input->post('age'),
+			'dob' => $this->input->post('dob'),
 			'gender' => $this->input->post('gender'),
 			'address' => $this->input->post('address'),
 			'mobile' => $this->input->post('mobile')
@@ -144,12 +153,12 @@ class User extends CI_Controller
 		$this->load->view('header');
 		$this->load->view('service',$data);
 		$this->load->view('footer');
-		
 	}
+
 	function profile()
 	{
-		$session = $this->session->userdata('is_userlogged_in');
-
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		$data['personal'] = $this->user_model->personal_details($session);
 		//print_r($data); die();
 		$data['gen'] = $this->family_model->get_gender()->result();
@@ -158,13 +167,33 @@ class User extends CI_Controller
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('profile',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
+	function profileUpdate()
+	{
+		//$gender = $this->input->post(); print_r($gender) ; die();
+		//print_r($_POST); die();
+		$id = $this->input->post('id');
+		//echo $id; die();
+		$profile = array('fname' => $this->input->post('fname'),
+			'mname' => $this->input->post('mname'),
+			'surname' => $this->input->post('surname'),
+			'dob'=>$this->input->post('dob'),
+			'gender'=>$this->input->post('gender'),
+			'address' => $this->input->post('address'),
+			'mobile' => $this->input->post('mobile'));
+
+		$this->user_model->profileUpdate($id,$profile);
+			redirect('user/family');
+	}
 	/*  START Of Family Panel      */
 
 	function family()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		$id = $this->uri->segment(3,0);
 		$data['lis'] = $this->family_model->get_paged_list()->result();
 		$data['rel'] = $this->family_model->get_relation()->result();
@@ -181,7 +210,8 @@ class User extends CI_Controller
 			$this->load->view('family',$data);
 		}else{
 		$this->load->view('family',$data);}
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	function addFamily()
@@ -189,7 +219,6 @@ class User extends CI_Controller
 			$id = $this->input->post('id');
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
-			'age'=>$this->input->post('age'),
 			'dob'=>$this->input->post('dob'),
 			'gender'=>$this->input->post('gender'),
 			'marital_status' => $this->input->post('marital_status'),
@@ -210,7 +239,6 @@ class User extends CI_Controller
 			$family = array('name' => $this->input->post('name'),
 							'relationship'=>$this->input->post('relationship'),
 							'dob'=>$this->input->post('dob'),
-							'age'=>$this->input->post('age'),
 							'gender'=>$this->input->post('gender'),
 							'marital_status' => $this->input->post('marital_status'),
 							'status' => $this->input->post('status'));
@@ -231,57 +259,72 @@ class User extends CI_Controller
 
 	function property()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		//$data['rel'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
 		$data['width'] = "50%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	function property_alloc()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
 		$data['width'] = "64%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property_alloc',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	function witness()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
 		$data['width'] = "76%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('witness',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	function lawyer()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
 		$data['width'] = "87%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('lawyer',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	function finish()
 	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
 		$data['width'] = "100%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property',$data);
-		$this->load->view('footer');
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
 	}
 
 	
