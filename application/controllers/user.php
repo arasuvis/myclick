@@ -10,6 +10,7 @@ class User extends CI_Controller
 		$this->load->library('email');
 		$this->load->model('user_model');
 		$this->load->model('family_model');
+		$this->load->model('property_model');
 
 		//if( ! $this->session->userdata('is_userlogged_in'))
 			//redirect('user/signin');
@@ -257,11 +258,13 @@ class User extends CI_Controller
 
 	/*  END Of Family Panel      */
 
+	/*  START of Property Panel      */
+
 	function property()
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		//$data['rel'] = $this->user_model->personal_details();
+		$data['pro'] = $this->property_model->get_immov_property();
 		$data['tab'] = "property";
 		$data['width'] = "50%";
 		$this->load->view('header');
@@ -270,6 +273,8 @@ class User extends CI_Controller
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
 	}
+
+	/*  END Of Property Panel      */
 
 	function property_alloc()
 	{
