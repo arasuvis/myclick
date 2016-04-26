@@ -187,29 +187,20 @@ $('#deleterec').on('click',function(e){
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
-            (confirmed) =>
-            if confirmed
-            $.ajax(
-              url: $(this).attr("href")
-              dataType: "JSON"
-              method: "DELETE"
-              success: =>
-              swal 'Deleted!', 'Your imaginary file has been deleted.', 'success'
-           
-        )
-            function(isConfirm) {
+            
+           function(isConfirm) {
                 if (isConfirm) {
                     swal({
                         title: 'Successfully Deleted!',
                         type: 'success'
                     }, function() {
-                        window.location = '<?php echo base_url("user/delete/{$list->id}");?>';
+                        window.location = '<?php// echo base_url("user/delete/{$list->id}");?>';
                     });
                     
                 } else {
                     swal("Cancelled");
                 }
-            });
+            }); 
 
 });
         </script>
