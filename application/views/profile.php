@@ -65,7 +65,9 @@
                                 <span class="form-label"><p>ENTER DATE OF BIRTH</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
-                                <input type="text"  id="dob" name ="dob" value="<?php echo $per->dob; ?>">
+							<div class="input-daterange" id="datepicker">
+    <input class="" name="dob" id="dob" type="text" value="<?php if(isset($per->dob)) echo $per->dob;?>">
+    </div>
                                 <span id="error_dob" class="error"></span>
                             </article>
                         </div>
@@ -77,10 +79,10 @@
                             <article class="col-sm-9" style="padding-right: 0;">
                             <?php foreach($gen as $gender) { ?>
                                 <div class="button">
-                                    <input type="radio" class = "gender" name="gender" value="<?php echo $per->gender; ?>" id="<?php echo $gender->id_value ?>" <?php if(isset($per->gender)) if($per->gender == $gender->gender_type) {echo "checked"; } ?> />
+                                    <input type="radio" class = "gender" name="gender" value="<?php if(isset($per->gender)) if($per->gender == $gender->gender_type) echo $per->gender; else $gender->gender_type ?>" id="<?php echo $gender->id_value ?>" <?php if(isset($per->gender)) if($per->gender == $gender->gender_type) {echo "checked"; } ?> />
 
                                      <label for="<?php echo $gender->id_value ?>">
-                                     <img class="img" style= " <?php if(isset($per->gender)) if($per->gender == $gender->gender_type) {echo "filter: grayscale(0%)"; } ?>" src ='<?php echo base_url("images/$gender->id_value.png");?>'></label> 
+                                     <img class="img" style= "" src ='<?php echo base_url("images/$gender->id_value.png");?>'></label> 
                                     <span><?php echo $gender->gender_type ?></span>
                                 </div>
                             <?php } ?>

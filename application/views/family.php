@@ -26,10 +26,11 @@
                             <div class="dropdown">
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Members
                              </button>
+                             </button>
                               <ul class="dropdown-menu">
                               <?php foreach($lis as $list) {  ?>
                                 <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|
-                                <!-- <a href='<?php //echo base_url("user/delete/{$list->id}");?>'> --><a><span id="deleterec">Delete</span></a><!--</a> <span onclick="del_family(<?php// echo $list->id; ?>,$(this))" id="del_<?php// echo $list->id; ?>"  style="cursor:pointer;color:#187aff" >Delete</span> --></span></li>
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $list->id; ?>">Delete</span></span></li>
                             <?php } ?>
 
                             <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
@@ -171,8 +172,8 @@
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     <script type="text/javascript">
     
-$('#deleterec').on('click',function(e){ 
-
+$('.deleterec').on('click',function(e){ 
+var id = $(this).attr('id');
             e.preventDefault();
             swal({
                 title: "Are you sure?",
@@ -192,11 +193,11 @@ $('#deleterec').on('click',function(e){
                         title: 'Successfully Deleted!',
                         type: 'success'
                     }, function() {
-                        window.location = '<?php echo base_url("user/delete/{$list->id}");?>';
+                        window.location = "<?php echo base_url("user/delete");?>/"+id;
                     });
                     
                 } else {
-                    swal("Cancelled");
+                    swal("Cancelled,hello");
                 }
             }); 
 
