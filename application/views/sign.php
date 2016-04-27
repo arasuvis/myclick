@@ -113,10 +113,12 @@
 </div>
 
 <!-- Text input-->
-<div class="form-group">
- 
+<div class="form-group"> 
   <div class="col-md-12">
-  <input  name="dob" id="dob" type="text" placeholder="DOB" class="form-control input-md" required="" value="<?php echo set_value('dob') ?>">
+  <div class="input-daterange" id="datepicker">
+    <input class="form-control input-md" name="dob" id="dob" type="text" placeholder="DOB" value="<?php echo set_value('dob'); ?>">
+    </div>
+ 
     <?php echo form_error('dob'); ?>  
   </div>
 </div>
