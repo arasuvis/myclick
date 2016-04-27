@@ -67,7 +67,10 @@
                               <div class="row requirement_age">
                                 <div class="col-md-6" style="padding-left: 0;">
                                     <label>Date of Birth</label><br>
-                                    <input id="dob" type="text"  name="dob" value="<?php if(isset($families->dob)) echo $families->dob?>">
+								 <div class="input-daterange" id="datepicker">
+    <input class="" name="dob" id="dob" type="text" value="<?php if(isset($families->dob)) echo $families->dob?>">
+    </div>
+                                  
                                     <span id="error_dob" class="error"></span>
                                 </div>
                               </div>
@@ -167,12 +170,7 @@
 
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     <script type="text/javascript">
-           $(document).ready(function(){
-                $('#dob').datepicker({
-                    todayHighlight: true,dateFormat:'yy-mm-dd'
-                });
-           });
-
+    
 $('#deleterec').on('click',function(e){ 
 
             e.preventDefault();
@@ -194,7 +192,7 @@ $('#deleterec').on('click',function(e){
                         title: 'Successfully Deleted!',
                         type: 'success'
                     }, function() {
-                        window.location = '<?php// echo base_url("user/delete/{$list->id}");?>';
+                        window.location = '<?php echo base_url("user/delete/{$list->id}");?>';
                     });
                     
                 } else {
@@ -301,6 +299,7 @@ $('#form').on('keyup','input',function(){
                      {
                           window.location="<?php echo base_url('user/property');?>"; 
                      } 
+					 return false;
 				
               } 
 			  else
@@ -319,4 +318,15 @@ $('#form').on('keyup','input',function(){
    
 
      });
+	 
+	
   </script>
+<div class="container" id="sandbox-container">
+
+    <div class="input-daterange input-group" id="datepicker">
+    <input class="input-sm form-control" name="start" type="text">
+    <span class="input-group-addon">bis</span>
+    <input class="input-sm form-control" name="end" type="text">
+    </div>
+  
+</div>
