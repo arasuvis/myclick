@@ -136,6 +136,184 @@ body {
     background-color: #187aff;
     color: #ffffff;
 }
+.reason-details, .executor-details{
+        margin-top: 3%;
+    }
+    .reason-textarea{
+        background-color: #F7F7F7;
+    }.Pad0{
+        padding-right: 0px;
+    }
+    .Continue-btn{
+        padding: 11px 33px;
+        margin-top: 10%;
+        font-weight: 800;
+    }
+    .Continue-btn1{
+        padding: 11px 33px;
+        /* margin-top: 3%; */
+        font-weight: 800;
+        text-align: center;
+    }
+    .con-text{
+        font-size: 14px;
+        color: #000;
+        padding-left: 5%;
+        margin-top: 3%;
+    }
+       .con-text1{
+        font-size: 14px;
+        color: #000;
+       
+    }
+    .con-text2{
+        font-size: 14px;
+        color: #000;
+        text-align: right;
+        padding-right: 23%;
+    }
+     .con-text-wit{
+        font-size: 14px;
+        color: #000;
+        padding-left: 0%;
+        margin-top: 3%;
+    }
+    .con-text span{
+        color: #94BBFD;
+    }
+     .con-text1 span{
+        color: #94BBFD;
+    }
+      .con-text2 span{
+        color: #94BBFD;
+    }
+
+    .marbtm0{
+        margin-bottom: 0px;
+    }
+    
+    .Pad0 .fa{
+    color: #ccc;
+    position: absolute;
+    left: 1%;
+    top: 13%;
+    background-color: transparent;
+    font-size: 29px;
+}
+.previous-details{
+        margin-top: 3%;
+    }
+    .meraClass:before{
+        content: ".";
+        font-weight: 600;
+        font-size: 40px;
+        color: #C3C3C3;
+    }
+    .previous .list-inline{
+    padding-top: 4%;
+    }
+    .executor-details .list-inline{
+    padding-top: 4%;
+    }
+    .previous h5{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-weight: 700;
+    }
+      .executor-details h5{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-weight: 700;
+    }
+    .previous-box{
+        border: 1px solid #D8D8D8;
+        background-color: #F7F7F7;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        padding-bottom: 3%;
+        padding-top: 3%;
+
+    }
+    .previous-content{
+        width: 90%
+        margin:0 auto;
+        /* text-align: center; */
+    }
+    .date-content{
+        margin-top: 3%;
+        margin-bottom: 2%;
+    }
+    .customise-label{
+        font-size: 10px;
+        color:#CCC;
+    }
+    .customise-input,.customise-input:focus{
+        border:none;
+        box-shadow: none;
+        outline: none;
+        border-bottom: 2px solid #f4f4f4;
+        width: 50%;
+        border-radius: 0px;
+        font-size: 16px;
+        padding: 0px 14x;
+    }
+    .custom-textarea{
+        width: 65%;
+        background-color: #F4F4F4;
+    }
+    .custom-textarea:focus{
+        box-shadow: none;
+        outline: none;
+    }
+    .hrefClass{
+       margin-top: 2%;
+    }
+    .hrefClass a span{
+        background-color: #FFF;
+        padding: 2%;
+    }
+    .wit-add .customise-input,.customise-input:focus{
+        width: 100%;
+    }
+
+ .executor-details .wintess-btn{
+    background-color: #EBEBEB;
+    font-size: 13px;
+    border-radius: 0px;
+ }
+.saveAndCon{
+    background-color: #156BDC !important;
+    color: #fff;
+   padding: 11px 33px;
+    font-weight: 800;
+    text-align: center;
+  }
+.Padleft{
+    padding-left: 0px;  
+}
+
+.note-content{
+    height: 200px;
+    overflow-y: scroll;
+
+}
+.note-content p{
+    color: #000;
+    font-size: 14px;
+}
+.note-content h4{
+    color: #000;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.padLR0{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#bar{
+    margin-top: 1%;
+}
+/* -------------------------768px media starts-------------------------- */
 @media (max-width: 768px) {
 .half-circle {
     display: none;
@@ -158,6 +336,7 @@ body {
     top: -6px;
 }
 }
+/* -------------------------480 media starts-------------------------- */
 @media (max-width: 480px) {
 .half-circle {
     display: none;
@@ -187,7 +366,18 @@ body {
 .testimonials h3, .testimonials h2, .testimonials p {
     margin-left: 0;
 }
+.service-outer .nav-tab-wrp li{
+margin-bottom: 3%;
 }
+.service-outer #personl-info .form-group .form-label{
+    text-align: left !important;
+}
+.header_background img
+{
+    margin-right: 0px !important;
+}
+}
+/* -------------------------480 media ends-------------------------- */
 .roundeImage {
     margin: 0 auto 10%;
     max-height: 1000%;
@@ -319,6 +509,8 @@ body {
     min-height: 15px;
     width: 1px;
 }
+/* -------------------------640 media starts-------------------------- */
+
 @media screen and (max-width: 640px) {
 .circle {
     height: 250px;
@@ -328,11 +520,11 @@ body {
     height: 30%;
     width: 30%;
 }
-img {
+/* img {
     height: 50%;
     margin-left: -31%;
     width: 70%;
-}
+} */
 .circle p {
     font-size: 10px !important;
     padding-top: 22%;
@@ -345,7 +537,12 @@ img {
     font-size: 16px !important;
     padding-top: 22%;
 }
+.service-outer .nav-tab-wrp li
+{
+    margin-bottom: 3%;
 }
+}
+/* -------------------------640 media ends-------------------------- */
 .bannerr {
     background-image: url("../images/bg-1.jpg");
     background-repeat: no-repeat;
@@ -500,7 +697,10 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .header_background {
     background-color: #187aff;
-    padding: 8px;
+    padding:9px;
+}
+#bs-example-navbar-collapse-1 .nav > li > a{
+    padding: 10px 12px;
 }
 .header_background1 {
     background-color: #212224;
@@ -676,15 +876,13 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .service-outer .nav-tab-wrp {
     background-color: #e1e1e1;
-    padding: 5px 0;
+    padding: 0px 0;
     position: relative;
 }
 .service-outer .nav-tab-wrp li {
     display: table;
     height: 40px;
     margin-right: 5px;
-    max-width: 150px;
-    min-width: 120px;
     text-align: center;
 }
 .service-outer .nav-tab-wrp li a {
@@ -694,12 +892,17 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     display: table-cell;
     font-size: 11px;
     font-weight: 600;
-    padding: 0 15px;
+    padding: 0 7px;
     text-align: center;
     vertical-align: middle;
 }
+.service-outer .nav-tab-wrp li a:hover{
+      background-color: #fff;
+      color: #187AFF !important;
+}
 .service-outer .nav-tab-wrp li.active a {
     background-color: #fff !important;
+    color: #187AFF !important;
 }
 .service-outer .content-top h1, p {
     color: #666;
@@ -797,10 +1000,11 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     width: 100%;
 }
 .statc-note-wrp .note-wrp p {
-    color: #aaa;
-    font-weight: 600;
+    color: #000;
     margin: 0;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+   
 }
 .statc-note-wrp .note-wrp ul {
     background-color: #fff;
@@ -825,11 +1029,11 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     display: table;
     padding: 10px;
 }
-.statc-note-wrp .note-wrp .note-content .tab-pane {
+/* .statc-note-wrp .note-wrp .note-content .tab-pane {
     margin-top: 20%;
     text-align: center;
     vertical-align: middle;
-}
+} */
 .gender label {
     cursor: pointer;
     display: inline-block;
@@ -1064,6 +1268,9 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .propert_details .move .radio2 label::before {
     border-radius: 8px;
 }
+
+
+
 .propert_details .move input[type="radio"]:checked + label::before {
     background-color: #009eeb;
     color: #f3f3f3;
@@ -1072,6 +1279,156 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     line-height: 14px;
     text-align: center;
 }
+
+
+
+
+.propert_detailss.move {
+    margin: 15px 0;
+}
+.propert_detailss.move label {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    margin-right: 15px;
+    padding-left: 25px;
+    padding-top: 5px;
+    position: relative;
+}
+.propert_detailss.move input[type="radio"] {
+    display: none;
+}
+.propert_detailss.move label::before {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    bottom: 1px;
+    content: "";
+    display: inline-block;
+    height: 16px;
+    left: 0;
+    margin-right: 10px;
+    position: absolute;
+    width: 16px;
+}
+.propert_detailss.move .radio2 label::before {
+    border-radius: 8px;
+}
+
+
+
+.propert_detailss.move input[type="radio"]:checked + label::before {
+    background-color: #009eeb;
+    color: #f3f3f3;
+    content: "•";
+    font-size: 20px;
+    line-height: 14px;
+    text-align: center;
+}
+/* Start privious will css */
+    .previous .move {
+    margin: 15px 0;
+}
+.previous .move label {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    margin-right: 15px;
+    padding-left: 25px;
+    padding-top: 5px;
+    position: relative;
+}
+.previous .move input[type="radio"] {
+    display: none;
+}
+.previous .move label::before {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    bottom: 1px;
+    content: "";
+    display: inline-block;
+    height: 16px;
+    left: 0;
+    margin-right: 10px;
+    position: absolute;
+    width: 16px;
+}
+.previous .move .radio2 label::before {
+    border-radius: 8px;
+}
+
+
+
+.previous .move input[type="radio"]:checked + label::before {
+    background-color: #009eeb;
+    color: #f3f3f3;
+    content: "•";
+    font-size: 20px;
+    line-height: 14px;
+    text-align: center;
+}
+
+
+/* End privious will css */
+/* Start executor-details will css */
+    .executor-details .move {
+    margin: 15px 0;
+}
+.executor-details .move label {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    margin-right: 15px;
+    padding-left: 25px;
+    padding-top: 5px;
+    position: relative;
+}
+.executor-details .move input[type="radio"] {
+    display: none;
+}
+.executor-details .move label::before {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    bottom: 1px;
+    content: "";
+    display: inline-block;
+    height: 16px;
+    left: 0;
+    margin-right: 10px;
+    position: absolute;
+    width: 16px;
+}
+.executor-details .move .radio2 label::before {
+    border-radius: 8px;
+}
+
+
+
+.executor-details .move input[type="radio"]:checked + label::before {
+    background-color: #009eeb;
+    color: #f3f3f3;
+    content: "•";
+    font-size: 20px;
+    line-height: 14px;
+    text-align: center;
+}
+
+
+/* End executor-details will css */
+.dead-section .form-horizontal label {
+    margin-bottom: 0;
+    padding-top: 7px;
+    text-align: left !important;
+}
+.allocateddetails{
+    background-color: #F4F4F4;
+}
+.padtop{
+    padding-top: 1%;
+}
+
+
+
+
 .propert_details .property input[type="text"], select {
     border-color: -moz-use-text-color -moz-use-text-color #ccc;
     border-style: none none solid;

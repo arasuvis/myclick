@@ -62,6 +62,31 @@ class family_model extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->delete('tbl_family');
 	}
+
+	function get_fam(){
+     	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
+		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
+		$this->db->from('tbl_family');
+		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
+		$this->db->where('will_id',$will_id);
+		//$this->db->order_by('tbl_family','asc');
+		$query = $this->db->get();
+
+		return $query;
+    }
+
+    function fam_det($id){
+    
+		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
+		$this->db->from('tbl_family');
+		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
+		$this->db->where('id',$id);
+		//$this->db->order_by('tbl_family','asc');
+		$query = $this->db->get();
+
+		return $query;
+    }
 }
 
 ?>

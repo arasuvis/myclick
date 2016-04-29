@@ -264,7 +264,11 @@ class User extends CI_Controller
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		$data['pro'] = $this->property_model->get_immov_property();
+			//echo "<pre>";
+		$data['pro'] = $this->property_model->get_immov_property()->result();
+		//print_r($data); die();
+		$data['own'] = $this->property_model->get_owner()->result();
+		
 		$data['tab'] = "property";
 		$data['width'] = "50%";
 		$this->load->view('header');
@@ -274,6 +278,47 @@ class User extends CI_Controller
 		else { redirect('user/signin');}
 	}
 
+	function addProperty()
+	{
+		//print_r($_POST); die();
+			$prop = $this->input->post('property'); 
+			if($prop == "immovable")
+			{
+				$im_pro = array(
+				'name' => $_POST['immov_prop'],
+				'nature_of_ownership' => $_POST['ownership'],
+				'municipal_number' => $_POST['muncipal'],
+				'year_of_purchase' => $_POST['year_of_purchase'],
+				'area' => $_POST['area'],
+				'address' => $_POST['address'],
+				'type' => 1,
+				'created_date' => date("Y-m-d H:i:s"),
+				'modified_date'=> date("Y-m-d H:i:s") );
+
+				$id = $this->property_model->save_imov($im_pro);
+				if($id){
+					redirect('user/property');
+				} else{ 
+					echo "error"; die();
+				}
+			}
+			else{
+				$im_prop = array('name' => $this->input->post('name_mov'),
+				'comments' => $this->input->post('comments') ,
+				'type' => 2
+				 );
+
+				$id = $this->property_model->save_imov($im_prop);
+				if($id){
+					redirect('user/property');
+				} else{ 
+					echo "error"; die();
+				}
+			} 
+			
+			
+	}	
+
 	/*  END Of Property Panel      */
 
 	function property_alloc()
@@ -281,11 +326,103 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
 		//$data['personal'] = $this->user_model->personal_details();
+			//echo "<pre>";
+		$data['immov'] = $this->property_model->get_immov();
+			//print_r($data); die();
+		$data['det'] = $this->property_model->get_details()->result();
+		//print_r($data); die();
+		$data['fam'] = $this->family_model->get_fam()->result();
+		//
 		$data['tab'] = "property";
 		$data['width'] = "64%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property_alloc',$data);
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
+	}
+
+	function get_details()
+	{
+		$id = $_POST['id'];
+
+		$data = $this->family_model->fam_det($id)->result();
+		//echo "pre"; print_r($data); die();
+		echo json_encode($data[0]); die();
+	} 
+
+	function add_property_alloc()
+	{
+		//print_r($_POST); die();
+		
+		$data = array( 'property_id' => $this->input->post('property_id'),
+		 'fam_id' => $this->input->post('fam_id'),
+		 'rel_id' => $this->input->post('rel_id'),
+		 'percent' => $this->input->post('percent')
+		 );
+		
+			$v = $this->property_model->insert_immov($data);
+			if($v)
+			{
+				redirect('user/property_alloc');
+			}
+			else{ echo "error"; die();}
+		
+		
+	}
+
+	function reason_for_not_alloc()
+	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
+		//$data['personal'] = $this->user_model->personal_details();
+		$data['tab'] = "property";
+		$data['width'] = "76%";
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('reason_for_not_alloc',$data);
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
+	}
+
+	function previous_will()
+	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
+		//$data['personal'] = $this->user_model->personal_details();
+		$data['tab'] = "property";
+		$data['width'] = "76%";
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('previous_will',$data);
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
+	}
+
+	function executor()
+	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
+		//$data['personal'] = $this->user_model->personal_details();
+		$data['tab'] = "property";
+		$data['width'] = "76%";
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('executor',$data);
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
+	}
+
+	function doctor()
+	{
+		if($session = $this->session->userdata('is_userlogged_in'))
+		{
+		//$data['personal'] = $this->user_model->personal_details();
+		$data['tab'] = "property";
+		$data['width'] = "76%";
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('doctor',$data);
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
 	}
@@ -304,33 +441,21 @@ class User extends CI_Controller
 		else { redirect('user/signin');}
 	}
 
-	function lawyer()
-	{
-		if($session = $this->session->userdata('is_userlogged_in'))
-		{
-		//$data['personal'] = $this->user_model->personal_details();
-		$data['tab'] = "property";
-		$data['width'] = "87%";
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('lawyer',$data);
-		$this->load->view('footer'); }
-		else { redirect('user/signin');}
-	}
-
 	function finish()
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
-		$data['width'] = "100%";
+		$data['width'] = "76%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
-		$this->load->view('property',$data);
+		$this->load->view('finish',$data);
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
 	}
+
+	
 
 	
 	

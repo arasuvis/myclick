@@ -53,7 +53,7 @@
                                  <div class="col-md-6" style="padding-right: 0;">
                                   <label>Relationship</label><br>
                                     <div class="select-style" >
-                                        <select  name="relationship">
+                                        <select  name="relationship" id="relationship">
                                         <option value="none"></option>
                                         <?php  foreach($rel as $relation) {  ?>
                                         <option <?php if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $relation->rel_id; ?>"> <?php echo $relation->name; ?></option>
@@ -65,7 +65,8 @@
                               </div>
                               <br>
 
-                              <div class="row requirement_age">
+                              <div id="hide_others">
+                              <div class="row requirement_age" >
                                 <div class="col-md-6" style="padding-left: 0;">
                                     <label>Date of Birth</label><br>
 								 <div class="input-daterange" id="datepicker">
@@ -91,7 +92,7 @@
                               </div>
 
                                    <br><br>
-                               <div class="martial">
+                               <div class="martial" >
                                 <div class="radio1">
                                 <?php foreach($m_sta as $m_status) { ?>
                                     <input  id="<?php echo $m_status->id_value ?>" type="radio" name="marital_status" value="<?php echo $m_status->status_type ?>" <?php if(isset($families->marital_status)) if($families->marital_status == $m_status->status_type) {echo "checked"; } ?>>
@@ -103,7 +104,7 @@
                               </div>
 
                               <br><br>
-                                <div class="gender">
+                                <div class="gender" >
                                 <div class="radio"> 
 
                                 <?php foreach($st as $sta) {  ?>
@@ -114,7 +115,14 @@
                                 </div>
                                  <span id="error_status" class="error"></span>
                               </div>
+                              </div>
 
+                              <div class="row show-area" style="display:none" id="c">
+                              <div class="col-md-12">
+                                 <label>Comments</label>
+                                <textarea rows="5" class="form-control" id="comments"></textarea>
+                              </div>
+                              </div>
 
                               <br><br><br>
                               <div class="continue">
@@ -171,7 +179,18 @@
 
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     <script type="text/javascript">
-    
+ 
+$('#relationship').on('change',function(){ 
+ if($('#relationship').val() == 16){
+  $('#hide_others').hide();
+  $('#c').show(); }
+else{
+   $('#hide_others').show();
+  $('#c').hide();
+}
+
+});
+
 $('.deleterec').on('click',function(e){ 
 var id = $(this).attr('id');
             e.preventDefault();
@@ -322,12 +341,3 @@ $('#form').on('keyup','input',function(){
 	 
 	
   </script>
-<div class="container" id="sandbox-container">
-
-    <div class="input-daterange input-group" id="datepicker">
-    <input class="input-sm form-control" name="start" type="text">
-    <span class="input-group-addon">bis</span>
-    <input class="input-sm form-control" name="end" type="text">
-    </div>
-  
-</div>

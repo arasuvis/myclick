@@ -2,9 +2,9 @@
  <section class="service-outer">
     <section>
  <div class="nav-tab-wrp" id="wizard">
-        <div class="container" id="rootwizard">
+        <div class="container-fluid" id="rootwizard">
             <div class="row">
-               <article class="col-sm-12">
+               <article class="col-sm-12 padLR0 padtop">
                     <ul class="nav nav-tabs">
 
                        <!-- <li  class="<?php if(isset($tab)) if($tab == "service") echo "active";?>"><a  href="<?php echo base_url('user/service'); ?>">SIGN IN</a></li>-->
@@ -18,11 +18,21 @@
 
                         <li class="<?php if(isset($tab)) if($tab == "property_alloc") echo "active";?>"><a  href="<?php echo base_url('user/property_alloc'); ?>">PROPERTY ALLOCATION</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/witness'); ?>">WITNESS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "reason_for_not_alloc") echo "active";?>"><a  href="<?php echo base_url('user/reason_for_not_alloc'); ?>">REASON FOR NOT ALLOCATING</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/lawyer'); ?>">LAWYERS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "previous_will") echo "active";?>"><a  href="<?php echo base_url('user/previous_will'); ?>">PREVIOUS WILL</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/finish'); ?>">PREVIEW & FINISH</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "executor") echo "active";?>"><a  href="<?php echo base_url('user/executor'); ?>">EXECUTOR </a></li>
+
+                        <li class="<?php if(isset($tab)) if($tab == "doctor") echo "active";?>"><a  href="<?php echo base_url('user/doctor'); ?>">DOCTOR </a></li>
+
+
+                        <li class="<?php if(isset($tab)) if($tab == "witness") echo "active";?>"><a  href="<?php echo base_url('user/witness'); ?>">WITNESS</a></li>
+
+                        <li class="<?php if(isset($tab)) if($tab == "finish") echo "active";?>"><a  href="<?php echo base_url('user/finish'); ?>">PREVIEW AND FINISH</a></li>
+
+
+                       
 
                        <!-- <li ><a data-toggle="tab"  href="<?php echo base_url('user/logout'); ?>">Logout</a></li>-->
                       </ul>
