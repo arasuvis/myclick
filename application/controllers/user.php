@@ -19,7 +19,7 @@ class User extends CI_Controller
 
 	function index()
 	{
-		if($this->session->userdata('is_userlogged_in')){
+		if($this->session->userdata('is_userlogged_in')['user_id']){
 			redirect('user/profile'); 
 		} else{
 		$this->load->view('header');
@@ -29,7 +29,7 @@ class User extends CI_Controller
 
 	function signin()
 	{
-		if($this->session->userdata('is_userlogged_in')){
+		if($this->session->userdata('is_userlogged_in')['user_id']){
 			redirect('user/profile'); 
 		} else{
 			$data['gen'] = $this->family_model->get_gender()->result();
@@ -146,7 +146,7 @@ class User extends CI_Controller
 
 	function service()
 	{
-		$session = $this->session->userdata('is_userlogged_in');
+		$session = $this->session->userdata('is_userlogged_in')['user_id'];
 		//print_r($session);
 		$data['personal'] = $this->user_model->personal_details($session);
 		$data['tab'] = "service";
@@ -159,7 +159,7 @@ class User extends CI_Controller
 
 	function profile()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['personal'] = $this->user_model->personal_details($session);
 		//print_r($data); die();
@@ -194,7 +194,7 @@ class User extends CI_Controller
 
 	function family()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$id = $this->uri->segment(3,0);
 		$data['lis'] = $this->family_model->get_paged_list()->result();
@@ -263,7 +263,7 @@ class User extends CI_Controller
 
 	function property()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 			//echo "<pre>";
 		$data['pro'] = $this->property_model->get_immov_property()->result();
@@ -324,7 +324,7 @@ class User extends CI_Controller
 
 	function property_alloc()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 			//echo "<pre>";
@@ -474,7 +474,7 @@ class User extends CI_Controller
 
 	function reason_for_not_alloc()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['reason'] = $this->property_model->reason_not_alloc();
 		//echo "<pre>";
@@ -506,7 +506,7 @@ class User extends CI_Controller
 
 	function previous_will()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
@@ -520,7 +520,7 @@ class User extends CI_Controller
 
 	function executor()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['executor'] = $this->doctor_model->get_executor()->result();
 		//print_r($data); die();
@@ -590,7 +590,7 @@ class User extends CI_Controller
 
 	function doctor()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['doctor'] = $this->doctor_model->get_doctor()->result();
 		$data['tab'] = "property";
@@ -660,7 +660,7 @@ class User extends CI_Controller
 
 	function witness()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['witness'] = $this->doctor_model->get_witness()->result();
 		$data['tab'] = "property";
@@ -730,7 +730,7 @@ class User extends CI_Controller
 
 	function finish()
 	{
-		if($session = $this->session->userdata('is_userlogged_in'))
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "property";
