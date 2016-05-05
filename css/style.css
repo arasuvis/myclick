@@ -144,6 +144,9 @@ body {
     }.Pad0{
         padding-right: 0px;
     }
+    .padall0{
+        padding: 0px;
+    }
     .Continue-btn{
         padding: 11px 33px;
         margin-top: 10%;
@@ -208,6 +211,7 @@ body {
         font-weight: 600;
         font-size: 40px;
         color: #C3C3C3;
+     
     }
     .previous .list-inline{
     padding-top: 4%;
@@ -243,22 +247,19 @@ body {
         margin-top: 3%;
         margin-bottom: 2%;
     }
-    .customise-label{
-        font-size: 10px;
-        color:#CCC;
-    }
-    .customise-input,.customise-input:focus{
+   
+    .customise-input, .customise-input:focus{
         border:none;
         box-shadow: none;
         outline: none;
         border-bottom: 2px solid #f4f4f4;
-        width: 50%;
+        width: 100%;
         border-radius: 0px;
         font-size: 16px;
-        padding: 0px 14x;
+        padding: 0px;
     }
     .custom-textarea{
-        width: 65%;
+        width: 100%;
         background-color: #F4F4F4;
     }
     .custom-textarea:focus{
@@ -273,9 +274,13 @@ body {
         padding: 2%;
     }
     .wit-add .customise-input,.customise-input:focus{
-        width: 100%;
+        width: 50%;
     }
-
+   #tick-img{
+    width: 15px;
+    height: 15px;
+    margin-right: 2px;
+   }
  .executor-details .wintess-btn{
     background-color: #EBEBEB;
     font-size: 13px;
@@ -288,10 +293,22 @@ body {
     font-weight: 800;
     text-align: center;
   }
+  .dead-Addmore{
+    background-color: #01AEF0 !important;
+    color: #fff;
+   padding: 11px 33px;
+    font-weight: 800;
+    text-align: center;
+    float: right;
+    margin-top: 33%;
+  }
 .Padleft{
     padding-left: 0px;  
 }
-
+.btn:hover, .btn:focus{
+    /*color: #fff;*/
+    outline: none;
+}
 .note-content{
     height: 200px;
     overflow-y: scroll;
@@ -312,6 +329,14 @@ body {
 }
 #bar{
     margin-top: 1%;
+}
+.mymenu{
+color: #000;
+background-color: #fff;
+}
+.faq-scroll{
+    max-height: 300px;
+    overflow-y:scroll; 
 }
 /* -------------------------768px media starts-------------------------- */
 @media (max-width: 768px) {
@@ -368,7 +393,8 @@ body {
 }
 .service-outer .nav-tab-wrp li{
 margin-bottom: 3%;
-}
+ }
+
 .service-outer #personl-info .form-group .form-label{
     text-align: left !important;
 }
@@ -376,6 +402,7 @@ margin-bottom: 3%;
 {
     margin-right: 0px !important;
 }
+
 }
 /* -------------------------480 media ends-------------------------- */
 .roundeImage {
@@ -525,6 +552,9 @@ margin-bottom: 3%;
     margin-left: -31%;
     width: 70%;
 } */
+.past{
+ text-align: left;
+}
 .circle p {
     font-size: 10px !important;
     padding-top: 22%;
@@ -540,6 +570,45 @@ margin-bottom: 3%;
 .service-outer .nav-tab-wrp li
 {
     margin-bottom: 3%;
+    width: 100%;
+    float: none;
+}
+.service-outer .nav-tab-wrp li a{
+    text-align: left !important;
+}
+h1{
+    font-size: 28px;
+}
+.alloction .prop_details{
+    margin-top: 10%
+}
+.mob-left{
+    text-align: left;
+}
+.Continue-btn1{
+    margin-top: 5%;
+}
+.wit-add .customise-input,.customise-input:focus, .customise-input{
+ width: 100%;
+}
+.custom-textarea{
+    width: 100%;
+}
+.footer{
+    margin-bottom: 55px;
+}
+.navbar-collapse{
+    border-top: 0px;
+    box-shadow: none;
+}
+.secondRightHeader li a:hover{
+   border: 0px;
+}
+.dead-Addmore{
+    margin-top: 5%;
+}
+.allocation_names{
+    padding-right: 0px !important;
 }
 }
 /* -------------------------640 media ends-------------------------- */
@@ -697,7 +766,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .header_background {
     background-color: #187aff;
-    padding:9px;
+    padding:12px;
 }
 #bs-example-navbar-collapse-1 .nav > li > a{
     padding: 10px 12px;
@@ -758,7 +827,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .secondRightHeader li a:hover, .secondRightHeader li a:active, .secondRightHeader li a:visited, .secondRightHeader li a:focus {
     border-bottom: 3px solid #0072be;
-    padding-bottom: 21px !important;
+    padding-bottom: 21px;
     text-decoration: none;
 }
 .secondRightHeader li.socialIcon a:hover, .secondRightHeader li.socialIcon a:active, .secondRightHeader li.socialIcon a:visited, .secondRightHeader li.socialIcon a:focus {
@@ -884,7 +953,9 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     height: 40px;
     margin-right: 5px;
     text-align: center;
+    min-width: 60px;
 }
+
 .service-outer .nav-tab-wrp li a {
     background-color: #f6f6f6;
     border-radius: 0 !important;
@@ -892,7 +963,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     display: table-cell;
     font-size: 11px;
     font-weight: 600;
-    padding: 0 7px;
+    padding: 0 9px;
     text-align: center;
     vertical-align: middle;
 }
@@ -902,7 +973,12 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .service-outer .nav-tab-wrp li.active a {
     background-color: #fff !important;
-    color: #187AFF !important;
+    color: #000 !important;
+    
+}
+.service-outer .nav-tab-wrp li.active {
+    min-width: 100px !important;
+
 }
 .service-outer .content-top h1, p {
     color: #666;
@@ -1229,8 +1305,8 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .propert_details .details {
 }
 .propert_details .details label {
-    color: #aaa;
-    font-size: 10px;
+    color: rgba(30, 27, 27, 0.67);
+font-size: 14px;
 }
 .propert_details .property .col-md-6 {
     padding-left: 0 !important;
@@ -1325,10 +1401,10 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     text-align: center;
 }
 /* Start privious will css */
-    .previous .move {
+    .previous .past {
     margin: 15px 0;
 }
-.previous .move label {
+.previous .past label {
     cursor: pointer;
     display: inline-block;
     font-size: 13px;
@@ -1337,10 +1413,10 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     padding-top: 5px;
     position: relative;
 }
-.previous .move input[type="radio"] {
+.previous .past input[type="radio"] {
     display: none;
 }
-.previous .move label::before {
+.previous .past label::before {
     background-color: #fff;
     border: 1px solid #ddd;
     bottom: 1px;
@@ -1352,13 +1428,15 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     position: absolute;
     width: 16px;
 }
-.previous .move .radio2 label::before {
+.previous .past .radio2 label::before {
     border-radius: 8px;
 }
+ .content-head .right-zero.dropdown-menu{
+    float: right!important;
+    right: 0!important;
+}
 
-
-
-.previous .move input[type="radio"]:checked + label::before {
+.previous .past input[type="radio"]:checked + label::before {
     background-color: #009eeb;
     color: #f3f3f3;
     content: "•";
@@ -1366,7 +1444,6 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     line-height: 14px;
     text-align: center;
 }
-
 
 /* End privious will css */
 /* Start executor-details will css */
@@ -1543,9 +1620,14 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .propert_details center p a {
     color: #187aff;
 }
-.alloction .allocation_form label {
-    color: #aaa;
-    font-size: 10px;
+ .statc-note-wrp .note-wrp p {
+   color: rgba(17, 16, 16, 0.63);
+font-size: 14px;
+padding-left: 2%;
+}
+.alloction .allocation_form label, .dead-section label{
+   color: rgba(17, 16, 16, 0.63);
+font-size: 14px;
 }
 .allocation_form .col-md-7, .allocation_names {
     padding-right: 30px;
@@ -1586,17 +1668,18 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     border-width: medium medium 1px;
     font-weight: 600;
     width: 100%;
+    padding-bottom: 3%;
 }
-.alloction .prop_details {
+.alloction .prop_details, .prop_details{
     background-color: #f4f4f4;
     border: 1px solid #eee;
 }
-.alloction .details li {
+.alloction .details li, .details li {
     border: 1px solid #ccc;
     list-style: outside none none;
     margin-bottom: 10px;
 }
-.alloction .details {
+.alloction .details, .details  {
     width: 90%;
 }
 .alloction .details p {
@@ -1611,6 +1694,15 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     border-radius: 3px;
     position: relative;
     width: 100%;
+}
+
+.prop_details ul {
+    margin: 0 auto;
+    padding-left: 0;
+}
+.prop_details h5{
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 .alloction .percent input[type="text"] {
     border-color: -moz-use-text-color #ccc -moz-use-text-color -moz-use-text-color;
@@ -1870,4 +1962,20 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .ysrvs li.main-li {
     margin-bottom: 10px;
+}
+ .rightmenu .dropdown ul.dropdown-menu {
+     min-height: 186px;
+    width: 50%;}
+}
+.rightmenu .dropdown-menu {
+    left: 65%;
+    width: 300px;
+}
+.rightmenu .dropdown ul.dropdown-menu li {
+    padding: 5px 0;
+}
+.rightmenu .dropdown ul.dropdown-menu span {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 5px 0;
 }

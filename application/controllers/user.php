@@ -11,6 +11,7 @@ class User extends CI_Controller
 		$this->load->model('user_model');
 		$this->load->model('family_model');
 		$this->load->model('property_model');
+		$this->load->model('doctor_model');
 
 		//if( ! $this->session->userdata('is_userlogged_in'))
 			//redirect('user/signin');
@@ -329,9 +330,10 @@ class User extends CI_Controller
 			//echo "<pre>";
 		$data['immov'] = $this->property_model->get_immov();
 			//print_r($data); die();
-		$data['det'] = $this->property_model->get_details()->result();
-		//print_r($data); die();
-		$data['fam'] = $this->family_model->get_fam()->result();
+		
+		
+		$data['fam_a'] = $this->family_model->get_fam_a()->result();
+		$data['fam_d'] = $this->family_model->get_fam_d()->result();
 		//
 		$data['tab'] = "property";
 		$data['width'] = "64%";
@@ -342,32 +344,131 @@ class User extends CI_Controller
 		else { redirect('user/signin');}
 	}
 
+	function details()
+	{
+		$id = $this->input->post('id');
+		$data = $this->property_model->get_det($id)->result();
+		echo json_encode($data); die();
+	}
+	function get_property_details()
+	{
+	    $id = $_POST['id'];
+		$data = $this->property_model->prop_det($id)->result();
+		//echo "pre"; print_r($data); die();
+	//	print_r($data[0]);
+		 if(empty($data[0]->percent_count)) echo 100; else  echo 100 - $data[0]->percent_count; die();
+	} 
+
 	function get_details()
 	{
 		$id = $_POST['id'];
-
-		$data = $this->family_model->fam_det($id)->result();
-		//echo "pre"; print_r($data); die();
+		$im_id = $_POST['im_id'];
+		//echo $id; echo $im_id; die();
+		$res = $this->property_model->check($id,$im_id);
+		if($res){
+			echo 1;
+		}
+		else{
+			$data = $this->family_model->fam_det($id)->result();
 		echo json_encode($data[0]); die();
+		}
+		
 	} 
 
 	function add_property_alloc()
 	{
-		//print_r($_POST); die();
-		
-		$data = array( 'property_id' => $this->input->post('property_id'),
+		$percent = $this->input->post('percent');
+		$myallocation = $this->input->post('myallocation');
+		$var =  $percent - $myallocation;
+		if($var == 0)
+		{
+			$data = array( 'property_id' => $this->input->post('property_id'),
 		 'fam_id' => $this->input->post('fam_id'),
 		 'rel_id' => $this->input->post('rel_id'),
-		 'percent' => $this->input->post('percent')
+		 'percent' => $this->input->post('myallocation'),
+		 'status' => 1
 		 );
-		
+		}
+		else{
+			$data = array( 'property_id' => $this->input->post('property_id'),
+		 'fam_id' => $this->input->post('fam_id'),
+		 'rel_id' => $this->input->post('rel_id'),
+		 'percent' => $this->input->post('myallocation'),
+		 'status' => 0 );
+		}
+		//echo "<pre>"; print_r($data); 
+		//die();			
+
 			$v = $this->property_model->insert_immov($data);
+			if($v)
+			{
+				//echo json_encode($v[0]); die();
+				redirect('user/property_alloc');
+			}
+			else{ echo "error"; die();}
+	}
+
+	function comp_det()
+	{ 
+		$dat=$this->property_model->dist()->row();
+		$original = $dat->na;
+		$status = $this->property_model->comp_det()->row();
+		$got = $status->st;
+		
+		if($original == $got)
+		{
+			echo 1;
+		}
+		else
+		{
+			echo 2;
+		}
+				
+	}
+
+	function edit_alloc($id){
+
+		$pid = $this->uri->segment(4,0);
+		$data['rem'] = $this->property_model->percentage($pid);
+		//print_r($data); die();
+		$data['allpro'] = $this->property_model->get_by_id($id);
+		//print_r($data); die();
+		$data['immov'] = $this->property_model->get_immov();
+		$data['fam_a'] = $this->family_model->get_fam_a()->result();
+		$data['grantid'] = $id;
+		//print_r($data); die();
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('property_alloc',$data);
+		$this->load->view('footer'); 
+	}
+
+	function update_property_alloc(){
+		$id = $_POST['grantid'];
+		$per = $_POST['myallocation'];
+		$rem = $_POST['percent'];
+		$before = $_POST['data'];
+		
+		$add = $before + $rem;
+		
+		if($per == $add)
+		{
+			$data = array( 
+		 'percent' => $this->input->post('myallocation'),
+		 'status' => 1 );
+		}
+		else
+		{
+			$data = array( 
+		 'percent' => $this->input->post('myallocation'),
+		 'status' => 0 );
+		}
+		$v = $this->property_model->update_immov($id,$data);
 			if($v)
 			{
 				redirect('user/property_alloc');
 			}
 			else{ echo "error"; die();}
-		
 		
 	}
 
@@ -375,7 +476,9 @@ class User extends CI_Controller
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		//$data['personal'] = $this->user_model->personal_details();
+		$data['reason'] = $this->property_model->reason_not_alloc();
+		//echo "<pre>";
+		//print_r($data); die();
 		$data['tab'] = "property";
 		$data['width'] = "76%";
 		$this->load->view('header');
@@ -383,6 +486,22 @@ class User extends CI_Controller
 		$this->load->view('reason_for_not_alloc',$data);
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
+	}
+
+	function save_reason()
+	{  
+		$a = $_POST;
+		
+		$res = $this->property_model->save_reason($a);
+		if($res)
+		{
+			$this->previous_will();
+		}
+		else{
+			redirect('user/reason_for_not_alloc');
+		}
+		
+	
 	}
 
 	function previous_will()
@@ -403,7 +522,8 @@ class User extends CI_Controller
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		//$data['personal'] = $this->user_model->personal_details();
+		$data['executor'] = $this->doctor_model->get_executor()->result();
+		//print_r($data); die();
 		$data['tab'] = "property";
 		$data['width'] = "76%";
 		$this->load->view('header');
@@ -413,11 +533,66 @@ class User extends CI_Controller
 		else { redirect('user/signin');}
 	}
 
+	function save_executor()
+	{
+		//print_r($_POST); die();
+		$a = $_POST;
+
+		$ex = $this->doctor_model->save_executor($a);
+		if($ex)
+		{
+			redirect('user/executor');
+		}
+		else{
+			echo "error"; die();
+		}
+	}
+
+	function edit_executor($id){
+		$data['executor'] = $this->doctor_model->get_executor()->result();
+		$data['exec'] = $this->doctor_model->edit_executor($id)->row();
+
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('executor',$data);
+		$this->load->view('footer');
+		
+	}
+
+
+	function update_executor() {
+		$id = $this->input->post('e_id');
+		$a = $_POST;
+		unset($a['e_id']);
+		
+		$ex = $this->doctor_model->update_executor($id,$a);
+		if($ex)
+		{
+			redirect('user/executor');
+		}
+		else {
+			echo "error"; die();
+		}
+				
+	}
+
+	function delete_executor($id)
+	{
+			$ex = $this->doctor_model->delete_executor($id);
+			if($ex)
+			{
+				redirect('user/executor');
+			}
+			else {
+			echo "error"; die();
+		}
+	}
+
 	function doctor()
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		//$data['personal'] = $this->user_model->personal_details();
+		$data['doctor'] = $this->doctor_model->get_doctor()->result();
 		$data['tab'] = "property";
 		$data['width'] = "76%";
 		$this->load->view('header');
@@ -427,11 +602,67 @@ class User extends CI_Controller
 		else { redirect('user/signin');}
 	}
 
+	function save_doctor()
+	{
+		//print_r($_POST); die();
+		$a = $_POST;
+
+		$doc = $this->doctor_model->save_doctor($a);
+		if($doc)
+		{
+			redirect('user/doctor');
+		}
+		else{
+			echo "error"; die();
+		}
+	}
+
+	function edit_doctor($id){
+
+		$data['doctor'] = $this->doctor_model->get_doctor()->result();
+		$data['d'] = $this->doctor_model->edit_doctor($id)->row();
+
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('doctor',$data);
+		$this->load->view('footer');
+		
+	}
+
+	function update_doctor() {
+
+		$id = $this->input->post('d_id');
+		$a = $_POST;
+		unset($a['d_id']);
+		
+		$doc = $this->doctor_model->update_doctor($id,$a);
+		if($doc)
+		{
+			redirect('user/doctor');
+		}
+		else {
+			echo "error"; die();
+		}
+				
+	}
+
+	function delete_doctor($id)
+	{
+			$doc = $this->doctor_model->delete_doctor($id);
+			if($doc)
+			{
+				redirect('user/doctor');
+			}
+			else {
+			echo "error"; die();
+		}
+	}
+
 	function witness()
 	{
 		if($session = $this->session->userdata('is_userlogged_in'))
 		{
-		//$data['personal'] = $this->user_model->personal_details();
+		$data['witness'] = $this->doctor_model->get_witness()->result();
 		$data['tab'] = "property";
 		$data['width'] = "76%";
 		$this->load->view('header');
@@ -440,6 +671,62 @@ class User extends CI_Controller
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
 	}
+
+	function save_witness()
+	{
+		//print_r($_POST); die();
+		$a = $_POST;
+
+		$doc = $this->doctor_model->save_witness($a);
+		if($doc)
+		{
+			redirect('user/witness');
+		}
+		else{
+			echo "error"; die();
+		}
+	}
+
+	function edit_witness($id){
+
+		$data['witness'] = $this->doctor_model->get_witness()->result();
+		$data['wit'] = $this->doctor_model->edit_witness($id)->row();
+
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('witness',$data);
+		$this->load->view('footer');
+		
+	}
+
+	function update_witness() {
+		$id = $this->input->post('w_id');
+		$a = $_POST;
+		unset($a['w_id']);
+		
+		$wit = $this->doctor_model->update_witness($id,$a);
+		if($wit)
+		{
+			redirect('user/witness');
+		}
+		else {
+			echo "error"; die();
+		}
+				
+	}
+
+	function delete_witness($id)
+	{
+			$wit = $this->doctor_model->delete_witness($id);
+			if($wit)
+			{
+				redirect('user/witness');
+			}
+			else {
+			echo "error"; die();
+		}
+	}
+
 
 	function finish()
 	{
@@ -452,8 +739,10 @@ class User extends CI_Controller
 		$this->load->view('navbar',$data);
 		$this->load->view('finish',$data);
 		$this->load->view('footer'); }
-		else { redirect('user/signin');}
+		else { redirect('user/signin');
 	}
+	}
+		
 
 	
 

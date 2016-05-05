@@ -12,33 +12,24 @@
                     <h4>REASON FOR NOT ALLOCATING ANYTHING</h4>
                   </div>
                   <div class="form-section">
-                  	<form>
+                  	<form method="post" action ="<?php echo base_url('user/save_reason'); ?>">
                   	<div class="form-group">
-                  		<label class="control-label col-md-3 text-left"><h5>Shivanandh Pawar</h5></label>
+                    <?php foreach($reason as $r) {?>
+                  		<label class="control-label col-md-3 text-left" ><h5><?php echo $r->name ?></h5></label>
+                      
                   		<div class="col-md-9 Pad0">
-                  			<textarea rows="4" cols="" class="form-control reason-textarea"></textarea>
+                  			<textarea rows="4" cols="" class="form-control reason-textarea " name="<?php echo $r->id?>" id="reason"></textarea>
+                        <span id="error_reason" class="error"></span> 
                   			<i class="fa fa-caret-left"></i>
                   		</div>
+                      <?php } ?>
                   	</div>
-                  	 	<div class="form-group">
-                  		<label class="control-label col-md-3 text-left"><h5>Sukhanya Pawar</h5></label>
-                  		<div class="col-md-9 Pad0">
-                  			<textarea rows="4" cols="" class="form-control reason-textarea">
-                  				
-                  			</textarea>
-                  			<i class="fa fa-caret-left"></i>
-                  		</div>
-                  	</div>
-                  	 	<div class="form-group">
-                  		<label class="control-label col-md-3 text-left"><h5>Ramesh Pawar</h5></label>
-                  		<div class="col-md-9 Pad0">
-                  			<textarea rows="4" cols="" class="form-control reason-textarea"></textarea>
-                  			<i class="fa fa-caret-left"></i>
-                  		</div>
-                  	</div>
+                    
+                  	 	
+                  	 	
                   	<div class="form-group col-md-5 col-md-offset-6">
                   	
-                  		<button class="btn btn-warning Continue-btn">Continue &gt;&gt;</button>
+                  		<input type="submit" class="btn btn-warning Continue-btn" id="saveandcont" value="Save & Continue &gt;&gt;">
                   	
                   		<div class="con-text"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
                   		
@@ -84,4 +75,12 @@
 		
 	</div>
 </div>
-      
+ 
+<script type="text/javascript">
+  $('#saveandcont').on('click',function(){
+   
+  if($('.reason-textarea').val() == ''){
+    $('.error').html("Enter Reason");
+    $('.reason-textarea').focus(); return false;}
+  });
+</script>     
