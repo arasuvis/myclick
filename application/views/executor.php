@@ -67,11 +67,7 @@
                   <input class="form-control customise-input" type="text" name ="state_name" id="state_name" value="<?php if(isset($exec->state_name)) echo $exec->state_name; ?> ">
                   <span id="error_state" class="error"></span>
                 </div><br/><br/>
-               <!--  <div class="form-group col-md-12 text-center">
-                    <button type="submit" >SAVE </button>
-                    <button class="btn btn-warning Continue-btn1">Continue &gt;&gt;</button>
-                    <div class="con-text1"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
-                    </div> -->
+              
 
     
                 </div>
@@ -84,7 +80,8 @@
                     <?php foreach($executor as $ex) { ?>
                     <div class="col-md-8 col-xs-8">
                     <p id="d_name"><?php echo $ex->e_name; ?></p>
-                    <span id="edit_edit"><a href='<?php echo base_url("user/edit_executor/$ex->e_id"); ?>'>Edit</a> | <a href='<?php echo base_url("user/delete_executor/$ex->e_id"); ?>'>Delete</a></span>
+                    <span id="edit_edit"><a href='<?php echo base_url("user/edit_executor/$ex->e_id"); ?>'>Edit</a></span> | 
+                    <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $ex->e_id ?>">Delete</span>
                     </div>
                     <div class="col-md-4 col-xs-4">
                     <p>Mobile</p>
@@ -144,17 +141,19 @@
                    
                   </li>
                 </ul>
-                <div class="con-text3"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
-                           </div>
+               
  </form>
 </div>
 
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+
+<script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
 <script>
   $('#submt').on('click',function(){
 
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
-  var mob = parseInt($('#e_mobile').val());
+  var phone = /^\d{10}$/;
   var address = $('#e_address').val();
   var about = $('#e_about').val(); 
 
@@ -168,12 +167,12 @@
     $('#error_mobile').html("Enter Mobile Number");
     $('#e_mobile').focus(); return false;}
 
-   if(! (/^\d*$/.test($('#e_mobile').val()))) {
-    $('#error_mobile').html("Enter only Numbers");$('#e_mobile').focus(); return false; }
-
-
-   if(mob.length != 10)
-    {$('#error_mobile').html("Enter 10 Digits");$('#e_mobile').focus(); return false;}
+  if(!(phone.test(parseInt($("#e_mobile").val()))))
+    {
+      $('#error_mobile').html("Enter 10 Digits");
+      $('#e_mobile').focus();
+      return false;
+    }
 
   if( about == ''){
     $('#error_about').html("Enter Details");
@@ -197,4 +196,35 @@
 
 
   });
+
+$('.deleterec').on('click',function(e){ 
+var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: 'Successfully Deleted!',
+                        type: 'success'
+                    }, function() {
+                        window.location = "<?php echo base_url("user/delete_executor");?>/"+id;
+                    });
+                    
+                } else {
+                    swal("Cancelled");
+                }
+            }); 
+
+});
 </script>

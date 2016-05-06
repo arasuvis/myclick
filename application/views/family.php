@@ -128,7 +128,7 @@
                               <div class="continue">
                                  <span style="display: inline;"><input id="submt" type="submit" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
                               </div>
-                            <center><p>See <a href="">Terms</a> & <a href="">Privacy Policy</a></p></center>
+                           
                           </div>
                           </form>
                       </div>

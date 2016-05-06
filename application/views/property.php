@@ -22,8 +22,28 @@
                        
                       <div class="details">
                         <form action="<?php echo base_url('user/addProperty');?>" method="post">
-                        <label>Property Type</label>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label>Property Type</label>
 
+                          </div>
+                          <div class="col-md-6 text-right">
+                            <div class="memberbutton">
+                            <div class="dropdown open">
+                              <button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle" aria-expanded="true">See All Members
+                             </button>
+                             
+                              <ul class="dropdown-menu">
+                                                              <li><span>Aaaaa<a href="http://localhost/one/trunk/user/family/92">Edit</a>|
+                                <span id="92" style="cursor:pointer;color:#187aff" class="deleterec">Delete</span></span></li>                           
+                           
+                                
+                              </ul>
+                            </div>
+                        </div>
+                          </div>
+                        </div>
+                        
                             <div class="move">
                                 <div class="radio2">
                                     <input id="immovable" type="radio" name="property" value="immovable" checked>
@@ -126,7 +146,7 @@
                             </div>
 
                         </form>
-                        <center><p>See <a href="">Terms</a> & <a href="">Privacy Policy</a></p></center>
+                      
                       </div>
                     </div>
                     <div class="col-md-4">

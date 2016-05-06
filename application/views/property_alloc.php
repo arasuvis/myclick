@@ -147,7 +147,7 @@
                    
                   </li>
                 </ul>
-                <div class="con-text2"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
+                
                            </div> 
                                
                           </div>

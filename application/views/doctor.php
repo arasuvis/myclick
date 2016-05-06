@@ -1,6 +1,6 @@
 
 <div class="container">
-	<div class="row">
+	<div class="">
 		<div class="col-md-8">
 			<div class="content-top">
            	<center>
@@ -47,13 +47,13 @@
                   <span id="error_mobile" class="error"></span>
                 </div>
                 <br><br><br>
-                <div class="form-group col-md-12 text-center">
-                     <input type="submit" id="submt" class="btn  saveAndCon" value="Save &amp; Add More">
-                    <button class="btn btn-warning Continue-btn1"><a href="<?php echo base_url('user/witness'); ?>">Continue &gt;&gt;</a></button>
-                    <div class="con-text1"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
-                    </div></div>
-          <div class="col-md-5">
-                <div class="prop_details">
+               <!--  <div class="form-group col-md-12 text-center">
+                     <input type="submit" id="submt" class="btn  saveAndCon" value="Save &amp; Add More">Or
+                    <button class="btn btn-warning Continue-btn1"><a href="<?php //echo base_url('user/witness'); ?>"//>Continue &gt;&gt;</a></button>
+                   
+                    </div> --></div>
+          <div class="col-md-5 prop_details">
+                <div class="prop_details1">
                     <center><h5>Doctor Details</h5></center>
                     <ul class="details  list-unstyled">
                     <li>
@@ -61,7 +61,8 @@
                     <?php foreach($doctor as $doc) { ?>
                     <div class="col-md-8 col-xs-8">
                     <p id="d_name"><?php echo $doc->d_name; ?></p>
-                    <span id="edit_edit"><a href='<?php echo base_url("user/edit_doctor/$doc->d_id");?>'>Edit</a> | <a href='<?php echo base_url("user/delete_doctor/$doc->d_id");?>'>Delete</a></span>
+                    <span id="edit_edit"><a href='<?php echo base_url("user/edit_doctor/$doc->d_id");?>'>Edit</a> </span>| 
+                    <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $doc->d_id ?>">Delete</span>
                     </div>
                     <div class="col-md-4 col-xs-4">
                     <p>Mobile</p>
@@ -73,6 +74,11 @@
                     </ul>
                     </div>
           </div>
+                    </div>
+                     <div class="form-group col-md-12 text-center">
+                     <input type="submit" id="submt" class="btn  saveAndCon" value="Save &amp; Add More">&nbsp;Or&nbsp;
+                    <button class="btn btn-warning Continue-btn1"><a href="<?php echo base_url('user/witness'); ?>">Continue &gt;&gt;</a></button>
+                   
                     </div>
            	</div>
             </form>
@@ -109,13 +115,16 @@
 	</div>
 </div>
 
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+  
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
 <script>
-  $('#submt').on('click',function(e){
-    e.preventDefault();
+  $('#submt').on('click',function(){
+   
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
   var address = $('#d_address').val()
-  var mob = parseInt($('#d_mobile').val());
+  var phone = /^\d{10}$/;
   var exp = /^\d*$/;
 
   if($('#d_name').val() == ' '){
@@ -131,10 +140,43 @@
   if($('#d_mobile').val() == ' '){
     $('#error_mobile').html("Enter Mobile Number");
     $('#d_mobile').focus(); return false;}
-  if(!exp.test(mob)) {
-    $('#error_mobile').html("Enter only Numbers");$('#d_mobile').focus(); return false; }
-  if(mob.length != 10)
-    {$('#error_mobile').html("Enter 10 Digits");$('#e_mobile').focus(); return false;}
+  if(!(phone.test(parseInt($("#d_mobile").val()))))
+    {
+      $('#error_mobile').html("Enter 10 Digits");
+      $('#d_mobile').focus();
+      return false;
+    }
 
   });
+
+  $('.deleterec').on('click',function(e){ 
+var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: 'Successfully Deleted!',
+                        type: 'success'
+                    }, function() {
+                        window.location = "<?php echo base_url("user/delete_doctor");?>/"+id;
+                    });
+                    
+                } else {
+                    swal("Cancelled");
+                }
+            }); 
+
+});
 </script>

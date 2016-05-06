@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -37,7 +37,7 @@
 <div class="Firstsection">
 		<div class="row">
 			<div class="col-sm-3 col-md-3 col-xs-12 header_background text-right">
-				<a href="<?php echo base_url();?>"><img src="<?php echo base_url('images/logo.png');?>" class="img-resposive"></a>
+				<a href="<?php echo base_url();?>"><img src="<?php echo base_url('images/logo.png');?>" class="img-resposive" style="height: 73px;"></a>
 			</div>
 			<div class="col-sm-9 col-md-9 col-xs-12 header_background1">
 				<div class="fixed_second_header">

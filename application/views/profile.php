@@ -30,7 +30,7 @@
                         <input type="text" id="id" name =" id" value="<?php if(isset($per->user_id)) echo $per->user_id; ?>" hidden>
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="Fname"><p>ENTER FIRST NAME</p></span>
+                                <span class="form-label" id="Fname"><p>Enter First Name</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                                 <input type="text" id="fname" name ="fname" value="<?php echo $per->fname; ?>">
@@ -41,7 +41,7 @@
 
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="Mname"><p>ENTER MIDDLE NAME</p></span>
+                                <span class="form-label" id="Mname"><p>Enter Middle Name</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                                 <input type="text" id="mname" name ="mname" value="<?php echo $per->mname; ?>">
@@ -52,7 +52,7 @@
 
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="Lname"><p>ENTER LAST NAME</p></span>
+                                <span class="form-label" id="Lname"><p>Enter Last Name</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                                 <input type="text" id="lname" name ="surname" value="<?php echo $per->surname; ?>">
@@ -62,7 +62,7 @@
 
                          <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label"><p>ENTER DATE OF BIRTH</p></span>
+                                <span class="form-label"><p>Enter Date Of Birth</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
 							<div class="input-daterange" id="datepicker">
@@ -74,7 +74,7 @@
 
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="gender"><p>YOUR GENDER</p></span>
+                                <span class="form-label" id="gender"><p>Your Gender</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                             <?php foreach($gen as $gender) { ?>
@@ -93,7 +93,7 @@
 
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="adrss"><p>ENTER ADDRESS</p></span>
+                                <span class="form-label" id="adrss"><p>Enter Address</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                                 <textarea id="adrss" name ="address"><?php echo $per->address; ?></textarea>
@@ -102,7 +102,7 @@
 
                         <div class="row">
                             <article class="col-sm-3" style="padding-left: 0;">
-                                <span class="form-label" id="phone"><p>ENTER MOBILE NUMBER</p></span>
+                                <span class="form-label" id="phone"><p>Enter Mobile Number</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
                                 <input type="text" id="mobile" name ="mobile" value="<?php echo $per->mobile; ?>">
@@ -112,8 +112,8 @@
 
                          <div class="row">
                             <article class="col-sm-12" style="padding-left: 0;">
-                                <button type="submit" id="persnl-submit">CONTINUE >></button>
-                                <center><p>See <a href="">Terms</a> & <a href="">Privacy Policy</a></p></center>
+                                <button type="submit" id="persnl-submit">CONTINUE &gt;&gt;</button>
+                                
                             </article>
                            
                         </div>

@@ -31,9 +31,7 @@
                   	
                   		<input type="submit" class="btn btn-warning Continue-btn" id="saveandcont" value="Save & Continue &gt;&gt;">
                   	
-                  		<div class="con-text"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
-                  		
-                  	</div>
+                  		</div>
                   	
                   	</form>
                   </div>

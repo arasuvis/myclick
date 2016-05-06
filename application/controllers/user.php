@@ -327,10 +327,10 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
-			echo "<pre>";
+			
 		$data['immov'] = $this->property_model->get_immov();
 		$data['immo'] = $this->property_model->get_distinct();
-			print_r($data); die();
+			
 		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();

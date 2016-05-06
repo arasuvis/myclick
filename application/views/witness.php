@@ -1,34 +1,6 @@
-<style type="text/css">
- .memberbutton01 .dropdown {
-   margin-bottom: 30px;
-}
-.memberbutton01 .dropdown ul.dropdown-menu {
-   padding: 10px;
-}
-.memberbutton01 .dropdown-menu {
-   left: 65%;
-   width: 300px;
-}
-.memberbutton01 .dropdown ul.dropdown-menu li {
-   padding: 5px 0;
-}
-.memberbutton01 .dropdown ul.dropdown-menu span {
-   font-size: 12px;
-   font-weight: 600;
-   margin: 5px 0;
-}
-.memberbutton01 .dropdown ul.dropdown-menu span a:first-child {
-   border-right: 1px solid #187aff;
-   padding-left: 70px;
-}
-.memberbutton01 .dropdown ul.dropdown-menu span a {
-   color: #187aff;
-   padding: 0 10px;
-}
 
-</style>
 <div class="container">
-  <div class="row">
+  <div class="">
     <div class="col-md-8">
       <div class="content-top">
           <center>
@@ -41,20 +13,38 @@
             <h4>WITNESS</h4>
           </div>
 
-          <div class="memberbutton01 text-right">
+        <!--   <div class="memberbutton01 text-right">
                            <div class="dropdown open">
                              <button aria-expanded="true" class="btn wintess-btn dropdown-toggle" type="button" data-toggle="dropdown">See All witness list
                             </button>
                            
                              <ul class="dropdown-menu list-unstyled">
-                             <?php foreach($witness as $w) {?>
-                                            <li><span><?php echo $w->w_name;  ?><a href='<?php echo base_url("user/edit_witness/$w->w_id")?>'>Edit</a>|
-                               <span class="deleterec" style="cursor:pointer;color:#187aff" id="91"><a href='<?php echo base_url("user/delete_witness/$w->w_id")?>'>Delete</a></span></span></li>                 
+                             <?php// foreach($witness as $w) {?>
+                                            <li><span><?php// echo $w->w_name;  ?><a href='<?php// echo base_url("user/edit_witness/$w->w_id")?>'>Edit</a></span>|
+                                            <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php// echo $w->w_id ?>">Delete</span>
+                               </li>                 
                                
                              </ul>
-                             <?php } ?>
+                             <?php// } ?>
                            </div>
-                       </div>
+                       </div> -->
+                               <div class="memberbutton text-right">
+                            <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All witness list
+                             </button>
+                           
+                              <ul class="dropdown-menu">
+                              <?php foreach($witness as $w) {?>
+                                <li><span><?php echo $w->w_name; ?><a href='<?php echo base_url("user/edit_witness/$w->w_id");?>'>Edit</a>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->w_id ?>">Delete</span></span></li>
+                            <?php } ?>
+
+                            <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
+                            <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
+                                
+                              </ul>
+                            </div>
+                        </div>
        <!-- <div class="row">
 
        <div class="col-md-12 text-right rightmenu">
@@ -189,19 +179,49 @@
   </div>
 </div>
 
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+
+<script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
 <script>
 //$('#w_mobile').on('keypress', function(e) {
 //if (e.charCode >= 32 && e.charCode < 127 && !/^-?\d*[.,]?\d*$/.test(this.value + '' + String.fromCharCode(e.charCode))) { return false; } 
 //});
+  $('.deleterec').on('click',function(e){ 
+var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: 'Successfully Deleted!',
+                        type: 'success'
+                    }, function() {
+                        window.location = "<?php echo base_url("user/delete_witness");?>/"+id;
+                    });
+                    
+                } else {
+                    swal("Cancelled");
+                }
+            }); 
 
+    });
 
-  $('#submt').on('click',function(e){
-  //  alert('hello');
-    e.preventDefault();
+  $('#submt').on('click',function(){
+  
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
-  var pin = /^[0-9]+$/;
-  var mob = $('#w_mobile').val();
+  
   var per = $('#w_permanent').val();
   var pre = $('#w_present').val(); 
   var a = $('#w_mobile').val();
@@ -256,9 +276,11 @@
     $('#w_pincode').focus(); return false;}
   if(!(pincode.test(parseInt($("#w_pincode").val()))))
     {
-      $("#w_pincode").focus().attr("placeholder","Enter 6 digit pincode").val('');
+      $('#error_pincode').html("Enter 6 Digits");
+      $('#w_pincode').focus();
       return false;
     }
+  
 
   if($('#w_locality').val() == ' '){
     $('#error_locality').html("Enter Locality");

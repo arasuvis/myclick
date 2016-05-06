@@ -92,7 +92,7 @@
 		</div>	
 		<div class="form-group col-md-12 text-center">
             <button class="btn btn-warning Continue-btn1">Continue &gt;&gt;</button>
-            <div class="con-text1"><a href="#">See <span>Terms</span></a>&nbsp;&amp;&nbsp;<a href="#"><span>Privacy </span></a></div>
+            
         </div>
 	</div>
 	

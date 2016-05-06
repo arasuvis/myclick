@@ -41,7 +41,7 @@ img {
 }
 body {
     font-family: OpenSans-Regular;
-    font-size: 15px;
+    font-size: 14px;
 }
 .Firstsection {
     margin-bottom: 2px;
@@ -773,7 +773,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .header_background1 {
     background-color: #212224;
-    padding: 8px 6% 0 0;
+    padding: 8px 6% 7px 0;
     position: relative;
 }
 .header_background1::before {
@@ -951,11 +951,15 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .service-outer .nav-tab-wrp li {
     display: table;
     height: 40px;
-    margin-right: 5px;
+    margin-right: 9px;
     text-align: center;
     min-width: 60px;
+}.service-outer .nav-tab-wrp li:last-child{
+    margin-right: 0px;
 }
-
+.oneinfo{
+    padding-bottom: 1%;
+}
 .service-outer .nav-tab-wrp li a {
     background-color: #f6f6f6;
     border-radius: 0 !important;
@@ -966,6 +970,9 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     padding: 0 9px;
     text-align: center;
     vertical-align: middle;
+}
+.service-outer .nav-tab-wrp li:last-child a{
+ padding: 0 14px;
 }
 .service-outer .nav-tab-wrp li a:hover{
       background-color: #fff;
@@ -994,7 +1001,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .service-outer #personl-info .form-group .form-label {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     text-align: right;
 }
@@ -1214,6 +1221,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     border-style: none none solid;
     border-width: medium medium 1px;
     width: 100%;
+    padding-bottom: 1%;
 }
 .family_details .requirement_age input[type="text"] {
     border-color: -moz-use-text-color -moz-use-text-color #ccc;
@@ -1221,11 +1229,11 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     border-width: medium medium 1px;
     width: 100%;
 }
-.family_details .memberbutton .dropdown-menu {
+.family_details .memberbutton .dropdown-menu, .memberbutton .dropdown-menu {
     left: 65%;
     width: 300px;
 }
-.family_details .memberbutton .btn-primary {
+.family_details .memberbutton .btn-primary, .memberbutton .btn-primary {
     background: #9a9a9a none repeat scroll 0 0;
     border: medium none;
 }
@@ -1247,7 +1255,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 }
 .family_details .family_form label {
     color: #aaa;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 0;
 }
@@ -1305,7 +1313,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .propert_details .details {
 }
 .propert_details .details label {
-    color: rgba(30, 27, 27, 0.67);
+    color: #aaa;
 font-size: 14px;
 }
 .propert_details .property .col-md-6 {
@@ -1313,6 +1321,8 @@ font-size: 14px;
 }
 .propert_details .row.registration .col-md-6 {
     padding-left: 0 !important;
+}label{
+    color: #aaa;
 }
 .propert_details .move {
     margin: 15px 0;
@@ -1370,6 +1380,7 @@ font-size: 14px;
     padding-left: 25px;
     padding-top: 5px;
     position: relative;
+    color: #aaa;
 }
 .propert_detailss.move input[type="radio"] {
     display: none;
@@ -1626,7 +1637,7 @@ font-size: 14px;
 padding-left: 2%;
 }
 .alloction .allocation_form label, .dead-section label{
-   color: rgba(17, 16, 16, 0.63);
+   color: #aaa;
 font-size: 14px;
 }
 .allocation_form .col-md-7, .allocation_names {
@@ -1978,4 +1989,30 @@ font-size: 14px;
     font-size: 12px;
     font-weight: 600;
     margin: 5px 0;
+}
+ .memberbutton01 .dropdown {
+   margin-bottom: 30px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu {
+   padding: 10px;
+}
+.memberbutton01 .dropdown-menu {
+   left: 65%;
+   width: 300px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu li {
+   padding: 5px 0;
+}
+.memberbutton01 .dropdown ul.dropdown-menu span {
+   font-size: 12px;
+   font-weight: 600;
+   margin: 5px 0;
+}
+.memberbutton01 .dropdown ul.dropdown-menu span a:first-child {
+   border-right: 1px solid #187aff;
+   padding-left: 70px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu span a {
+   color: #187aff;
+   padding: 0 10px;
 }
