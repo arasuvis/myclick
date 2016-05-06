@@ -280,6 +280,7 @@ if($('#relationship').val() == 16){
   $('#hide_others').hide(); 
   $('#c').show();
 }
+
 });
 
 $('#form').on('keyup','input',function(){
@@ -356,20 +357,20 @@ $('#form').on('keyup','input',function(){
     } */
 
     $('#contnu').on('click',function(){
-
+        
         var list = $.parseJSON($('#list').val());
         var rel = $.parseJSON($('#rel').val());
         var id = new Array();
         var name= new Array();
         var i=0;
         $.each(rel,function(k,v){
-           if(v['name']=="Son"){
-                 $.each(list,function(key,ele){
+             if(v['name']=="Son"){
+                     $.each(list,function(key,ele){
               if(ele['relationship'] == v['rel_id'])
               {
                     if(ele['marital_status'] == "Married")
                     {
-                       //alert(1);  //status.push(ele['marital_status']);
+                       alert(1);  //status.push(ele['marital_status']);
                          //name.push(ele['name']);
 						 
 						  swal({

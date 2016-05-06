@@ -220,21 +220,25 @@ class User extends CI_Controller
 
 	function addFamily()
 	{
+
 		$id = $this->input->post('id');
-		if($this->input->post('comments') == null )
+		//print_r($this->input->post('comments'));
+		if($this->input->post('comments') == ' ' || $this->input->post('comments') == null || empty($this->input->post('comments')) )
 			{ 
+				
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
 			'dob'=>$this->input->post('dob'),
 			'gender'=>$this->input->post('gender'),
 			'marital_status' => $this->input->post('marital_status'),
-			'status' => $this->input->post('status')); }
+			'status' => $this->input->post('status'));
+			 }
 		else{
+			
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
 			'comments' => $this->input->post('comments'));
 		}
-			
 			$id = $this->family_model->save($family);
 			if($id)
 			{
