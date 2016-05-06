@@ -78,6 +78,21 @@ class Property_model extends CI_Model
     	}
     }
 
+     function check_d($id){
+         $this->db
+                        ->where('fam_id',$id)
+                        ->get('grant_immovable');
+
+                    $res =  $this->db->affected_rows();
+        if($res > 0)
+        {
+            return true;
+        }   
+        else{
+            return false;
+        }
+    }
+
     function insert_immov($data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
     return $query = $this->db->insert('grant_immovable', $data);

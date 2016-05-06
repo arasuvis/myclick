@@ -383,8 +383,7 @@ What is the license?</a>
 <script>
 $(document).ready(function(){ 
   var str = '<?php echo $this->uri->segment(5,0); ?>';
-//alert(<?php echo $this->uri->segment(5,0); ?>);
-if(str == "edit" ){
+  if(str == "edit" ){
   if($('#per').val() == 0){
     $('#myallocation').attr('readonly','true');
 

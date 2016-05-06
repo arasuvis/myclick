@@ -34,13 +34,14 @@
                              </button>
                            
                               <ul class="dropdown-menu">
-                              <?php foreach($witness as $w) {?>
+                              <?php if(!empty($witness)) { foreach($witness as $w) {?>
                                 <li><span><?php echo $w->w_name; ?><a href='<?php echo base_url("user/edit_witness/$w->w_id");?>'>Edit</a>|
                                 <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->w_id ?>">Delete</span></span></li>
-                            <?php } ?>
+                            <?php } } else { ?>
+                            <li><span>No Records Found</span></li>
+                              <?php } ?>
 
-                            <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
-                            <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
+                            
                                 
                               </ul>
                             </div>

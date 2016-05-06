@@ -218,13 +218,20 @@ class User extends CI_Controller
 
 	function addFamily()
 	{
-			$id = $this->input->post('id');
+		$id = $this->input->post('id');
+		if($this->input->post('comments') == null )
+			{ 
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
 			'dob'=>$this->input->post('dob'),
 			'gender'=>$this->input->post('gender'),
 			'marital_status' => $this->input->post('marital_status'),
-			'status' => $this->input->post('status'));
+			'status' => $this->input->post('status')); }
+		else{
+			$family = array('name' => $this->input->post('name'),
+			'relationship'=>$this->input->post('relationship'),
+			'comments' => $this->input->post('comments'));
+		}
 			
 			$id = $this->family_model->save($family);
 			if($id)
@@ -328,10 +335,7 @@ class User extends CI_Controller
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 			
-		$data['immov'] = $this->property_model->get_immov();
-		$data['immo'] = $this->property_model->get_distinct();
-			
-		
+		$data['immov'] = $this->property_model->get_immov();		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
 		$data['fam_d'] = $this->family_model->get_fam_d()->result();
@@ -362,10 +366,15 @@ class User extends CI_Controller
 
 	function get_details()
 	{
+		//print_r($_POST); die();
 		$id = $_POST['id'];
+		
+		if(isset($_POST['im_id'])){
 		$im_id = $_POST['im_id'];
-		//echo $id; echo $im_id; die();
+		
 		$res = $this->property_model->check($id,$im_id);
+		}
+		else { $res = $this->property_model->check_d($id); }
 		if($res){
 			echo 1;
 		}

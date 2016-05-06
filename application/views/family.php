@@ -26,7 +26,7 @@
                             <div class="dropdown">
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Members
                              </button>
-                             </button>
+                           
                               <ul class="dropdown-menu">
                               <?php foreach($lis as $list) {  ?>
                                 <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|
@@ -120,8 +120,9 @@
                               <div class="row show-area" style="display:none" id="c">
                               <div class="col-md-12">
                                  <label>Comments</label>
-                                <textarea rows="5" class="form-control" id="comments"></textarea>
+                                <textarea rows="5" class="form-control" id="comments" name="comments"></textarea>
                               </div>
+                              <span id="error_comments" class="error"></span>
                               </div>
 
                               <br><br><br>
@@ -235,6 +236,9 @@ $('#form').on('keyup','input',function(){
   e.preventDefault();
   var name = /^[a-zA-Z\s]+$/;
   var age = /^[0-9]+$/;
+  var rel = $('#relationship').val();
+  var comments = $('#comments').val();
+
   if($('#name').val() == ''){
     $('#error_name').html("Enter Name");
     $('#name').focus(); return false;}
@@ -245,7 +249,7 @@ $('#form').on('keyup','input',function(){
     $('#error_relation').html('Please, choose an option');
   $('select').focus(); return false; }
   
-
+  if(rel != 16){
 
   if($('#dob').val() == ''){
     $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
@@ -258,7 +262,12 @@ $('#form').on('keyup','input',function(){
 
   if( $('input[name=status]:checked').length<=0 ) { 
     $('#error_status').html("Select Status");
-     $('input[name=status]:checked').focus(); return false; }
+     $('input[name=status]:checked').focus(); return false; } }
+
+  else{
+  if( comments == '' ) { 
+    $('#error_comments').html("Enter Comments");
+     $('#comments').focus(); return false; } }
 
     $('#form').submit();
 });
