@@ -53,18 +53,18 @@
                          <div class="row">
                           <div class="col-md-6">
                             <label>Property Type</label>
-<?php echo "<pre>"; print_r($pro); die(); ?>
+
                           </div>
                           <div class="col-md-6 text-right">
                                 <div class="memberbutton text-right">
                             <div class="dropdown">
-                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All witness list
+                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Properties List
                              </button>
                            
                               <ul class="dropdown-menu">
-                              <?php foreach($pro as $p) { ?>
-                                <li><span><span class="resize-width"><?php echo $p->prop_name; ?><span><a href='<?php echo base_url("user/edit_property/$p->prop_id");?>'>Edit</a>|
-                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $p->prop_id ?>">Delete</span></span></li>
+                              <?php foreach($lis as $l) { ?>
+                                <li><span><span class="resize-width"><?php echo $l->prop_name; ?><span><a href='<?php echo base_url("user/edit_property/$l->Immovable_id");?>'>Edit</a>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $l->Immovable_id ?>">Delete</span></span></li>
                             <?php } ?>
                             
 
@@ -171,10 +171,10 @@
                                 </div>
                               </div>
                               </div>
-                              <br>
-                            <div class="attach">
+                              <br><br>
+                            <!-- <div class="attach">
                              <span class="btn btn-file"><i class="fa fa-paperclip" aria-hidden="true"></i>Attach Files <input type="file"></span>
-                            </div>
+                            </div> -->
 
                             <div class="continue">
                                 <span ><input id="submt" type="submit" value="Save & Add More"/>
@@ -228,6 +228,44 @@
 $(document).ready(function(){
                 $('#year_of_purchase').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'
+                });
+
+                $('#immov_prop').on('change',function(){ 
+                  var id =$('#immov_prop').val();
+
+                  $.ajax({
+                      type:"POST",
+                      url:"<?php echo base_url(); ?>user/check_prop_details",
+                      data: {id:id},
+                      dataType:"json",
+                      success:function(res)
+                      { 
+                       if(res == 1)
+                       {
+                        alert('Property Already Allocated');
+                        $('#immov_prop').val('');
+                       }
+                      }
+                  });
+                });
+
+                $('#name_mov').on('change',function(){ 
+                  var id =$('#name_mov').val();
+
+                  $.ajax({
+                      type:"POST",
+                      url:"<?php echo base_url(); ?>user/check_prop_details",
+                      data: {id:id},
+                      dataType:"json",
+                      success:function(res)
+                      { 
+                       if(res == 1)
+                       {
+                        alert('Property Already Allocated');
+                        $('#name_mov').val('');
+                       }
+                      }
+                  });
                 });
 
                 $('#immovable').on('click',function(){ 

@@ -285,6 +285,8 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 			//echo "<pre>";
+		$data['lis'] = $this->property_model->get_prop_list()->result();
+		//print_r($data); die();
 		$data['pro'] = $this->property_model->get_immov_property()->result();
 		//print_r($data); die();
 		$data['own'] = $this->property_model->get_owner()->result();
@@ -296,6 +298,20 @@ class User extends CI_Controller
 		$this->load->view('property',$data);
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
+	}
+
+	function check_prop_details()
+	{		
+		$id = $this->input->post('id');
+		$data = $this->property_model->get_prop_det($id)->result();
+		if($data)
+		{
+			echo 1; 
+		}
+		else {
+			echo 2; 
+		}
+
 	}
 
 	function addProperty()
@@ -405,6 +421,7 @@ class User extends CI_Controller
 	{
 		$id = $this->input->post('id');
 		$data = $this->property_model->get_det($id)->result();
+
 		echo json_encode($data); die();
 	}
 	function get_property_details()

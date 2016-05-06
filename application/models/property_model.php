@@ -24,6 +24,34 @@ class Property_model extends CI_Model
 		return $this->db->insert('immovable_propertys', $im_pro); 
     }
 
+    function get_prop_list(){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        
+     
+        $this->db->select('immovable_propertys.Immovable_id,immovable_propertys.name , admin_property.prop_name ,admin_property.prop_id');
+        $this->db->from('immovable_propertys');
+        $this->db->join('admin_property','admin_property.prop_id=immovable_propertys.name','left');
+        
+        $this->db->where('will_id',$will_id);
+        
+        return $query = $this->db->get();
+    }
+
+    function get_prop_det($id){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
+        $this->db->select('immovable_propertys.Immovable_id,immovable_propertys.name , admin_property.prop_name ,admin_property.prop_id');
+        $this->db->from('immovable_propertys');
+        $this->db->join('admin_property','admin_property.prop_id=immovable_propertys.name','left');
+        //$this->db->join('admin_relations','admin_relations.rel_id=grant_immovable.rel_id','left');
+        $this->db->where('immovable_propertys.will_id',$will_id);
+        $this->db->where('immovable_propertys.name',$id);
+        $query = $this->db->get();
+
+        return $query;
+
+    }
+
     function get_immov(){
      	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
      	
