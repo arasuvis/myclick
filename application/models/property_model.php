@@ -128,8 +128,14 @@ class Property_model extends CI_Model
      function update_immov($id,$data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
     return $query = $this->db->where('grant_im_id',$id)
-    							->update('grant_immovable', $data); 
+    							->update('immovable_propertys', $data); 
 	}
+
+    function edit_property($id)
+    {
+        return $query =  $this->db->where('Immovable_id',$id)
+                        ->get('admin_property');
+    } 
 
     function dist(){
     	$this->db->select('count(DISTINCT(name)) as na');  
@@ -229,6 +235,7 @@ function del_alloc($id)
                 }
     } 
     
+
     
 }
 ?>

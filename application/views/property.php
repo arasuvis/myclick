@@ -53,7 +53,7 @@
                          <div class="row">
                           <div class="col-md-6">
                             <label>Property Type</label>
-
+<?php echo "<pre>"; print_r($pro); die(); ?>
                           </div>
                           <div class="col-md-6 text-right">
                                 <div class="memberbutton text-right">
@@ -62,9 +62,9 @@
                              </button>
                            
                               <ul class="dropdown-menu">
-                              <?php foreach($pro as $w) { ?>
-                                <li><span><span class="resize-width"><?php echo $w->prop_name; ?><span><a href='<?php echo base_url("user/edit_witness/$w->prop_id");?>'>Edit</a>|
-                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->prop_id ?>">Delete</span></span></li>
+                              <?php foreach($pro as $p) { ?>
+                                <li><span><span class="resize-width"><?php echo $p->prop_name; ?><span><a href='<?php echo base_url("user/edit_property/$p->prop_id");?>'>Edit</a>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $p->prop_id ?>">Delete</span></span></li>
                             <?php } ?>
                             
 
@@ -81,8 +81,7 @@
                        
                       <div class="details">
                         <form action="<?php echo base_url('user/addProperty');?>" method="post">
-                      
-                        
+                                              
                             <div class="move">
                                 <div class="radio2">
                                     <input id="immovable" type="radio" name="property" value="immovable" checked>
@@ -101,7 +100,7 @@
                                   <option value="none"></option>
                             <?php  foreach($pro as $property) {  
                             if($property->type == 1){ ?>
-                            <option <?php //if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
+                            <option <?php if(isset($e_pro->prop_id)) if($e_pro->prop_id == $property->prop_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
                             <?php } } ?> 
                                   </select>
                                 </div>
@@ -113,7 +112,7 @@
                                   <select name="ownership" id="ownership">
                                   <option value="none"></option>
                             <?php  foreach($own as $owner) {  ?>
-                            <option <?php //if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
+                            <option <?php if(isset($e_pro->prop_id)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
                             <?php } ?> 
                                   </select>
                                 </div>

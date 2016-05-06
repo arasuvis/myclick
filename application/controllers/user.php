@@ -251,12 +251,18 @@ class User extends CI_Controller
 	function updateFamily()
 	{
 			$id = $this->input->post('id');
-			$family = array('name' => $this->input->post('name'),
+			if($this->input->post('comments') == ' ' || $this->input->post('comments') == null || empty($this->input->post('comments')) )
+			{
+				$family = array('name' => $this->input->post('name'),
 							'relationship'=>$this->input->post('relationship'),
 							'dob'=>$this->input->post('dob'),
 							'gender'=>$this->input->post('gender'),
 							'marital_status' => $this->input->post('marital_status'),
-							'status' => $this->input->post('status'));
+							'status' => $this->input->post('status')); }
+			else { $family = array('name' => $this->input->post('name'),
+			'relationship'=>$this->input->post('relationship'),
+			'comments' => $this->input->post('comments'));
+			}
 							
 			$this->family_model->update($id,$family);
 			redirect('user/family');
@@ -328,10 +334,50 @@ class User extends CI_Controller
 				} else{ 
 					echo "error"; die();
 				}
-			} 
-			
-			
-	}	
+			}	
+	}
+
+	function edit_property($id){
+		$data['pro'] = $this->property_model->get_immov_property()->result();
+		$data['own'] = $this->property_model->get_owner()->result();
+		//$data['e_pro'] = $this->property_model->edit_property($id)->row();
+		
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('property',$data);
+		$this->load->view('footer');
+		
+	}
+
+
+	function update_property() {
+		$id = $this->input->post('e_id');
+		$a = $_POST;
+		unset($a['e_id']);
+		
+		$ex = $this->doctor_model->update_executor($id,$a);
+		if($ex)
+		{
+			redirect('user/executor');
+		}
+		else {
+			echo "error"; die();
+		}
+				
+	}
+
+	function delete_property($id)
+	{
+			$ex = $this->doctor_model->delete_executor($id);
+			if($ex)
+			{
+				redirect('user/executor');
+			}
+			else {
+			echo "error"; die();
+		}
+	}
+	
 
 	/*  END Of Property Panel      */
 
