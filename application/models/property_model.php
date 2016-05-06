@@ -95,6 +95,7 @@ class Property_model extends CI_Model
 
     function insert_immov($data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
+	
     return $query = $this->db->insert('grant_immovable', $data);
      //$query = $this->db->insert_id();
 

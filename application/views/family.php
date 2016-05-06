@@ -1,4 +1,46 @@
-<?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?><style>.error{color:red;}</style>
+<style type="text/css">
+.memberbutton01 .dropdown {
+  margin-bottom: 30px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu {
+  padding: 10px;
+}
+.memberbutton01 .dropdown-menu {
+  left: 65%;
+  width: 300px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu li {
+  padding: 6px 4px;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+.memberbutton01 .dropdown ul.dropdown-menu span {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 5px 0;
+  color: #187aff;
+}
+.memberbutton01 .dropdown ul.dropdown-menu span a:first-child {
+  border-right: 1px solid #187aff;
+  padding-left: 70px;
+}
+.memberbutton01 .dropdown ul.dropdown-menu  a {
+  color: #187aff;
+  padding: 0 10px;
+}
+.width-resize{
+ width: 47%;
+}
+.width-resize1{
+ width: 47%;
+ float: right;
+ text-align: right;
+}
+.innerul-witness{
+padding-top: 0px !important;
+}
+</style>
+</style><?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?><style>.error{color:red;}</style>
 
 <div class="container">
 
@@ -22,16 +64,23 @@
                           <h4>FAMILY DETAILS</h4>
                       </div>
                       
-                        <div class="memberbutton text-right">
+                        <div class="memberbutton01 text-right">
                             <div class="dropdown">
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Members
                              </button>
                            
-                              <ul class="dropdown-menu">
-                              <?php foreach($lis as $list) {  ?>
-                                <li><span><?php echo $list->name; ?><a href='<?php echo base_url("user/family/{$list->id}");?>'>Edit</a>|
-                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $list->id; ?>">Delete</span></span></li>
-                            <?php } ?>
+                              <ul class="dropdown-menu list-unstyled">
+							  
+							   <?php foreach($lis as $list) {  ?>
+							   <li>
+                              <ul class="list-inline innerul-witness">
+                               <li class="width-resize"><?php echo $list->name; ?></li>  
+                               <li class="width-resize1"><a href="<?php echo base_url("user/family/{$list->id}");?>">Edit</a>|&nbsp;<span id="<?php echo $list->id; ?>">Delete</span></li>
+                              </ul>
+                            </li>  
+							<?php } ?>
+							
+                           
 
                             <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
                             <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
@@ -322,14 +371,35 @@ $('#form').on('keyup','input',function(){
                     {
                        //alert(1);  //status.push(ele['marital_status']);
                          //name.push(ele['name']);
-                         name = ele['name'];
-                         if(confirm(name + ' ,You want to enter Wife details'))
-                             {
-                           window.location="<?php echo base_url('user/family');?>";
-                            }
-                         else{ 
-                           window.location="<?php echo base_url('user/property');?>";
-                              }
+						 
+						  swal({
+                title: "You have married Son",
+                text: "Are you willing to add your son's wife and children details",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                               window.location="<?php echo base_url('user/family');?>";
+                    
+                } else {
+                     window.location="<?php echo base_url('user/property');?>";
+                }
+            }); 
+                        // name = ele['name'];
+                       //  if(confirm(name + ' ,You want to enter Wife details'))
+                            // {
+                           //window.location="<?php echo base_url('user/family');?>";
+                            //}
+                         //else{ 
+                           //window.location="<?php echo base_url('user/property');?>";
+                             // }
                          
                     }
                     else

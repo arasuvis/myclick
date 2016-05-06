@@ -1,4 +1,35 @@
-<style>.error{color:red;}</style>
+<style>.error{color:red;}
+.propert_details .dropdown ul.dropdown-menu span a:first-child {
+    border-right: 1px solid #187aff;
+    padding-left: 70px;
+}
+.propert_details .dropdown ul.dropdown-menu span a {
+    color: #187aff;
+    padding: 0 10px;
+}
+.propert_details .dropdown ul.dropdown-menu span {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 5px 0;
+}
+.propert_details .dropdown ul.dropdown-menu {
+    padding: 10px;
+}
+.propert_details .memberbutton .dropdown-menu, .memberbutton .dropdown-menu {
+    left: 65%;
+    width: 300px;
+}
+.propert_details .dropdown ul.dropdown-menu li {
+    padding: 5px 0;
+}
+.dropdown-menu{
+  text-align: right;
+}
+.resize-width{
+  width: 80px;
+}
+
+</style>
 <div class="container">
 
 <div class="row">
@@ -19,30 +50,38 @@
                      <div class="content-head">
                        <h4>PROPERTY DETAILS</h4>
                        </div>
-                       
-                      <div class="details">
-                        <form action="<?php echo base_url('user/addProperty');?>" method="post">
-                        <div class="row">
+                         <div class="row">
                           <div class="col-md-6">
                             <label>Property Type</label>
 
                           </div>
                           <div class="col-md-6 text-right">
-                            <div class="memberbutton">
-                            <div class="dropdown open">
-                              <button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle" aria-expanded="true">See All Members
+                                <div class="memberbutton text-right">
+                            <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All witness list
                              </button>
-                             
-                              <ul class="dropdown-menu">
-                                                              <li><span>Aaaaa<a href="http://localhost/one/trunk/user/family/92">Edit</a>|
-                                <span id="92" style="cursor:pointer;color:#187aff" class="deleterec">Delete</span></span></li>                           
                            
+                              <ul class="dropdown-menu">
+                              <?php foreach($pro as $w) { ?>
+                                <li><span><span class="resize-width"><?php echo $w->prop_name; ?><span><a href='<?php echo base_url("user/edit_witness/$w->prop_id");?>'>Edit</a>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->prop_id ?>">Delete</span></span></li>
+                            <?php } ?>
+                            
+
+                           
+
+                            <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
+                            <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
                                 
                               </ul>
                             </div>
                         </div>
                           </div>
                         </div>
+                       
+                      <div class="details">
+                        <form action="<?php echo base_url('user/addProperty');?>" method="post">
+                      
                         
                             <div class="move">
                                 <div class="radio2">

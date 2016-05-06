@@ -124,7 +124,7 @@
 
 
                        <div class="col-md-5">
-                                    <div class="prop_details">
+                                    <div id="prop_details" class="prop_details" style="display:none">
                                       <center><h5>Property Allocation Details</h5></center>
                                         <ul class="details mytest123">
                                          
@@ -508,6 +508,7 @@ $.ajax({
 
 $('#immove_prop').on('change',function(){
 var id = $('#immove_prop').val();
+$('#prop_details').show();
 
 $.ajax({
 

@@ -19,7 +19,7 @@ class User extends CI_Controller
 
 	function index()
 	{
-		if($this->session->userdata('is_userlogged_in')['user_id']){
+		if(isset($this->session->userdata('is_userlogged_in')['user_id'])){
 			redirect('user/profile'); 
 		} else{
 		$this->load->view('header');
@@ -29,7 +29,7 @@ class User extends CI_Controller
 
 	function signin()
 	{
-		if($this->session->userdata('is_userlogged_in')['user_id']){
+		if(isset($this->session->userdata('is_userlogged_in')['user_id'])){
 			redirect('user/profile'); 
 		} else{
 			$data['gen'] = $this->family_model->get_gender()->result();
@@ -45,15 +45,16 @@ class User extends CI_Controller
 		$email_address = $_POST['email_address'];
 		$password = $_POST['password'];
 		$valid_check = $this->user_model->login_valid($email_address,$password);
-		$session_data = $this->session->userdata('is_userlogged_in');
+		
+		
+		if($valid_check == true)
+		{
+			$session_data = $this->session->userdata('is_userlogged_in');
 		 $will_id=$this->user_model->get_will_id($valid_check);
 				$session_data['user_id'] = $valid_check;
 				$session_data['will_id'] = $will_id;
 
 				$this->session->set_userdata("is_userlogged_in", $session_data);
-		
-		if($valid_check == true)
-		{
 			echo 1;
 		}
 		else
@@ -165,7 +166,7 @@ class User extends CI_Controller
 		//print_r($data); die();
 		$data['gen'] = $this->family_model->get_gender()->result();
 		$data['tab'] = "profile";
-		$data['width'] = "24%";
+		$data['width'] = "10%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('profile',$data);
@@ -203,7 +204,7 @@ class User extends CI_Controller
 		$data['m_sta'] = $this->family_model->get_marital_status()->result();
 		$data['st'] = $this->family_model->get_status()->result();
 		$data['tab'] = "family";
-		$data['width'] = "36%";
+		$data['width'] = "21%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		if(isset($id)){
@@ -279,7 +280,7 @@ class User extends CI_Controller
 		$data['own'] = $this->property_model->get_owner()->result();
 		
 		$data['tab'] = "property";
-		$data['width'] = "50%";
+		$data['width'] = "34%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property',$data);
@@ -342,7 +343,7 @@ class User extends CI_Controller
 		$data['fam_d'] = $this->family_model->get_fam_d()->result();
 		//
 		$data['tab'] = "property";
-		$data['width'] = "64%";
+		$data['width'] = "48%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property_alloc',$data);
@@ -397,7 +398,7 @@ class User extends CI_Controller
 		 'fam_id' => $this->input->post('fam_id'),
 		 'rel_id' => $this->input->post('rel_id'),
 		 'percent' => $this->input->post('myallocation'),
-		 'status' => 1
+		 'status' => '1'
 		 );
 		}
 		else{
@@ -503,7 +504,7 @@ class User extends CI_Controller
 		//echo "<pre>";
 		//print_r($data); die();
 		$data['tab'] = "property";
-		$data['width'] = "76%";
+		$data['width'] = "66%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('reason_for_not_alloc',$data);
@@ -548,7 +549,7 @@ class User extends CI_Controller
 		$data['executor'] = $this->doctor_model->get_executor()->result();
 		//print_r($data); die();
 		$data['tab'] = "property";
-		$data['width'] = "76%";
+		$data['width'] = "85%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('executor',$data);
@@ -617,7 +618,7 @@ class User extends CI_Controller
 		{
 		$data['doctor'] = $this->doctor_model->get_doctor()->result();
 		$data['tab'] = "property";
-		$data['width'] = "76%";
+		$data['width'] = "92%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('doctor',$data);
@@ -687,7 +688,7 @@ class User extends CI_Controller
 		{
 		$data['witness'] = $this->doctor_model->get_witness()->result();
 		$data['tab'] = "property";
-		$data['width'] = "76%";
+		$data['width'] = "100%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('witness',$data);

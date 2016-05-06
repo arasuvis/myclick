@@ -6,7 +6,6 @@
             <div class="row">
                <article class="col-sm-12 padLR0 padtop oneinfo">
                     <ul class="nav nav-tabs">
-
                        <!-- <li  class="<?php //if(isset($tab)) if($tab == "service") echo "active";?>"><a  href="<?php //echo base_url('user/service'); ?>">SIGN IN</a></li>-->
 					   <!-- <li ><a  href="#">SIGN IN</a></li> -->
 
