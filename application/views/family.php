@@ -120,7 +120,7 @@
                               <div class="row show-area" style="display:none" id="c">
                               <div class="col-md-12">
                                  <label>Comments</label>
-                                <textarea rows="5" class="form-control" id="comments" name="comments"></textarea>
+                                <textarea rows="5" class="form-control" id="comments" name="comments"><?php if(isset($families->comments)) echo $families->comments;  ?> </textarea>
                               </div>
                               <span id="error_comments" class="error"></span>
                               </div>
@@ -225,6 +225,14 @@ var id = $(this).attr('id');
         </script>
 
 <script type="text/javascript">
+
+$(document).ready(function(){ 
+if($('#relationship').val() == 16){ 
+  $('#hide_others').hide(); 
+  $('#c').show();
+}
+});
+
 $('#form').on('keyup','input',function(){
   $(this).next().html('');
 });

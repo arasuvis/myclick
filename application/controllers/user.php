@@ -209,6 +209,7 @@ class User extends CI_Controller
 		if(isset($id)){
 			$family = $this->family_model->get_by_id($id)->row();
 			$data['families']= $family;
+			//print_r($data); die();
 			$this->load->view('family',$data);
 		}else{
 		$this->load->view('family',$data);}
