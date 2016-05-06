@@ -77,10 +77,27 @@
 </div>
  
 <script type="text/javascript">
-  $('#saveandcont').on('click',function(){
-   
-  if($('.reason-textarea').val() == ''){
-    $('.error').html("Enter Reason");
-    $('.reason-textarea').focus(); return false;}
-  });
+  $('#saveandcont').on('click',function(e){
+    e.preventDefault();
+   var allFieldsComplete = true;
+   $( ".reason-textarea" ).each(function( index ) {
+   // alert($( this ).val());
+   if($( this ).val() == '')
+   {
+  //  $('.error').html("Enter Reason");
+   // $(this).focus();
+    allFieldsComplete = false;
+   }  
+});
+ if(!allFieldsComplete){
+    alert('Please complete all required fields');
+  }
+  else
+  {
+    location.href="user/previous_will";
+  }
+  //console.log( index + ": " + $( this ).text() );
+});
+  
+
 </script>     

@@ -327,9 +327,10 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
-			//echo "<pre>";
+			echo "<pre>";
 		$data['immov'] = $this->property_model->get_immov();
-			//print_r($data); die();
+		$data['immo'] = $this->property_model->get_distinct();
+			print_r($data); die();
 		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
@@ -471,6 +472,18 @@ class User extends CI_Controller
 			else{ echo "error"; die();}
 		
 	}
+
+	function del_alloc($id){
+		//echo $id; die();
+		$alloc = $this->property_model->del_alloc($id);
+			if($alloc)
+			{
+				redirect('user/property_alloc');
+			}
+			else {
+			echo "error"; die();
+		}
+	 }
 
 	function reason_for_not_alloc()
 	{

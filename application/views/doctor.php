@@ -114,22 +114,27 @@
     e.preventDefault();
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
-  var age = /^[0-9]+$/;
+  var address = $('#d_address').val()
+  var mob = parseInt($('#d_mobile').val());
+  var exp = /^\d*$/;
 
-  if($('#d_name').val() == ''){
+  if($('#d_name').val() == ' '){
     $('#error_name').html("Enter Name");
     $('#d_name').focus(); return false;}
   else if(! (name.test($('#d_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#d_name').focus(); return false; }
 
-  if($('#d_address').val() == ''){
+  if(address == ' '){
     $('#error_address').html("Enter Address");
     $('#d_address').focus(); return false;}
 
-  if($('#d_mobile').val() == ''){
+  if($('#d_mobile').val() == ' '){
     $('#error_mobile').html("Enter Mobile Number");
     $('#d_mobile').focus(); return false;}
-  else if(! (age.test($('#d_mobile').val()))) {
+  if(!exp.test(mob)) {
     $('#error_mobile').html("Enter only Numbers");$('#d_mobile').focus(); return false; }
+  if(mob.length != 10)
+    {$('#error_mobile').html("Enter 10 Digits");$('#e_mobile').focus(); return false;}
+
   });
 </script>

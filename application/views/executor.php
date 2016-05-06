@@ -154,35 +154,42 @@
 
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
-  var age = /^[0-9]+$/;
+  var mob = parseInt($('#e_mobile').val());
+  var address = $('#e_address').val();
+  var about = $('#e_about').val(); 
 
-  if($('#ex_name').val() == ''){
+  if($('#ex_name').val() == ' '){
     $('#error_name').html("Enter Name");
     $('#ex_name').focus(); return false;}
   else if(! (name.test($('#ex_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#ex_name').focus(); return false; }
 
-  if($('#e_mobile').val() == ''){
+  if($('#e_mobile').val() == ' '){
     $('#error_mobile').html("Enter Mobile Number");
     $('#e_mobile').focus(); return false;}
-  else if(! (age.test($('#e_mobile').val()))) {
+
+   if(! (/^\d*$/.test($('#e_mobile').val()))) {
     $('#error_mobile').html("Enter only Numbers");$('#e_mobile').focus(); return false; }
 
-  if($('#e_about').val() == ''){
+
+   if(mob.length != 10)
+    {$('#error_mobile').html("Enter 10 Digits");$('#e_mobile').focus(); return false;}
+
+  if( about == ''){
     $('#error_about').html("Enter Details");
     $('#e_about').focus(); return false;}
-  
-  if($('#e_address').val() == ''){
+ 
+  if(address == ''){
     $('#error_address').html("Enter Address");
     $('#e_address').focus(); return false;}
   
-  if($('#city_name').val() == ''){
+  if($('#city_name').val() == ' '){
     $('#error_city').html("Enter City");
     $('#city_name').focus(); return false;}
   else if(! (name.test($('#city_name').val()))) {
     $('#error_city').html("Enter only Alphabets");$('#city_name').focus(); return false; }
 
-  if($('#state_name').val() == ''){
+  if($('#state_name').val() == ' '){
     $('#error_state').html("Enter City");
     $('#state_name').focus(); return false;}
   else if(! (name.test($('#state_name').val()))) {

@@ -381,7 +381,18 @@ What is the license?</a>
                                   <input  id="prop_<?php // echo $im->Immovable_id; ?>" value="100">
                                   <?php // }   ?>   -->
 <script>
+$(document).ready(function(){ 
+  var str = '<?php echo $this->uri->segment(5,0); ?>';
+//alert(<?php echo $this->uri->segment(5,0); ?>);
+if(str == "edit" ){
+  if($('#per').val() == 0){
+    $('#myallocation').attr('readonly','true');
 
+  }
+}
+
+
+});
 /*$('#immove_prop').on('change',function(){
   var mydata=0;
      $.each($(this).children(),function(k,v){
@@ -509,11 +520,14 @@ $.ajax({
             { 
               $('#per').attr('value',res);
               $('#per').attr('readonly',true);
+
               if(res == 0){
                 $('#myallocation').attr('readonly',true);
               }else{
                 $('#myallocation').attr('readonly',false);
-              }
+              } 
+              
+
             }
         });
 
@@ -533,7 +547,7 @@ $.ajax({
               var str = "";
               $.each(res,function(k,v){ 
 
-                str += '<li><div class="row" id = "a_details"><div class="col-md-8 col-xs-8"><p id="d_name">'+v.name+'</p><span id="edit_edit"><a href="<?php echo base_url('user/edit_alloc/\' +v.grant_im_id+\'/\' +id+\''); ?>">Edit</a> | <a href="<?php echo base_url('user/del_alloc'); ?>">Delete</a></span></div><div class="col-md-4 col-xs-4"><p>Allocated</p><span id="d_per">'+v.percent+'</span></div></div></li>';
+                str += '<li><div class="row" id = "a_details"><div class="col-md-8 col-xs-8"><p id="d_name">'+v.name+'</p><span id="edit_edit"><a href="<?php echo base_url('user/edit_alloc/\' +v.grant_im_id+\'/\' +id+\'/edit'); ?>">Edit</a> | <a href="<?php echo base_url('user/del_alloc/\' +v.grant_im_id+\'/\' +id+\' '); ?>">Delete</a></span></div><div class="col-md-4 col-xs-4"><p>Allocated</p><span id="d_per">'+v.percent+'</span></div></div></li>';
                
               });
               $('.mytest123').html(str);

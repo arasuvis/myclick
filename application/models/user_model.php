@@ -12,7 +12,7 @@ class User_model extends CI_Model
 	
 	function personal_details($id)
 {
-	$query = $this->db->where('user_id',$id['user_id'])
+	$query = $this->db->where('user_id',$id)
 			 ->get('user_register');
 	//print_r($query->result()); die();
 	return $query->result();

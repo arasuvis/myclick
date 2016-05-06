@@ -29,6 +29,7 @@ class Property_model extends CI_Model
      	
      
 		$this->db->select('immovable_propertys.Immovable_id,immovable_propertys.name , admin_property.prop_name ,admin_property.prop_id');
+        $this->db->distinct('(admin_property.prop_name) as dis_prop_name');
 		$this->db->from('immovable_propertys');
 		$this->db->join('admin_property','admin_property.prop_id=immovable_propertys.name','left');
 		
@@ -37,6 +38,14 @@ class Property_model extends CI_Model
 		$query = $this->db->get()->result();
 		
 		return $query;
+    }
+
+    function get_distinct()
+    {
+        $query = $this->db->distinct('admin_property.prop_name ,admin_property.prop_id')
+                        ->get('admin_property');
+
+        return $query->result();
     }
 
     
@@ -188,6 +197,21 @@ foreach($data as $key => $val){
        
      } 
 
+function del_alloc($id)
+    {
+         $this->db->where('grant_im_id', $id)
+                                ->delete('grant_immovable');
+
+                $query =  $this->db->affected_rows();
+                if($query > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+    } 
     
     
 }

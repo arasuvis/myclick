@@ -86,7 +86,7 @@
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Witness Mobile Number</label>
-                    <input class="form-control customise-input" type="text" name="w_mobile" id="w_mobile" value="<?php if(isset($wit->w_mobile)) echo $wit->w_mobile; ?> ">
+                    <input class="form-control customise-input" type="text" name="w_mobile" id="w_mobile" minlength="10" value="<?php if(isset($wit->w_mobile)) echo $wit->w_mobile; ?> ">
                   </div>
                   <span id="error_mobile" class="error"></span>
               </div>
@@ -143,9 +143,8 @@
            <div class="form-group col-md-12">
                     <ul class="list-inline text-center marbtm0">
                       <li>
-                        <button class="btn  saveAndCon" id="submt">Save &amp; Add More
-                        </button>
-                      </li>
+                        <input type="submit" class="btn  saveAndCon" id="submt" value="Save &amp; Add More">
+                                              </li>
                       <li class="hidden-xs hidden-sm">Or</li>
                       <li>
                         <button class="btn btn-warning Continue-btn1"><a href="#">Continue &gt;&gt;</a></button>
@@ -191,32 +190,58 @@
 </div>
 
 <script>
+//$('#w_mobile').on('keypress', function(e) {
+//if (e.charCode >= 32 && e.charCode < 127 && !/^-?\d*[.,]?\d*$/.test(this.value + '' + String.fromCharCode(e.charCode))) { return false; } 
+//});
+
+
   $('#submt').on('click',function(e){
+  //  alert('hello');
     e.preventDefault();
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
-  var mob = /^\d{10}$/;
   var pin = /^[0-9]+$/;
-//alert($('#w_name').val());
+  var mob = $('#w_mobile').val();
+  var per = $('#w_permanent').val();
+  var pre = $('#w_present').val(); 
+  var a = $('#w_mobile').val();
+  var pincode = /^\d{6}$/;
+  var phone = /^\d{10}$/;
+
   if($('#w_name').val() == ' '){
     $('#error_name').html("Enter Name");
     $('#w_name').focus(); return false;}
   else if(! (name.test($('#w_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#w_name').focus(); return false; }
 
-  if($('#w_mobile').val() == ' '){
+  if($('#w_mobile').val() == ''){
     $('#error_mobile').html("Enter Mobile Number");
+    $('#w_mobile').focus(); return false; 
+  }//console.log(parseInt($("#w_mobile").val());
+   if(!(phone.test(parseInt($("#w_mobile").val()))))
+    {
+     // alert(2);
+      $('#error_mobile').html("Enter 10 Digits");
+      $('#w_mobile').focus();
+      //$("#w_mobile").focus().attr("placeholder","Enter 10 digit phone number").val('');
+      return false;
+    }
+  /*if (e.charCode >= 32 && e.charCode < 127 && !/^-?\d*[.,]?\d*$/.test(this.value + '' + String.fromCharCode(e.charCode))) {  $('#error_name').html("Enter Digits"); return false; }
+  else if(! (/^\d*$/.test(a))) {
+    $('#error_mobile').html("Enter Digits");
     $('#w_mobile').focus(); return false; }
-  else if(! (/^\d*$/.test($('#w_mobile').val()))) {
+  else if(a.length != 10){
     $('#error_mobile').html("Enter 10 Digits");
-    $('#w_mobile').focus(); return false; }
-  //if('#w_mobile').val().lenght)
-  var a = $('#w_mobile').val();
-  if($('#w_permanent').val() == ' '){
+    $('#w_mobile').focus(); return false; }*/
+
+  //var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    
+    
+  if(per == ''){
     $('#error_per_address').html("Enter Address");
     $('#w_permanent').focus(); return false;}
 
-  if($('#w_present').val() == ' '){
+  if(pre == ''){
     $('#error_pre_address').html("Enter Address");
     $('#w_present').focus(); return false;}
 
@@ -224,11 +249,16 @@
     $('#error_landmark').html("Enter Landmark");
     $('#w_landmark').focus(); return false;}
 
+ 
+
   if($('#w_pincode').val() == ' '){
     $('#error_pincode').html("Enter Pincode");
     $('#w_pincode').focus(); return false;}
-  else if(! (pin.test($('#w_pincode').val()))) {
-    $('#error_mpincode').html("Enter only Numbers");$('#w_pincode').focus(); return false; }
+  if(!(pincode.test(parseInt($("#w_pincode").val()))))
+    {
+      $("#w_pincode").focus().attr("placeholder","Enter 6 digit pincode").val('');
+      return false;
+    }
 
   if($('#w_locality').val() == ' '){
     $('#error_locality').html("Enter Locality");
