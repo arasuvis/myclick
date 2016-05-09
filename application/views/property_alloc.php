@@ -160,23 +160,24 @@
                                     <div class="allocation_style">
                                          <select name="fam_id_d" id="fam_d">
                                         <option value="none"></option>
-                                        <?php  foreach($fam_d as $fa_d) {  ?>
-                                        <option value="<?php echo $fa_d->id; ?>"> <?php echo $fa_d->name; ?></option>
+                                        <?php  foreach($fam_a as $fa) {  ?>
+                                        <option value="<?php echo $fa->id; ?>"> <?php echo $fa->name; ?></option>
                                         <?php } ?>
                                         </select>
                                     </div>
+                                    <span id="error_fam_d" class="error"></span>
                                     <br>
-
 
                                     <div class="allocation_names">
                                       <div class="row">
                                         <div class="col-md-6">
                                             <label>Relationship</label><br>
                                            <input type="text" id="rel_d" value="" readonly name="rel_d">
-                                            <input type="text" hidden id="rel_id_d" value="" name="rel_id_d">
+                                            <input type="text" hidden id="rel_d_id" value="" name="rel_d_id">
                                         </div>
                                         <span id="error_rel_d" class="error"></span>
                                       </div>
+
                                       <br>
                                       <div class="row">
                                         <div class="col-md-6">
@@ -210,9 +211,10 @@
                                             <input type="text" id="per_d" name="percent_d" >
                                             <span>%</span>
                                           </div>
+                                          <span id="error_percent_d" class="error"></span>
                                         </div>
                                         <div class="col-md-6 text-right">
-                                          <button class="btn dead-Addmore">&plus;&nbsp;Add More</button>
+                                          <button class="btn dead-Addmore" id="add_more">&plus;&nbsp;Add More</button>
                                         </div>
                                       </div>
 
@@ -232,6 +234,18 @@
                                      </div>
                                   <div class="col-md-4 col-xs-4">
                                       <p>Allocated</p>
+                                  </div>
+                                  <div class="col-md-8 col-xs-8">
+                                       <p>Priority 1</p>
+                                     </div>
+                                  <div class="col-md-4 col-xs-4">
+                                      <p id = "prio_1"></p>
+                                  </div>
+                                  <div class="col-md-8 col-xs-8">
+                                       <p>Priority 2</p>
+                                     </div>
+                                  <div class="col-md-4 col-xs-4">
+                                      <p id ="prio_2"></p>
                                   </div>
                                   </div>
                               </li>
@@ -380,6 +394,9 @@ What is the license?</a>
  <!-- <?php // foreach($immov as $im) {  ?>
                                   <input  id="prop_<?php // echo $im->Immovable_id; ?>" value="100">
                                   <?php // }   ?>   -->
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
+
+<script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 <script>
 $(document).ready(function(){ 
   var str = '<?php echo $this->uri->segment(5,0); ?>';
@@ -422,6 +439,26 @@ if( ($('#myallocation').val()) > ($('#per').val()) ) {
                   }
 }); */
 
+$('#add_more').on('click',function(){ 
+if($('#fam_d').val()== 'none')
+{
+  $('#error_fam_d').html('Select option');
+  return false;
+}
+
+if($('#per_d').val() == '')
+{
+  $('#error_percent_d').html('No Property Allocated');
+  return false;
+}
+var per =  parseInt($('#per_d').val()) / 2;
+
+ $('#prio_1').html(per);
+ $('#prio_2').html(per);
+
+});
+
+
 $('#contnu').on('click',function(){ 
 $.ajax({
 
@@ -456,16 +493,25 @@ var id = $('#fam_d').val();
 $.ajax({
 
             type:"POST",
-            url:"<?php echo base_url(); ?>user/get_details",
+            url:"<?php echo base_url(); ?>user/get_dead_details",
             data: {id:id},
             dataType:"json",
             success:function(res)
             { 
+              $('#error_percent_d').html('');
               $('#rel_d').attr('value',res.rel_name);
               $('#gen_d').attr('value',res.gender);
               $('#dob_d').attr('value',res.dob);
               $('#marital_d').attr('value',res.marital_status);
               $('#rel_id_d').attr('value',res.relationship);
+              $('#per_d').attr('value',res.percent);
+              var per = $('#per_d').val();
+              if(per == '')
+              {
+                $('#error_percent_d').html('No Property Allocated');
+                return false;
+              }
+
             }
         });
 
@@ -487,7 +533,18 @@ $.ajax({
             success:function(res)
             { 
               if(res == 1)
-              {alert('Property Allcocated');
+              {
+                swal(
+                  '',
+                  'Property Already Allocated',
+                  'warning'
+                )
+                  
+                $('#fam').children().each(function(k,l){
+                  if($(this).is(':selected')){
+                      $(this).attr('selected',false);
+                  }
+                });
                 $('#rel').attr('value','');
                 $('#gen').attr('value','');
                 $('#dob').attr('value','');

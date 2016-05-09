@@ -94,7 +94,6 @@ class User extends CI_Controller
 		}
 		else
 		{
-
 		$data = array(
 			'fname' => $this->input->post('fname'),
 			'mname' => $this->input->post('mname'),
@@ -107,14 +106,13 @@ class User extends CI_Controller
 			'mobile' => $this->input->post('mobile')
 						);
 		
-		 $id = $this->user_model->save_reg($data);
-		 $session_data = $this->session->userdata('is_userlogged_in');
-		 $will_id=$this->user_model->get_will_id($id);
-				$session_data['user_id'] = $id;
-				$session_data['will_id'] = $will_id;
+			$id = $this->user_model->save_reg($data);
+			$session_data = $this->session->userdata('is_userlogged_in');
+			$will_id=$this->user_model->get_will_id($id);
+			$session_data['user_id'] = $id;
+			$session_data['will_id'] = $will_id;
 
-				$this->session->set_userdata("is_userlogged_in", $session_data);
-		
+			$this->session->set_userdata("is_userlogged_in", $session_data);
 		if($id)
 		{
 			if($this->user_model->reg_will_id($id))
@@ -354,6 +352,7 @@ class User extends CI_Controller
 	}
 
 	function edit_property($id){
+		echo $id; die();
 		$data['pro'] = $this->property_model->get_immov_property()->result();
 		$data['own'] = $this->property_model->get_owner()->result();
 		//$data['e_pro'] = $this->property_model->edit_property($id)->row();
@@ -406,7 +405,7 @@ class User extends CI_Controller
 		$data['immov'] = $this->property_model->get_immov();		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
-		$data['fam_d'] = $this->family_model->get_fam_d()->result();
+		
 		//
 		$data['tab'] = "property";
 		$data['width'] = "48%";
@@ -437,13 +436,10 @@ class User extends CI_Controller
 	{
 		//print_r($_POST); die();
 		$id = $_POST['id'];
-		
-		if(isset($_POST['im_id'])){
 		$im_id = $_POST['im_id'];
 		
 		$res = $this->property_model->check($id,$im_id);
-		}
-		else { $res = $this->property_model->check_d($id); }
+		
 		if($res){
 			echo 1;
 		}
@@ -454,8 +450,22 @@ class User extends CI_Controller
 		
 	} 
 
+	function get_dead_details()
+	{
+		//print_r($_POST); die();
+		$id = $_POST['id'];
+				
+		$data = $this->family_model->fam_det_d($id)->result(); 
+		//print_r($data); die();
+		echo json_encode($data[0]); die();
+		
+		
+	} 
+
 	function add_property_alloc()
 	{
+		//echo "<pre>";
+		///print_r($_POST); die();
 		$percent = $this->input->post('percent');
 		$myallocation = $this->input->post('myallocation');
 		$var =  $percent - $myallocation;
@@ -581,12 +591,18 @@ class User extends CI_Controller
 
 	function save_reason()
 	{  
+		//print_r($_POST); die();
 		$a = $_POST;
-		
+		/*print_r($a); die();
+		foreach($a as $as)
+		{
+			print_r($as); 
+		}*/
+		//die();
 		$res = $this->property_model->save_reason($a);
 		if($res)
 		{
-			$this->previous_will();
+			redirect('user/previous_will');
 		}
 		else{
 			redirect('user/reason_for_not_alloc');

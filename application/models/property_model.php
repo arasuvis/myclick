@@ -106,26 +106,13 @@ class Property_model extends CI_Model
     	}
     }
 
-     function check_d($id){
-         $this->db
-                        ->where('fam_id',$id)
-                        ->get('grant_immovable');
-
-                    $res =  $this->db->affected_rows();
-        if($res > 0)
-        {
-            return true;
-        }   
-        else{
-            return false;
-        }
-    }
-
+     
     function insert_immov($data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-	
     return $query = $this->db->insert('grant_immovable', $data);
+   
      //$query = $this->db->insert_id();
+    
 
     /*if($query)
     {
@@ -220,8 +207,9 @@ class Property_model extends CI_Model
     function reason_not_alloc(){
     	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
 
-    	$this->db->select('tbl_family.id,tbl_family.name,tbl_family.status');
+    	$this->db->select('tbl_family.id,tbl_family.name,tbl_family.status,not_allocated_details.reason');
     	$this->db->from('tbl_family');
+        $this->db->join('not_allocated_details','not_allocated_details.member_id=tbl_family.id','left');
     	
     	$this->db->where('tbl_family.will_id',$will_id);
     	$this->db->where('tbl_family.status','Alive');
@@ -232,6 +220,8 @@ class Property_model extends CI_Model
     	return $query;
      } 
 
+    
+
        function save_reason($data){
 foreach($data as $key => $val){
 
@@ -240,10 +230,37 @@ foreach($data as $key => $val){
 	$family['reason'] = $val;
 	$family['created_date'] = date("Y-m-d H:i:s");
 	$family['modified_date']= date("Y-m-d H:i:s");
+    $q = $this->db->select('id')
+                ->where('member_id',$family['member_id'])
+                ->get('not_allocated_details');
+            $data = $q->result();
+            if (empty($data)) {
+               $this->db->insert('not_allocated_details', $family);
+            }
+            else{
+                 $this->db->where('member_id',$family['member_id'])
+                ->update('not_allocated_details', $family);
+            }
+  //  print_r($q->result());exit;
+    /*$m_id = $key;
+
+    $q = $this->db->select('id')
+                ->where('member_id',$m_id)
+                ->get('not_allocated_details');
+    $id = 0;
+    if($q){
+    $id = parseInt($q->row()->id); }
+    if($id > 0){
+        $this->db->where('id',$id)
+                ->update('not_allocated_details', $family);
+    }
+    else{ */
+     //   $this->db->insert('not_allocated_details', $family);
+   // }
 	
-	$this->db->insert('not_allocated_details', $family);
 	
-	}return 1;
+	
+	} return 1;
        
      } 
 

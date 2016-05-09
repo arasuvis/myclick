@@ -17,12 +17,12 @@
                     <?php foreach($reason as $r) {?>
                   		<label class="control-label col-md-3 text-left" ><h5><?php echo $r->name ?></h5></label>
                       
-                  		<div class="col-md-9 Pad0">
-                  			<textarea rows="4" cols="" class="form-control reason-textarea " name="<?php echo $r->id?>" id="reason"></textarea>
+                    		<div class="col-md-9 Pad0">
+                  			<textarea rows="4" cols="" class="form-control reason-textarea " name="<?php echo $r->id?>" id="reason"> <?php  echo $r->reason;?> </textarea>
                         <span id="error_reason" class="error"></span> 
                   			<i class="fa fa-caret-left"></i>
                   		</div>
-                      <?php } ?>
+                      <?php  } ?>
                   	</div>
                     
                   	 	
@@ -75,13 +75,14 @@
 </div>
  
 <script type="text/javascript">
-  $('#saveandcont').on('click',function(e){
-    e.preventDefault();
+  $('#saveandcont').on('submit',function(e){
+   e.preventDefault();
    var allFieldsComplete = true;
    $( ".reason-textarea" ).each(function( index ) {
-   // alert($( this ).val());
-   if($( this ).val() == '')
+  
+   if($.trim($( this ).val()) == '')
    {
+    // alert($( this ).val());
   //  $('.error').html("Enter Reason");
    // $(this).focus();
     allFieldsComplete = false;
@@ -92,7 +93,7 @@
   }
   else
   {
-    location.href="user/previous_will";
+    location.href="<?php echo site_url();?>user/previous_will";
   }
   //console.log( index + ": " + $( this ).text() );
 });

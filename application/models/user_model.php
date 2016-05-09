@@ -11,28 +11,44 @@ class User_model extends CI_Model
 	}
 	
 	function personal_details($id)
-{
+	{
 	$query = $this->db->where('user_id',$id)
 			 ->get('user_register');
 	//print_r($query->result()); die();
 	return $query->result();
-}
+	}
 
 	function reg_will_id($id)
 	{
 		$status = 0;
 		$name = "Default Will";
 		$query = $this->db->query("INSERT INTO `tbl_will`(`will_name`,`user_id`, `status`) VALUES ('$name','$id','$status')");
-
-		if($this->db->insert_id())
+		$w_id = $this->db->insert_id();
+		if($w_id)
 		{
-			return $this->db->insert_id();
+			$q = $this->db->query("INSERT INTO `activity`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',0,1)");
+
+			return $w_id;
 		}
 		else
 		{
+			$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+			$q = $this->db->query("INSERT INTO `activity`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',0,1)");
 			return false; 
 		}
 		
+	}
+
+	function ins_cat(){
+		print_r('hello'); die();
+		$default = "Profile";
+		$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+		$query = $this->db->select('cat_id')
+							->where('name',$default)
+							->get('admin_category');
+		$q = $query->row;
+		print_r($q);
+		 die();
 	}
 
 	function login_valid($email,$password)

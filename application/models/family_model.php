@@ -42,6 +42,7 @@ class family_model extends CI_Model
 	$session_variable = $this->session->userdata('is_userlogged_in');
 		$family['will_id'] = $session_variable['will_id'];
 		 $this->db->insert('tbl_family', $family);
+		
 		 return $this->db->insert_id();
 	}
 
@@ -77,26 +78,26 @@ class family_model extends CI_Model
 		return $query;
     }
 
-    function get_fam_d(){
-     	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-     	$status = "Dead";
-		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
-		$this->db->from('tbl_family');
-		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
-		$this->db->where('will_id',$will_id);
-		$this->db->where('status',$status);
-		//$this->db->order_by('tbl_family','asc');
-		$query = $this->db->get();
-
-		return $query;
-    }
-
+    
     function fam_det($id){
     
 		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
 		$this->db->from('tbl_family');
 		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
 		$this->db->where('id',$id);
+		//$this->db->order_by('tbl_family','asc');
+		$query = $this->db->get();
+
+		return $query;
+    }
+
+    function fam_det_d($id){
+    
+		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name,grant_immovable.fam_id,grant_immovable.percent');
+		$this->db->from('tbl_family');
+		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
+		$this->db->join('grant_immovable','grant_immovable.fam_id=tbl_family.id','left');
+		$this->db->where('tbl_family.id',$id);
 		//$this->db->order_by('tbl_family','asc');
 		$query = $this->db->get();
 
