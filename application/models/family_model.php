@@ -19,7 +19,7 @@ class family_model extends CI_Model
     function get_relation()
 	{
 		$this->db->order_by('rel_id','asc');
-		return $this->db->select(['rel_id','name'])
+		return $this->db->select(['rel_id','name','date'])
 						->get('admin_relations');
 	}
 
@@ -64,6 +64,8 @@ class family_model extends CI_Model
 		$this->db->delete('tbl_family');
 	}
 
+
+
 	function get_fam_a(){
      	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
      	$status = "Alive";
@@ -78,6 +80,14 @@ class family_model extends CI_Model
 		return $query;
     }
 
+    function del_id($fam_id){
+    	//echo $fam_id; die();
+    	$query = $this->db->where('member_id', $fam_id)
+				->delete('not_allocated_details'); 
+		if($query){
+			return true; 
+		} else{ return false;}
+    }
     
     function fam_det($id){
     

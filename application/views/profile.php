@@ -96,8 +96,10 @@
                                 <span class="form-label" id="adrss"><p>Enter Address</p></span>
                             </article>
                             <article class="col-sm-9" style="padding-right: 0;">
-                                <textarea id="adrss" name ="address"><?php echo $per->address; ?></textarea>
+                                <textarea id="address" name ="address"><?php echo $per->address; ?></textarea>
+                                <span id="error_address" class="error"></span>
                             </article>
+                            
                         </div>
 
                         <div class="row">
@@ -163,6 +165,7 @@
                 $('#dob').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
+                $('input').attr('maxlength',30);
            });
 
         </script>
@@ -171,6 +174,11 @@ $('#persnl-submit').on('click',function(e) {
 
 var name = /^[a-zA-Z\s]+$/;
 var age = /^[0-9]+$/;
+var phone = /^\d{10}$/;
+var address = $('#address').val();
+var add = $.trim(address)
+
+
 
 if($('#fname').val() == '')
 {   
@@ -193,7 +201,7 @@ if($('#mname').val() == '')
 
 if($('#lname').val() == '')
 {   
-    $('#error_lname').html('Enter Middle Name');
+    $('#error_lname').html('Enter Last Name');
     return false;
 }else if(! (name.test($('#lname').val())) )
 {
@@ -204,15 +212,20 @@ if($('#lname').val() == '')
  if($('#dob').val() == ''){
     $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
 
-if($('#mobile').val() == '')
-{   
-    $('#error_mobile').html('Enter Mobile Number');
-    return false;
-}else if(! (age.test($('#mobile').val())) )
-{
-    $('#error_mobile').html('Enter Digits');
-    return false;
-}
+
+if($('#mobile').val() == ' '){
+    $('#error_mobile').html("Enter Mobile Number");
+    $('#mobile').focus(); return false;}
+  if(!(phone.test(parseInt($("#mobile").val()))))
+    {
+      $('#error_mobile').html("Enter 10 Digits");
+      $('#mobile').focus();
+      return false;
+    }
+
+if( add == ''){
+    $('#error_address').html("Enter Address");
+    $('#address').focus(); return false;}
 
 $('#form').submit();
 });

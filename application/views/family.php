@@ -75,7 +75,7 @@ padding-top: 0px !important;
 							   <li>
                               <ul class="list-inline innerul-witness">
                                <li class="width-resize"><?php echo $list->name; ?></li>  
-                               <li class="width-resize1"><a href="<?php echo base_url("user/family/{$list->id}");?>">Edit</a>|&nbsp;<span id="<?php echo $list->id; ?>">Delete</span></li>
+                               <li class="width-resize1"><a href="<?php echo base_url("user/family/{$list->id}");?>">Edit</a>|&nbsp;<span class="deleterec" style="cursor:pointer" id="<?php echo $list->id; ?>">Delete</span></li>
                               </ul>
                             </li>  
 							<?php } ?>
@@ -96,7 +96,7 @@ padding-top: 0px !important;
                               <div class="row family">
                                 <div class="col-md-6" style="padding-left: 0;">
                                   <label>Name</label><br>
-                                  <input autocomplete="off" type="text" id="name" name="name" value="<?php if(isset($families->name)) echo $families->name?>">
+                                  <input autocomplete="off" type="text" id="name" name="name" value="<?php if(isset($families->name)) echo $families->name?>" maxlength="30">
                                   <span id="error_name" class="error"></span>
                                 </div>
                                  <div class="col-md-6" style="padding-right: 0;">
@@ -370,7 +370,7 @@ $('#form').on('keyup','input',function(){
               {
                     if(ele['marital_status'] == "Married")
                     {
-                       alert(1);  //status.push(ele['marital_status']);
+                         //status.push(ele['marital_status']);
                          //name.push(ele['name']);
 						 
 						  swal({

@@ -80,17 +80,19 @@
                         </div>
                        
                       <div class="details">
-                        <form action="<?php echo base_url('user/addProperty');?>" method="post">
+                      <?php if(isset($e_pro->Immovable_id)) {$var='user/update_property';} else {$var='user/addProperty';} ?>
+                        <form action="<?php echo base_url($var);?>" method="post">
                                               
                             <div class="move">
                                 <div class="radio2">
-                                    <input id="immovable" type="radio" name="property" value="immovable" checked>
+                                    <input id="immovable" type="radio" name="property" value="immovable" <?php if(isset($e_pro->type)) {if($e_pro->type == 1) {echo "checked";}} else echo "checked"; ?> >
                                     <label for="immovable">Immovable</label>
-                                    <input id="movable" type="radio" name="property" value="movable" >
+                                    <input id="movable" type="radio" name="property" value="movable" <?php if( isset($e_pro->type)) if($e_pro->type == 2) echo "checked"; ?> >
                                     <label for="movable">Movable</label>
                                 </div>
                             </div>
 
+                            <input id="up_id" type="text" name="up_id" hidden value="<?php if( isset($e_pro->Immovable_id)) echo $e_pro->Immovable_id; ?>" >
                               <div id="immov">
                                 <div class="row property">
                                 <div class="col-md-6">
@@ -100,9 +102,10 @@
                                   <option value="none"></option>
                             <?php  foreach($pro as $property) {  
                             if($property->type == 1){ ?>
-                            <option <?php if(isset($e_pro->prop_id)) if($e_pro->prop_id == $property->prop_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
+                            <option <?php if(isset($e_pro->name)) if($e_pro->name == $property->prop_id) { echo "selected"; } ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
                             <?php } } ?> 
                                   </select>
+                                  
                                 </div>
                                 <span id="error_property" class="error"></span>
                                 </div>
@@ -112,7 +115,7 @@
                                   <select name="ownership" id="ownership">
                                   <option value="none"></option>
                             <?php  foreach($own as $owner) {  ?>
-                            <option <?php if(isset($e_pro->prop_id)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
+                            <option <?php if(isset($e_pro->nature_of_ownership)) if($e_pro->nature_of_ownership == $owner->own_id) { echo "selected";} ?> value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
                             <?php } ?> 
                                   </select>
                                 </div>
@@ -123,13 +126,13 @@
                               <div class="row registration">
                                   <div class="col-md-6">
                                     <label>Muncipal Registration Number</label><br>
-                                    <input type="text" name="muncipal" id="muncipal">
+                                    <input type="text" name="muncipal" id="muncipal" value="<?php if(isset($e_pro->municipal_number)) echo $e_pro->municipal_number;  ?>">
                                     <span id="error_muncipal" class="error"></span>
                                   </div>
                                   <div class="col-md-6">
                                     <label>Year of Purchase</label><br>
                                     <div class="input-daterange" id="datepicker">
-                                    <input class="" name="year_of_purchase" id="year_of_purchase" type="text" >
+                                    <input class="" name="year_of_purchase" id="year_of_purchase" type="text" value="<?php if(isset($e_pro->year_of_purchase)) echo $e_pro->year_of_purchase;  ?>" >
                                     </div>
                                     <span id="error_year_of_purchase" class="error"></span>
                                   </div>                                  
@@ -138,12 +141,12 @@
                               <div class="row registration">
                                   <div class="col-md-6">
                                     <label>Address</label><br>
-                                    <textarea name="address" id="address"></textarea>
+                                    <textarea name="address" id="address"><?php if(isset($e_pro->address)) echo $e_pro->address;  ?></textarea>
                                     <span id="error_address" class="error"></span>
                                   </div>
                                   <div class="col-md-6">
                                   <label>Property Area</label><br>
-                                  <input type="text" name="area" id="area">
+                                  <input type="text" name="area" id="area" value="<?php if(isset($e_pro->area)) echo $e_pro->area;  ?>">
                                   <span id="error_area" class="error"></span>
                                 </div>
                               </div>
@@ -158,7 +161,7 @@
                                   <option value="none"></option>
                             <?php  foreach($pro as $property) { 
                             if($property->type == 2){ ?>
-                            <option <?php //if(isset($families->relationship)) if($families->relationship == $relation->rel_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
+                            <option <?php if(isset($e_pro->name)) if($e_pro->name == $property->prop_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
                             <?php } } ?> 
                                   </select>
                                 </div>
@@ -166,7 +169,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <label>Comments</label><br>
-                                  <input type="text" name="comments" id="comments">
+                                  <input type="text" name="comments" id="comments" value="<?php if(isset($e_pro->comments)) { echo $e_pro->comments;} ?>">
                                   <span id="error_comments" class="error"></span>
                                 </div>
                               </div>
@@ -223,9 +226,27 @@
 
 </section>
 </section>
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+    
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
 <script>
 $(document).ready(function(){
+ 
+      var str = '<?php echo $this->uri->segment(3,0); ?>';
+          if(str != 0 ){
+           $('#immov_prop')
+                .attr("disabled", true);
+          }
+
+      if($('input[name="property"]:checked').val() == "movable") {
+        $('#mov').show();
+        $('#immov').hide();
+      }   
+   
+  
+  
+    
                 $('#year_of_purchase').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
@@ -313,7 +334,41 @@ $(document).ready(function(){
                   } 
 
                 });
+
+
            });
+
+$('.deleterec').on('click',function(e){ 
+var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        title: 'Successfully Deleted!',
+                        type: 'success'
+                    }, function() {
+                        window.location = "<?php echo base_url("user/delete_property");?>/"+id;
+                    });
+                    
+                } else {
+                    swal("Cancelled,hello");
+                }
+            }); 
+          });
+
+ 
 
 
 

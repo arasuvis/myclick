@@ -352,11 +352,12 @@ class User extends CI_Controller
 	}
 
 	function edit_property($id){
-		echo $id; die();
+		//echo $id; die();
+		$data['lis'] = $this->property_model->get_prop_list()->result();
 		$data['pro'] = $this->property_model->get_immov_property()->result();
 		$data['own'] = $this->property_model->get_owner()->result();
-		//$data['e_pro'] = $this->property_model->edit_property($id)->row();
-		
+		$data['e_pro'] = $this->property_model->edit_property($id)->row();
+		//echo "<pre>"; print_r($data); die();
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property',$data);
@@ -366,14 +367,33 @@ class User extends CI_Controller
 
 
 	function update_property() {
-		$id = $this->input->post('e_id');
-		$a = $_POST;
-		unset($a['e_id']);
+	
+		//print_r($_POST); die();
+		$id = $this->input->post('up_id');
+		$prop = $this->input->post('property'); 
+			if($prop == "immovable")
+			{
+				$a = array(
+				'nature_of_ownership' => $_POST['ownership'],
+				'municipal_number' => $_POST['muncipal'],
+				'year_of_purchase' => $_POST['year_of_purchase'],
+				'area' => $_POST['area'],
+				'address' => $_POST['address'],
+				'type' => 1,
+				'created_date' => date("Y-m-d H:i:s"),
+				'modified_date'=> date("Y-m-d H:i:s") );
+			}
+			else if($prop == "movable"){
+				$a = array(
+				'name' => $this->input->post('name_mov'),
+				'comments' => $this->input->post('comments'),
+				'type'=> 2 );
+			}
 		
-		$ex = $this->doctor_model->update_executor($id,$a);
-		if($ex)
+		$pro = $this->property_model->update_property($id,$a);
+		if($pro)
 		{
-			redirect('user/executor');
+			redirect('user/property');
 		}
 		else {
 			echo "error"; die();
@@ -383,10 +403,10 @@ class User extends CI_Controller
 
 	function delete_property($id)
 	{
-			$ex = $this->doctor_model->delete_executor($id);
-			if($ex)
+			$pro = $this->property_model->delete_prop($id);
+			if($pro)
 			{
-				redirect('user/executor');
+				redirect('user/property');
 			}
 			else {
 			echo "error"; die();
@@ -464,8 +484,10 @@ class User extends CI_Controller
 
 	function add_property_alloc()
 	{
-		//echo "<pre>";
-		///print_r($_POST); die();
+		echo "<pre>";
+		//print_r($_POST); die();
+		$fam_id = $this->input->post('fam_id');
+		//$id = $this->family_model->del_id($fam_id);
 		$percent = $this->input->post('percent');
 		$myallocation = $this->input->post('myallocation');
 		$var =  $percent - $myallocation;
@@ -533,6 +555,7 @@ class User extends CI_Controller
 	}
 
 	function update_property_alloc(){
+		//print_r($_POST); die();
 		$id = $_POST['grantid'];
 		$per = $_POST['myallocation'];
 		$rem = $_POST['percent'];
@@ -552,6 +575,7 @@ class User extends CI_Controller
 		 'percent' => $this->input->post('myallocation'),
 		 'status' => 0 );
 		}
+		
 		$v = $this->property_model->update_immov($id,$data);
 			if($v)
 			{

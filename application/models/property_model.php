@@ -9,7 +9,8 @@ class Property_model extends CI_Model
     }
 
     function get_immov_property(){
-		return $this->db->get('admin_property');
+		return $this->db->order_by("prop_id", "desc")
+                        ->get('admin_property');
     }
 
      
@@ -142,15 +143,57 @@ class Property_model extends CI_Model
 
      function update_immov($id,$data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
+    //print_r($id); print_r($data); die();
     return $query = $this->db->where('grant_im_id',$id)
-    							->update('immovable_propertys', $data); 
+    							->update('grant_immovable', $data); 
 	}
 
     function edit_property($id)
     {
-        return $query =  $this->db->where('Immovable_id',$id)
-                        ->get('admin_property');
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
+        $this->db->select('immovable_propertys.Immovable_id,immovable_propertys.name,immovable_propertys.address,immovable_propertys.municipal_number,immovable_propertys.year_of_purchase,immovable_propertys.area,immovable_propertys.nature_of_ownership,immovable_propertys.comments,immovable_propertys.type,admin_property.prop_id,admin_property.prop_name,admin_ownership.own_id,admin_ownership.own_name');
+        $this->db->from('immovable_propertys');
+        $this->db->join('admin_property','admin_property.prop_id=immovable_propertys.name','left');
+        $this->db->join('admin_ownership','admin_ownership.own_id=immovable_propertys.nature_of_ownership','left');
+        $this->db->where('immovable_propertys.will_id',$will_id);
+        $this->db->where('immovable_propertys.Immovable_id',$id);
+        $query = $this->db->get();
+
+        return $query ;
     } 
+
+    function delete_prop($id)
+    {
+         $this->db->where('Immovable_id', $id)
+                                ->delete('immovable_propertys');
+
+                $query =  $this->db->affected_rows();
+                if($query > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+    } 
+
+    function update_property($id,$a)
+    {
+        $a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
+          $this->db->where('Immovable_id', $id)
+                    ->update('immovable_propertys', $a); 
+            $query = $this->db->affected_rows();
+            if($query > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+    }
 
     function dist(){
     	$this->db->select('count(DISTINCT(name)) as na');  

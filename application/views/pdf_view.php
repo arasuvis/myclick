@@ -1,0 +1,271 @@
+ <?php 
+//echo "<pre>"; print_r($id[1]); print_r($rel); die();
+$fname = $id[0][0]['fname'];
+$mname = $id[0][0]['mname'];
+$surname = $id[0][0]['surname'];
+
+
+
+$gender = $id[0][0]['gender'];
+$marital_status = $id[0][0]['marital_status'];
+$address = $id[0][0]['address'];
+$city = $id[0][0]['city'];
+$mobile = $id[0][0]['mobile'];
+//$date = $id[0][0]['date'];
+$date = date('Y-M-d ');
+$dateValue = strtotime($date);
+$yr = date("Y",$dateValue)." ";
+$mon = date("M",$dateValue)." ";
+$dd = date("d",$dateValue)." ";
+
+$value = $id[1];
+
+//print_r($rel);exit;
+//echo "<pre>";
+//print_r($id);exit;
+//foreach()
+$name_of_father;
+$name_of_husband ;
+$father_status;
+$husband_status;
+$father_id;
+$husband_id;
+
+
+foreach($rel as $r)
+			{
+			if($r->name== 'Father')
+				{
+					$father_id = $r->rel_id;
+				}
+			if($r->name== 'Husband')
+				{
+					$husband_id = $r->rel_id;
+				}
+			}
+			
+			for($i = 0 ; $i < count($value) ; $i++)
+				{ 
+					if($value[$i]['relationship'] == $father_id)
+					{
+						$name_of_father = $value[$i]['name'];
+						$father_status = $value[$i]['status'];
+					}
+					if($value[$i]['relationship'] == $husband_id)
+					{
+						$name_of_husband = $value[$i]['name'];
+						$husband_status = $value[$i]['status']; 
+					}
+				}
+?>
+
+<center></center><p>This is the last and final will and  testament executed at <b><?php echo $city;?></b> on this <b><?php echo $dd;?></b> day of  <b><?php echo $mon;?></b>, <b><?php echo $yr;?></b> BY <b><?php echo $fname;?></b>  <b><?php echo $surname;?></b> 
+
+
+<?php  if($gender == 'M')
+	{			
+			if($father_status == 'Alive'){
+			echo ' <b>S/o '.$name_of_father.'</b>'; }
+			else { echo ' <b>S/o Late '.$name_of_father.'</b>';  }
+	} 
+
+	else if( $gender == 'F' && $marital_status == 'Married'  )
+	{
+		if($husband_status == 'Alive'){
+			echo ' <b>W/o '.$name_of_husband.'</b>'; }
+			else { echo ' <b>W/o Late '.$name_of_husband.'</b>';  }
+	}
+
+	else 
+	{ 
+		if($father_status == 'Alive'){
+			echo ' <b>D/o '.$name_of_father.'</b>'; }
+			else { echo ' <b>D/o Late '.$name_of_father.'</b>';  }
+	} 
+
+?> 
+
+, R/o <b><?php echo $address;?></b> here in after called the Testator voluntarily and while in sound state of mind and understand the contents of this document.</p>
+<p>Life is uncertain. God knows when it may come to an end. At present I am in sound mind. I fully understand that what is right and wrong. I wish to make the following WILL in order to avoid litigation and unpleasantness after my demise. The present WILL which is being executed is to be relied upon for all intents and purposes, more so with regard to the inheritance of my movable and immovable property(ies) and I have the absolute power of disposal over the same; no other person has any interest in the properties hereto.</p>
+
+<?php 
+
+$data = $id[2];
+//echo "<pre>"; print_r($id); die();
+for($i = 0 ; $i < count($data) ; $i++)
+{
+	$address = $data[$i]['address'];
+	$municipal_number = $data[$i]['municipal_number'];
+	$name_id = $data[$i]['name'];
+	$area = $data[$i]['area'];
+	$year_of_purchase = $data[$i]['year_of_purchase'];
+	$name;
+				foreach($prop as $pro)
+				{
+					if($name_id == $pro->prop_id)
+					{
+						$name = $pro->prop_name;
+					}
+				}
+?>
+<p>That I am the absolute owner and in possession of property bearing No.<b><?php echo $municipal_number ?></b> at address <b><?php echo $address ?></b> That I became the owner of <b><?php echo $name ?></b> of area <b><?php echo $area ?></b> in the year <b><?php echo $year_of_purchase  ?></b>. This is my self-acquired property.<p>
+
+<?php 
+} 
+?>
+
+<p>That I am the absolute owner and in possession of various immovable assets like
+<?php echo "<pre>"; //print_r($prop); die(); 
+$mov_as = $id[3];
+$m_propname; 
+
+for($i =0 ; $i< count($mov_as) ; $i++) {
+$comments = $mov_as[$i]['comments'];
+$m_pid = $mov_as[$i]['name'];
+
+	foreach($prop as $pro)
+	{
+		if($pro->prop_id == $m_pid)
+		{
+			$m_propname = $pro->prop_name;
+		}
+	}
+	if( $i == count($mov_as) -1){
+		echo $m_propname.' :-'.' '.$comments.' .';		
+	}else{ 
+	echo $m_propname.' :-'.' '.$comments.' , ';	 }
+}
+
+?>
+<?php  ?>
+<?php echo "<pre>"; print_r($id); die(); ?>
+
+<?php 
+$gr_im = $id[4];
+$name1; 
+$fam_name;
+for($i =0 ; $i< count($gr_im) ; $i++) {
+
+$property_id = $gr_im[$i]['property_id'];
+$fam_id = $gr_im[$i]['fam_id'];
+$percent = $gr_im[$i]['percent'];
+
+foreach($prop as $pro)
+{
+	if($pro->type == 1){
+		
+		if($pro->prop_id == $property_id){
+			$name1 = $pro->prop_name;
+			$pro_id1 = $pro->prop_id; 
+		}
+		foreach($value as $v)
+		{
+			if($v['id'] == $fam_id)
+			{
+				 $fam_name = $v['name']; 
+			}
+			
+		}
+		echo $fam_name; 
+		echo $percent;
+
+	}
+
+
+	
+
+		
+}	
+
+
+}
+die();
+$property_details = $id[4];
+$mydata = array();
+$name;
+$id;
+$store_fam_name = array();
+$count = count($property_details);
+//echo "<pre>";print_r($prop); die();
+//print_r($value); die();
+$k =0 ;
+$j = 0 ;
+foreach($property_details as $key=>$val)
+{
+	$fam_name = array();
+	    foreach($prop as $pro)
+	    {
+	    	if($pro->prop_id == $val['property_id'])
+	    	{
+	    		$id_fam_name[$val['property_id']]['name'] = $pro->prop_name;
+	    		$name = $pro->prop_name;
+	    		$id = $pro->prop_id;
+	    	} 
+	    }
+	    if($val['property_id'] == $id){
+
+           	$mydata[$val['property_id']][$key]['fam_id']  = $val['fam_id'];
+            $mydata[$val['property_id']][$key]['percent']  = $val['percent'];
+            $fam_name['per'] = $mydata[$val['property_id']][$key]['percent'];
+            foreach($value as $v){ 
+             	if($v['id'] == $mydata[$val['property_id']][$key]['fam_id'] ){
+             				$fam_name['name'] = $v['name'];
+             				$fam_name['gender'] = $v['gender'];
+             	}
+             	
+            }
+
+            $id_fam_name[$val['property_id']][] = $fam_name;
+        }
+}
+//echo "<pre>";print_r($id_fam_name); die(); ?>
+<p>Till I am alive, I shall continue to be the sole and absolute owner of all my moveable and immoveable properties/assets/securities etc mentioned herewith above.
+
+To avoid all sorts of false claims, disputes, litigations misunderstanding etc., among my legal heirs, successors, relatives etc., in respect of my said property, after my demise, I thought it is expedient and necessary to make a WILL during my life time which will be operative and given effect to only after my death.</p>
+
+
+
+<p>In this background, I bequeath and desire that the Property bearing No.
+<?php 
+$string = "";
+ foreach($id_fam_name as $a=>$val)
+ {
+	$i=1;
+	
+	//echo 'and ';
+	$str = '<b>'.$val['name'].'</b>' .' owned by me, shall devolve upon and in favour of ';
+ foreach($val as $v){
+		if(is_array($v)){
+          $str .= '<b>'. $v['name'] .'</b>'.' '.'for'.' '.'<b>'. $v['per'].'%'.'</b>'.', ';
+        }
+	}
+	$string  .= rtrim($str, ", ").' and ';
+
+
+}
+echo substr($string,0,strlen($string)-4);
+?>
+to the exclusion all other my legal heirs and successors.</p>
+
+<p>The above sentence should repeat for every property that is being selected. 
+
+However, in case any of the above beneficiary’s predeceases me, I bequeath his/her share in the following manner:</p>
+
+<?php foreach($id_fam_name as $a=>$val)
+{ 
+	 foreach($val as $v){
+		if(is_array($v)){
+			if($v['gender'] == "Male"){ 
+           echo 'Mr. '.'<b>'.$v['name'] .'</b>'.' '.'allocated'.' '. '<b>'.$v['per'].'%'.'</b>'.' in '.'<b>'.$val['name'].'</b>'.'.'; }
+           else {
+           	echo 'Miss. '.'<b>'.$v['name'] .'</b>'.' '.'allocated'.' '. '<b>'.$v['per'].'%'.'</b>'.' in '.'<b>'.$val['name'].'</b>'.'.'; 
+           }
+           echo '<br>';
+        }
+	}
+}
+?> 
+
+
+We will give an option to the client with a drop down of “Future Properties” with a note saying, “names and % allocation done here” will be used to all future properties the client owns </p>
+ 
