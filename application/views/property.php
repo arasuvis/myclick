@@ -146,7 +146,7 @@
                                   </div>
                                   <div class="col-md-6">
                                   <label>Property Area</label><br>
-                                  <input type="text" name="area" id="area" value="<?php if(isset($e_pro->area)) echo $e_pro->area;  ?>">
+                                  <input type="text" name="area" id="area" maxlength="30" value="<?php if(isset($e_pro->area)) echo $e_pro->area;  ?>">
                                   <span id="error_area" class="error"></span>
                                 </div>
                               </div>
@@ -226,9 +226,9 @@
 
 </section>
 </section>
-<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
     
-    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
 <script>
 $(document).ready(function(){
@@ -244,8 +244,9 @@ $(document).ready(function(){
         $('#immov').hide();
       }   
    
-  
-  
+          $(':input').blur(function(){ 
+          $(this).val($.trim($(this).val()));
+          });
     
                 $('#year_of_purchase').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'

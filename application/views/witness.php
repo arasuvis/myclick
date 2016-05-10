@@ -1,4 +1,8 @@
-
+<style>
+    .error{
+        color:red;
+    }
+    </style>
 <div class="container">
   <div class="">
     <div class="col-md-8">
@@ -180,13 +184,21 @@
   </div>
 </div>
 
-<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
 
-<script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+<script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 <script>
 //$('#w_mobile').on('keypress', function(e) {
 //if (e.charCode >= 32 && e.charCode < 127 && !/^-?\d*[.,]?\d*$/.test(this.value + '' + String.fromCharCode(e.charCode))) { return false; } 
 //});
+
+$(document).ready(function(){ 
+$(':input').blur(function(){ 
+$(this).val($.trim($(this).val()));
+});
+});
+
+
   $('.deleterec').on('click',function(e){ 
 var id = $(this).attr('id');
             e.preventDefault();
@@ -229,13 +241,13 @@ var id = $(this).attr('id');
   var pincode = /^\d{6}$/;
   var phone = /^\d{10}$/;
 
-  if($('#w_name').val() == ' '){
+  if($.trim($('#w_name').val() ) == ''){
     $('#error_name').html("Enter Name");
     $('#w_name').focus(); return false;}
   else if(! (name.test($('#w_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#w_name').focus(); return false; }
 
-  if($('#w_mobile').val() == ''){
+  if($('#w_mobile').val()  == ''){
     $('#error_mobile').html("Enter Mobile Number");
     $('#w_mobile').focus(); return false; 
   }//console.log(parseInt($("#w_mobile").val());
@@ -258,21 +270,21 @@ var id = $(this).attr('id');
   //var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     
     
-  if(per == ''){
+  if($.trim(per) == ''){
     $('#error_per_address').html("Enter Address");
     $('#w_permanent').focus(); return false;}
 
-  if(pre == ''){
+  if($.trim(pre) == ''){
     $('#error_pre_address').html("Enter Address");
     $('#w_present').focus(); return false;}
 
-  if($('#w_landmark').val() == ' '){
+  if($.trim($('#w_landmark').val()) == ''){
     $('#error_landmark').html("Enter Landmark");
     $('#w_landmark').focus(); return false;}
 
  
 
-  if($('#w_pincode').val() == ' '){
+  if($('#w_pincode').val() == ''){
     $('#error_pincode').html("Enter Pincode");
     $('#w_pincode').focus(); return false;}
   if(!(pincode.test(parseInt($("#w_pincode").val()))))
@@ -283,11 +295,11 @@ var id = $(this).attr('id');
     }
   
 
-  if($('#w_locality').val() == ' '){
+  if($.trim($('#w_locality').val() ) == ''){
     $('#error_locality').html("Enter Locality");
     $('#w_locality').focus(); return false;}
 
-  if($('#w_city').val() == ' '){
+  if($.trim($('#w_city').val() ) == ''){
     $('#error_city').html("Enter city");
     $('#w_city').focus(); return false;}
   else if(! (name.test($('#w_city').val()))) {

@@ -427,7 +427,7 @@ class User extends CI_Controller
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
 		
 		//
-		$data['tab'] = "property";
+		$data['tab'] = "property_alloc";
 		$data['width'] = "48%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -604,7 +604,7 @@ class User extends CI_Controller
 		$data['reason'] = $this->property_model->reason_not_alloc();
 		//echo "<pre>";
 		//print_r($data); die();
-		$data['tab'] = "property";
+		$data['tab'] = "reason_for_not_alloc";
 		$data['width'] = "66%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -640,7 +640,7 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		//$data['personal'] = $this->user_model->personal_details();
-		$data['tab'] = "property";
+		$data['tab'] = "previous_will";
 		$data['width'] = "76%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -655,7 +655,7 @@ class User extends CI_Controller
 		{
 		$data['executor'] = $this->doctor_model->get_executor()->result();
 		//print_r($data); die();
-		$data['tab'] = "property";
+		$data['tab'] = "executor";
 		$data['width'] = "85%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -666,6 +666,7 @@ class User extends CI_Controller
 
 	function save_executor()
 	{
+
 		//print_r($_POST); die();
 		$a = $_POST;
 
@@ -724,7 +725,7 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['doctor'] = $this->doctor_model->get_doctor()->result();
-		$data['tab'] = "property";
+		$data['tab'] = "doctor";
 		$data['width'] = "92%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -735,7 +736,15 @@ class User extends CI_Controller
 
 	function save_doctor()
 	{
+
 		//print_r($_POST); die();
+		$d_name = trim($this->input->post('d_name'));
+		$d_address = $this->input->post('d_address');
+		$d_mobile = $this->input->post('d_mobile');
+		$a = array(
+		'd_name' => $d_name,
+		'd_address' => $d_address,
+		'd_mobile' => $d_mobile );
 		$a = $_POST;
 
 		$doc = $this->doctor_model->save_doctor($a);
@@ -794,7 +803,7 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['witness'] = $this->doctor_model->get_witness()->result();
-		$data['tab'] = "property";
+		$data['tab'] = "witness";
 		$data['width'] = "100%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);

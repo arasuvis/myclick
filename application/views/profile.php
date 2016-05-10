@@ -166,6 +166,11 @@
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
                 $('input').attr('maxlength',30);
+
+                $(':input').blur(function(){ 
+                $(this).val($.trim($(this).val()));
+                });
+
            });
 
         </script>
@@ -178,7 +183,7 @@ var phone = /^\d{10}$/;
 var address = $('#address').val();
 var add = $.trim(address)
 
-
+$('.error').html('');
 
 if($('#fname').val() == '')
 {   

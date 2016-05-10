@@ -1,4 +1,8 @@
-
+<style>
+    .error{
+        color:red;
+    }
+    </style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-8">
@@ -149,6 +153,13 @@
 
 <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 <script>
+
+$(document).ready(function(){ 
+$(':input').blur(function(){ 
+$(this).val($.trim($(this).val()));
+});
+});
+
   $('#submt').on('click',function(){
 
   $('.error').html('');
@@ -157,7 +168,7 @@
   var address = $('#e_address').val();
   var about = $('#e_about').val(); 
 
-  if($('#ex_name').val() == ' '){
+  if($.trim($('#ex_name').val() ) == ''){
     $('#error_name').html("Enter Name");
     $('#ex_name').focus(); return false;}
   else if(! (name.test($('#ex_name').val()))) {
@@ -174,21 +185,21 @@
       return false;
     }
 
-  if( about == ''){
+  if( $.trim(about) == ''){
     $('#error_about').html("Enter Details");
     $('#e_about').focus(); return false;}
  
-  if(address == ''){
+  if($.trim(address) == ''){
     $('#error_address').html("Enter Address");
     $('#e_address').focus(); return false;}
   
-  if($('#city_name').val() == ' '){
+  if($.trim($('#city_name').val() ) == ''){
     $('#error_city').html("Enter City");
     $('#city_name').focus(); return false;}
   else if(! (name.test($('#city_name').val()))) {
     $('#error_city').html("Enter only Alphabets");$('#city_name').focus(); return false; }
 
-  if($('#state_name').val() == ' '){
+  if($.trim($('#state_name').val() ) == ''){
     $('#error_state').html("Enter City");
     $('#state_name').focus(); return false;}
   else if(! (name.test($('#state_name').val()))) {

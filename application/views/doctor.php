@@ -1,4 +1,8 @@
-
+<style>
+    .error{
+        color:red;
+    }
+    </style>
 <div class="container">
 	<div class="">
 		<div class="col-md-8">
@@ -115,10 +119,17 @@
 	</div>
 </div>
 
-<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
   
-    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 <script>
+
+$(document).ready(function(){ 
+$(':input').blur(function(){ 
+$(this).val($.trim($(this).val()));
+});
+});
+
   $('#submt').on('click',function(){
    
   $('.error').html('');
@@ -127,13 +138,13 @@
   var phone = /^\d{10}$/;
   var exp = /^\d*$/;
 
-  if($('#d_name').val() == ' '){
+  if($.trim($('#d_name').val() ) == ''){
     $('#error_name').html("Enter Name");
     $('#d_name').focus(); return false;}
   else if(! (name.test($('#d_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#d_name').focus(); return false; }
 
-  if(address == ' '){
+  if($.trim(address) == ''){
     $('#error_address').html("Enter Address");
     $('#d_address').focus(); return false;}
 

@@ -1234,7 +1234,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     width: 300px;
 }
 .family_details .memberbutton .btn-primary, .memberbutton .btn-primary {
-    background: #9a9a9a none repeat scroll 0 0;
+    /*background: #9a9a9a none repeat scroll 0 0;*/
     border: medium none;
 }
 .family_details .continue input[type="submit"] {

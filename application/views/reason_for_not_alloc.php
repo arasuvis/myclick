@@ -75,6 +75,11 @@
 </div>
  
 <script type="text/javascript">
+$(document).ready(function(){ 
+$(':input').blur(function(){ 
+$(this).val($.trim($(this).val()));
+});
+});
   $('#saveandcont').on('submit',function(e){
    e.preventDefault();
    var allFieldsComplete = true;

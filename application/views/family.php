@@ -223,9 +223,9 @@ padding-top: 0px !important;
 
 </section>
 </section>
-<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
-    <script data-require="jquery@*" data-semver="2.1.4" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
+    
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     <script type="text/javascript">
@@ -266,7 +266,7 @@ var id = $(this).attr('id');
                     });
                     
                 } else {
-                    swal("Cancelled,hello");
+                    swal("Cancelled");
                 }
             }); 
 
@@ -287,6 +287,9 @@ $('#form').on('keyup','input',function(){
   $(this).next().html('');
 });
 
+$(':input').blur(function(){ 
+$(this).val($.trim($(this).val()));
+});
 
 
  $('#submt').on('click',function(e){
