@@ -58,14 +58,14 @@ class User_model extends CI_Model
 
 
 	function ins_cat(){
-		print_r('hello'); die();
+		//print_r('hello'); die();
 		$default = "Profile";
 		$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
 		$query = $this->db->select('cat_id')
 							->where('name',$default)
 							->get('admin_category');
 		$q = $query->row;
-		print_r($q);
+		//print_r($q);
 		 die();
 	}
 

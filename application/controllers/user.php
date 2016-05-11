@@ -607,7 +607,7 @@ class User extends CI_Controller
 	{
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
-		$data['reason'] = $this->property_model->reason_not_alloc();
+		//$data['reason'] = $this->property_model->reason_not_alloc();
 		//echo "<pre>";
 		//print_r($data); die();
 		$data['tab'] = "reason_for_not_alloc";

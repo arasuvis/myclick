@@ -1,4 +1,4 @@
-<?php echo $will_id = $this->session->userdata('is_userlogged_in')['will_id'];?>	
+<?php $will_id = $this->session->userdata('is_userlogged_in')['will_id'];?>	
  <section class="service-outer">
     <section>
  <div class="nav-tab-wrp" id="wizard">
@@ -9,9 +9,9 @@
                        <!-- <li  class="<?php //if(isset($tab)) if($tab == "service") echo "active";?>"><a  href="<?php //echo base_url('user/service'); ?>">SIGN IN</a></li>-->
 					   <!-- <li ><a  href="#">SIGN IN</a></li> -->
 
-                        <li class="<?php if(isset($tab)) if($tab == "profile") echo "active";?>"><a href="<?php echo base_url('user/profile'); ?>"><span><?php  echo $status = get_my_status($will_id,1); if($status == 1) { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } ?></span>PERSONAL INFO</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "profile") echo "active";?>"><a href="<?php echo base_url('user/profile'); ?>"><span><?php   $status = get_my_status($will_id,1); if($status == 1) { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } else { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } ?></span>PERSONAL INFO</a></li>
 
-                        <li class="<?php if(isset($tab)) if($tab == "family") echo "active";?>"><a  href="<?php echo base_url('user/family'); ?>"><span><?php  echo $status = get_my_status($will_id,2); if($status == 1) { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } ?></span>FAMILY DETAILS</a></li>
+                        <li class="<?php if(isset($tab)) if($tab == "family") echo "active";?>"><a  href="<?php echo base_url('user/family'); ?>"><span><?php   $status = get_my_status($will_id,2); if($status == 1) { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } ?></span>FAMILY DETAILS</a></li>
 
                         <li class="<?php if(isset($tab)) if($tab == "property") echo "active";?>"><a  href="<?php echo base_url('user/property'); ?>"><span><?php  $status = get_my_status($will_id,3); if($status == 1) { ?><img style="display:inline-block;" src="<?php echo base_url();?>images/tick-36x36.png" id="tick-img"><?php } ?></span>PROPERTY DETAILS</a></li>
 

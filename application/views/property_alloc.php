@@ -46,7 +46,7 @@
                                   <select name="property_id" id="immove_prop" <?php if(isset($allpro->property_id)) echo "disabled"; ?> >
                                   <option value="none"></option>
                                   <?php foreach($immov as $im) {  ?>
-                                  <option data="<?php echo $im->Immovable_id; ?>" value="<?php echo $im->prop_id; ?>" <?php if(isset($allpro->property_id)) if($allpro->property_id == $im->prop_id) {
+                                  <option data="<?php echo $im->Immovable_id; ?>" value="<?php echo $im->Immovable_id; ?>" <?php if(isset($allpro->property_id)) if($allpro->property_id == $im->prop_id) {
                                     echo "selected";} ?> > <?php echo $im->prop_name; ?></option>
                                   <?php } ?> 
                                   </select>
