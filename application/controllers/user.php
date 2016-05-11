@@ -2,6 +2,7 @@
 
 class User extends CI_Controller
 {
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -13,6 +14,8 @@ class User extends CI_Controller
 		$this->load->model('family_model');
 		$this->load->model('property_model');
 		$this->load->model('doctor_model');
+		 $this->will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+	   
 
 		//if( ! $this->session->userdata('is_userlogged_in'))
 			//redirect('user/signin');
@@ -30,11 +33,12 @@ class User extends CI_Controller
 
 	function signin()
 	{
+		
+		$data['gen'] = $this->family_model->get_gender()->result();
+			$data['m_sta'] = $this->family_model->get_marital_status()->result();
 		if(isset($this->session->userdata('is_userlogged_in')['user_id'])){
 			redirect('user/profile'); 
-		} else{
-			$data['gen'] = $this->family_model->get_gender()->result();
-			$data['m_sta'] = $this->family_model->get_marital_status()->result();
+		} else{			
 		$this->load->view('header');
 		$this->load->view('sign',$data);
 		$this->load->view('footer'); }
@@ -71,9 +75,9 @@ class User extends CI_Controller
 
 	function reg_details()
 	{
+		
 		$data['gen'] = $this->family_model->get_gender()->result();
 		$data['m_sta'] = $this->family_model->get_marital_status()->result();
-		print_r($data);
 		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
 		$this->form_validation->set_rules('mname','Middle Name','trim|required');
 		$this->form_validation->set_rules('surname','Surname','trim|required');
@@ -90,7 +94,7 @@ class User extends CI_Controller
 		if($this->form_validation->run() == False)
 		{
 		//echo "error"; 
-			$this->load->view('header');
+			$this->load->view('header',$data);
 		$this->load->view('sign',$data);
 		$this->load->view('footer');
 		}
@@ -124,14 +128,14 @@ class User extends CI_Controller
 			else
 			{
 				
-		$this->load->view('header');
+		$this->load->view('header',$data);
 		$this->load->view('sign',$data);
 		$this->load->view('footer');
 			}
 		}
 		else
 		{
-			$this->load->view('header');
+			$this->load->view('header',$data);
 		$this->load->view('sign',$data);
 		$this->load->view('footer');
 		}
@@ -291,9 +295,8 @@ class User extends CI_Controller
 		//print_r($data); die();
 		$data['pro'] = $this->property_model->get_immov_property()->result();
 		//print_r($data); die();
-		$data['own'] = $this->property_model->get_owner()->result();
-		$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-		 insert_activity($will_id,1,2);
+		$data['own'] = $this->property_model->get_owner()->result();		
+		insert_activity($this->will_id,1,2);
 		$data['tab'] = "property";
 		$data['width'] = "34%";
 		$this->load->view('header');
@@ -430,7 +433,7 @@ class User extends CI_Controller
 		$data['immov'] = $this->property_model->get_immov();		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
-		
+		insert_activity($this->will_id,1,3);
 		//
 		$data['tab'] = "property_alloc";
 		$data['width'] = "48%";
@@ -609,6 +612,7 @@ class User extends CI_Controller
 		//print_r($data); die();
 		$data['tab'] = "reason_for_not_alloc";
 		$data['width'] = "66%";
+		insert_activity($this->will_id,1,4);
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('reason_for_not_alloc',$data);

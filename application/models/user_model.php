@@ -19,6 +19,7 @@ class User_model extends CI_Model
 
 	function reg_will_id($id)
 	{
+		
 		$status = 0;
 		$name = "Default Will";
 		$query = $this->db->select_max('will_id')
@@ -28,6 +29,9 @@ class User_model extends CI_Model
 		
 		if($query->row()->will_id)
 		{
+			$w_id = $query->row()->will_id;
+			$q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
+			return $w_id;
 		}
 		else
 		{
@@ -35,15 +39,17 @@ class User_model extends CI_Model
 		$w_id = $this->db->insert_id();
 		if($w_id)
 		{
+			
 			$q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
 
 			return $w_id;
 		}
 		else
 		{
+			
 			$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-			$q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
-			return false; 
+			return $q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
+			//return false; 
 		}
 		}
 		

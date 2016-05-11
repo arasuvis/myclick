@@ -1,4 +1,4 @@
-<style> .mygend{
+<?php print_r($gen);?><style> .mygend{
   font-style: normal;
   font-weight: 100} 
 
