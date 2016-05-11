@@ -8,6 +8,7 @@ class User extends CI_Controller
 		$this->load->library('form_validation');		
 		$this->load->library('session');
 		$this->load->library('email');
+		$this->load->helper('base');
 		$this->load->model('user_model');
 		$this->load->model('family_model');
 		$this->load->model('property_model');
@@ -50,10 +51,9 @@ class User extends CI_Controller
 		if($valid_check == true)
 		{
 			$session_data = $this->session->userdata('is_userlogged_in');
-		 $will_id=$this->user_model->get_will_id($valid_check);
+				$will_id=$this->user_model->get_will_id($session_data['user_id']);
 				$session_data['user_id'] = $valid_check;
 				$session_data['will_id'] = $will_id;
-
 				$this->session->set_userdata("is_userlogged_in", $session_data);
 			echo 1;
 		}
@@ -71,7 +71,9 @@ class User extends CI_Controller
 
 	function reg_details()
 	{
-		
+		$data['gen'] = $this->family_model->get_gender()->result();
+		$data['m_sta'] = $this->family_model->get_marital_status()->result();
+		print_r($data);
 		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
 		$this->form_validation->set_rules('mname','Middle Name','trim|required');
 		$this->form_validation->set_rules('surname','Surname','trim|required');
@@ -89,7 +91,7 @@ class User extends CI_Controller
 		{
 		//echo "error"; 
 			$this->load->view('header');
-		$this->load->view('sign');
+		$this->load->view('sign',$data);
 		$this->load->view('footer');
 		}
 		else
@@ -121,15 +123,16 @@ class User extends CI_Controller
 			 }
 			else
 			{
+				
 		$this->load->view('header');
-		$this->load->view('sign');
+		$this->load->view('sign',$data);
 		$this->load->view('footer');
 			}
 		}
 		else
 		{
 			$this->load->view('header');
-		$this->load->view('sign');
+		$this->load->view('sign',$data);
 		$this->load->view('footer');
 		}
 	}
@@ -163,6 +166,7 @@ class User extends CI_Controller
 		$data['personal'] = $this->user_model->personal_details($session);
 		//print_r($data); die();
 		$data['gen'] = $this->family_model->get_gender()->result();
+		$data['m_sta'] = $this->family_model->get_marital_status()->result();
 		$data['tab'] = "profile";
 		$data['width'] = "10%";
 		$this->load->view('header');
@@ -221,7 +225,7 @@ class User extends CI_Controller
 
 		$id = $this->input->post('id');
 		//print_r($this->input->post('comments'));
-		if($this->input->post('comments') == ' ' || $this->input->post('comments') == null || empty($this->input->post('comments')) )
+		if($this->input->post('comments') == ' ' || $this->input->post('comments') == null)
 			{ 
 				
 			$family = array('name' => $this->input->post('name'),
@@ -249,7 +253,7 @@ class User extends CI_Controller
 	function updateFamily()
 	{
 			$id = $this->input->post('id');
-			if($this->input->post('comments') == ' ' || $this->input->post('comments') == null || empty($this->input->post('comments')) )
+			if($this->input->post('comments') == ' ' || $this->input->post('comments') == null  )
 			{
 				$family = array('name' => $this->input->post('name'),
 							'relationship'=>$this->input->post('relationship'),
@@ -288,7 +292,8 @@ class User extends CI_Controller
 		$data['pro'] = $this->property_model->get_immov_property()->result();
 		//print_r($data); die();
 		$data['own'] = $this->property_model->get_owner()->result();
-		
+		$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+		 insert_activity($will_id,1,2);
 		$data['tab'] = "property";
 		$data['width'] = "34%";
 		$this->load->view('header');
@@ -483,9 +488,7 @@ class User extends CI_Controller
 	} 
 
 	function add_property_alloc()
-	{
-		echo "<pre>";
-		//print_r($_POST); die();
+	{		
 		$fam_id = $this->input->post('fam_id');
 		//$id = $this->family_model->del_id($fam_id);
 		$percent = $this->input->post('percent');

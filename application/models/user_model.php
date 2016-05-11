@@ -4,8 +4,7 @@ class User_model extends CI_Model
 {
 	function save_reg($data)
 	{
-		$query = $this->db->insert('user_register',$data);
-					
+		$query = $this->db->insert('user_register',$data);					
 		return $this->db->insert_id();
 		
 	}
@@ -22,22 +21,35 @@ class User_model extends CI_Model
 	{
 		$status = 0;
 		$name = "Default Will";
-		$query = $this->db->query("INSERT INTO `tbl_will`(`will_name`,`user_id`, `status`) VALUES ('$name','$id','$status')");
+		$query = $this->db->select_max('will_id')
+				 ->where('user_id',$id)
+				 ->get('tbl_will');
+		
+		
+		if($query->row()->will_id)
+		{
+		}
+		else
+		{
+		$query = $this->db->query("INSERT INTO tbl_will(`will_name`,`user_id`, `status`) VALUES ('$name','$id','$status')");
 		$w_id = $this->db->insert_id();
 		if($w_id)
 		{
-			$q = $this->db->query("INSERT INTO `activity`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',0,1)");
+			$q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
 
 			return $w_id;
 		}
 		else
 		{
 			$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-			$q = $this->db->query("INSERT INTO `activity`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',0,1)");
+			$q = $this->db->query("INSERT INTO `tbl_progress`(`will_id`,`status`,`cat_id`) VALUES ('$w_id',1,1)");
 			return false; 
 		}
+		}
 		
-	}
+		
+		}
+
 
 	function ins_cat(){
 		print_r('hello'); die();

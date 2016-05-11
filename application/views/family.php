@@ -96,7 +96,7 @@ padding-top: 0px !important;
                               <div class="row family">
                                 <div class="col-md-6" style="padding-left: 0;">
                                   <label>Name</label><br>
-                                  <input autocomplete="off" type="text" id="name" name="name" value="<?php if(isset($families->name)) echo $families->name?>" maxlength="30">
+                                  <input autocomplete="off" type="text"   id="name" name="name" value="<?php if(isset($families->name)) echo $families->name?>" maxlength="30">
                                   <span id="error_name" class="error"></span>
                                 </div>
                                  <div class="col-md-6" style="padding-right: 0;">
@@ -251,7 +251,7 @@ var id = $(this).attr('id');
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
                 confirmButtonText: 'Yes, I am sure!',
-                cancelButtonText: "No, cancel it!",
+                cancelButtonText: "No, Proceed!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
@@ -366,16 +366,17 @@ $(this).val($.trim($(this).val()));
         var id = new Array();
         var name= new Array();
         var i=0;
+		var selected = 1;
         $.each(rel,function(k,v){
              if(v['name']=="Son"){
+				 
                      $.each(list,function(key,ele){
               if(ele['relationship'] == v['rel_id'])
               {
                     if(ele['marital_status'] == "Married")
                     {
-                         //status.push(ele['marital_status']);
-                         //name.push(ele['name']);
-						 
+						 selected = 2;
+                        
 						  swal({
                 title: "You have married Son",
                 text: "Are you willing to add your son's wife and children details",
@@ -383,7 +384,7 @@ $(this).val($.trim($(this).val()));
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
                 confirmButtonText: 'Yes, I am!',
-                cancelButtonText: "No, cancel it!",
+                cancelButtonText: "No, Proceed!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
@@ -395,37 +396,24 @@ $(this).val($.trim($(this).val()));
                 } else {
                      window.location="<?php echo base_url('user/property');?>";
                 }
-            }); 
-                        // name = ele['name'];
-                       //  if(confirm(name + ' ,You want to enter Wife details'))
-                            // {
-                           //window.location="<?php echo base_url('user/family');?>";
-                            //}
-                         //else{ 
-                           //window.location="<?php echo base_url('user/property');?>";
-                             // }
-                         
+            });
+                       
                     }
                     else
                      {
-                          window.location="<?php echo base_url('user/property');?>"; 
+                         // window.location="<?php echo base_url('user/property');?>"; 
                      } 
 					 return false;
 				
               } 
-			  else
-                     {
-                          window.location="<?php echo base_url('user/property');?>"; 
-                     } 
-                	// alert(2); 
+			 
                   }); }
-            else
-            {
-              // window.location="<?php echo base_url('user/property');?>"; 
-            } 
+           
 
         });
-        
+		//alert(selected);
+        if(selected == 1)
+		window.location="<?php echo base_url('user/property');?>"; 
    
 
      });

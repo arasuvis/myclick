@@ -42,7 +42,6 @@ class family_model extends CI_Model
 	$session_variable = $this->session->userdata('is_userlogged_in');
 		$family['will_id'] = $session_variable['will_id'];
 		 $this->db->insert('tbl_family', $family);
-		
 		 return $this->db->insert_id();
 	}
 

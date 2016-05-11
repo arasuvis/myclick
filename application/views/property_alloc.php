@@ -29,9 +29,9 @@
                        <div class="propert_detailss move">
                                 <div class="radio2">
                                     <input class="mychoice" id="alive" name="status" value="alive" checked="" type="radio">
-                                    <label for="alive">Alive</label>
+                                    <label for="alive">Allocation</label>
                                     <input class="mychoice" id="dead" name="status" value="dead" type="radio">
-                                    <label for="dead">Dead</label>
+                                    <label for="dead">In Case of Death</label>
                                 </div>
                             </div>
                        

@@ -96,7 +96,7 @@
                               <div id="immov">
                                 <div class="row property">
                                 <div class="col-md-6">
-                                  <label>list of properties</label><br>
+                                  <label>List of properties</label><br>
                                 <div class="select-style1">
                                   <select name="immov_prop" id="immov_prop">
                                   <option value="none"></option>
