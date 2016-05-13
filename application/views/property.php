@@ -264,7 +264,11 @@ $(document).ready(function(){
                       { 
                        if(res == 1)
                        {
-                        alert('Property Already Allocated');
+                         swal(
+                            '',
+                            'Property Already Allocated',
+                            'warning'
+                          )
                         $('#immov_prop').val('');
                        }
                       }
@@ -283,7 +287,11 @@ $(document).ready(function(){
                       { 
                        if(res == 1)
                        {
-                        alert('Property Already Allocated');
+                         swal(
+                            '',
+                            'Property Already Allocated',
+                            'warning'
+                          )
                         $('#name_mov').val('');
                        }
                       }

@@ -951,7 +951,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
 .service-outer .nav-tab-wrp li {
     display: table;
     height: 40px;
-    margin-right: 9px;
+    margin-right: 8px;
     text-align: center;
     min-width: 60px;
 }.service-outer .nav-tab-wrp li:last-child{
@@ -984,7 +984,7 @@ ul.teamppl li:hover .tringle, ul.teamppl li:hover .overpop {
     
 }
 .service-outer .nav-tab-wrp li.active {
-    min-width: 100px !important;
+    min-width: 80px !important;
 
 }
 .service-outer .content-top h1, p {
@@ -2040,4 +2040,18 @@ font-size: 14px;
 }
 .innerul-witness{
 padding-top: 0px !important;
+}
+
+.Vhiden#tick-img{
+   filter: grayscale(100%);
+}
+
+#bar{
+   max-width: 1320px;
+    margin: 5px auto;
+}
+
+.vinay{
+    max-width: 1320px;
+    margin: 0 auto;
 }

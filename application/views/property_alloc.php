@@ -77,6 +77,7 @@
                                         <span id="error_rel" class="error"></span>
                                       </div>
                                       <br>
+                                      <div id = "hide_others">
                                       <div class="row">
                                         <div class="col-md-6">
                                             <label>Gender</label><br>
@@ -96,7 +97,14 @@
                                             <input type="text" id="marital" value="<?php if(isset($allpro->marital_status)) echo $allpro->marital_status; ?>" readonly name="marital">
                                             <span id="error_marital" class="error"></span>
                                         </div>
-
+                                      </div>
+                                      </div>
+                                      <div id="show_others" style="display: none">
+                                      <div class="col-md-6">
+                                       <label>Comments</label>
+                                      <textarea rows="5" readonly id="comments" name="comments" class="form-control custom-textarea"></textarea>
+                                      <span id="error_comments" class="error"></span>
+                                        </div>
                                       </div>
                                       <br>
                                       <div class="row">
@@ -173,12 +181,13 @@
                                         <div class="col-md-6">
                                             <label>Relationship</label><br>
                                            <input type="text" id="rel_d" value="" readonly name="rel_d">
-                                            <input type="text" hidden id="rel_d_id" value="" name="rel_d_id">
+                                            <input type="text" hidden  id="rel_d_id" value="" name="rel_d_id">
                                         </div>
                                         <span id="error_rel_d" class="error"></span>
                                       </div>
 
                                       <br>
+                                      <div id="dead_hide_others">
                                       <div class="row">
                                         <div class="col-md-6">
                                             <label>Gender</label><br>
@@ -203,9 +212,25 @@
                                             <span id="error_marital_d" class="error"></span>
                                         </div>
                                       </div>
+                                      </div>
+
+                                      <div id="dead_show_others" style="display: none">
+                                      <div class="col-md-6">
+                                       <label>Comments</label>
+                                      <textarea rows="5" readonly id="dead_comments" name="dead_comments" class="form-control custom-textarea"></textarea>
+                                      <span id="error_comments_dead" class="error"></span>
+                                        </div>
+                                      </div>
+                                      
                                       <br>
                                       <div class="row">
+                                                                                 
                                         <div class="col-md-6">
+                                          <label>Remaining property allocation</label><br>
+                                          <div class="percent">
+                                            <input type="text" id="rem_d" name="rem_d" value="">
+                                            <span>%</span>
+                                            </div>
                                           <label>Enter property allocation</label><br>
                                           <div class="percent">
                                             <input type="text" id="per_d" name="percent_d" >
@@ -235,19 +260,21 @@
                                   <div class="col-md-4 col-xs-4">
                                       <p>Allocated</p>
                                   </div>
-                                  <div class="col-md-8 col-xs-8">
-                                       <p>Priority 1</p>
-                                     </div>
-                                  <div class="col-md-4 col-xs-4">
-                                      <p id = "prio_1"></p>
+                                 
+                                  <div id="dead_alloc_details">
+                                   <?php foreach ($dead as $d) { ?> 
+                                    <div class="col-md-8 col-xs-8">
+                                    <p><?php echo $d->name; ?></p>
+                                    <span class="edit_dead" data ="<?php echo $d->dead_id; ?>" style="cursor:pointer;color:#187aff" fam="<?php echo $d->fam_id; ?>">Edit</a></span> | 
+                    <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo "1"; ?>">Delete</span>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4">
+                                    <p><?php echo $d->percentage; ?> </p>
+                                    </div>
                                   </div>
-                                  <div class="col-md-8 col-xs-8">
-                                       <p>Priority 2</p>
-                                     </div>
-                                  <div class="col-md-4 col-xs-4">
-                                      <p id ="prio_2"></p>
+                                  <?php } ?>
                                   </div>
-                                  </div>
+                                  
                               </li>
                            
                           </ul>
@@ -407,8 +434,146 @@ $(document).ready(function(){
   }
 }
 
+});
+
+
+$('.edit_dead').on('click',function(){
+ var id = $(this).attr('data'); 
+ var fam = $(this).attr('fam'); 
+
+$.ajax({
+
+            type:"POST",
+            url:"<?php echo base_url(); ?>user/edit_dead_alloc",
+            data: {id:id,fam:fam},
+            dataType:"json",
+            success:function(res)
+            {
+               $('#fam_d').children().each(function(){
+                  if($(this).is(':selected')){
+                    $(this).prop('selected',false)
+                  } });
+              $('#rem_d').attr('value','');
+              //$('#rem_d').attr('value',val-per);
+              $('#rel_d').attr('value','');
+              $('#gen_d').attr('value','');
+              $('#dob_d').attr('value','');
+              $('#marital_d').attr('value','');
+              $('#rel_d_id').attr('value','');
+              $('#per_d').val('');
+
+              if(res)
+              {
+                console.log('true');
+              }
+              else
+              {
+                console.log('false');
+              }
+
+
+             }
+          });
+});
+
+
+$('#add_more').on('click',function(){
+
+  var fam_id = $('select[name=fam_id_d]').val();
+  var rel_id = $('#rel_d_id').val();
+  var per_d = parseInt($('#per_d').val());
+  var rem_d = parseInt($('#rem_d').val());
+  
+$('.error').html('');
+
+if($('#fam_d').val()== 'none')
+{
+  $('#error_fam_d').html('Select option');
+  return false;
+}
+
+if($('#per_d').val()== '')
+{
+  $('#error_percent_d').html('Enter Percentage');
+  return false;
+}
+
+if(per_d > rem_d){
+  $('#error_percent_d').html('Enter Valid Percentage');
+  return false;
+}
+
+  $.ajax({
+            type:"POST",
+            data:{fam_id:fam_id,rel_id:rel_id,percentage:per_d},
+            //dataType:"json",
+            url:"<?php echo base_url(); ?>user/save_dead",
+            success:function(res)
+            { 
+               if(res == 2){
+                alert('something went wrong');
+              }else {
+              var a = $.parseJSON(res);
+              var rem_per = a['per'][0].percent_count;
+              var name = a['fam_details'][0].name;
+              var per = a['fam_details'][0].percentage;
+              var str ='';
+              str += '<div class="col-md-8 col-xs-8"><p>'+name+'</p><span id="edit_edit"><a href=\'<?php echo base_url("user/edit_dead_alloc/"); ?>\'>Edit</a></span> | <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo "1"; ?>">Delete</span></div><div class="col-md-4 col-xs-4"><p>'+per+'</p></div>';
+
+              $('#dead_alloc_details').append(str)
+              /*$('#dead_name').text(name);
+              $('#dead_per').text(per);*/
+              var val = $('#rem_d').attr('value');
+              $('#rem_d').attr('value',val-per);
+              $('#rel_d').attr('value','');
+              $('#gen_d').attr('value','');
+              $('#dob_d').attr('value','');
+              $('#marital_d').attr('value','');
+              $('#rel_d_id').attr('value','');
+              $('#per_d').val('');
+                $('#fam_d').children().each(function(){
+                  if($(this).is(':selected')){
+                    $(this).prop('selected',false)
+                  };
+                });
+             }
+
+              //console.log(a);
+               /* if(res == 1){
+                window.location="<?php //echo base_url('user/property_alloc');?>"; 
+                }else{
+                alert('something went wrong')*/
+              //}          
+
+            }
+        });       
+  
+
 
 });
+
+$("input[name=status]:radio").click(function () {
+        if ($('input[name=status]:checked').val() == "dead") {
+
+            $.ajax({
+            type:"POST",
+            url:"<?php echo base_url(); ?>user/dead_per",
+            success:function(res)
+            { 
+                $('#rem_d').attr('value',res);
+                $('#rem_d').attr('readonly',true);
+
+                if(res == 0){
+                $('#per_d').attr('readonly',true);
+                }else{
+                $('#per_d').attr('readonly',false);
+              }          
+
+            }
+        });            
+
+        }
+ });
 /*$('#immove_prop').on('change',function(){
   var mydata=0;
      $.each($(this).children(),function(k,v){
@@ -438,25 +603,6 @@ if( ($('#myallocation').val()) > ($('#per').val()) ) {
                     return false;
                   }
 }); */
-
-$('#add_more').on('click',function(){ 
-if($('#fam_d').val()== 'none')
-{
-  $('#error_fam_d').html('Select option');
-  return false;
-}
-
-if($('#per_d').val() == '')
-{
-  $('#error_percent_d').html('No Property Allocated');
-  return false;
-}
-var per =  parseInt($('#per_d').val()) / 2;
-
- $('#prio_1').html(per);
- $('#prio_2').html(per);
-
-});
 
 
 $('#contnu').on('click',function(){ 
@@ -498,21 +644,35 @@ $.ajax({
             dataType:"json",
             success:function(res)
             { 
-              $('#error_percent_d').html('');
+              if(res == 1)
+              {
+                swal(
+                  '',
+                  'Property Already Allocated',
+                  'warning'
+                )
+                $('#fam_d').children().each(function(){ 
+                  if($(this).is(':selected')){
+                    $(this).prop('selected',false);
+                  }
+                });
+              }else {
+                if(res.rel_name == "Others" ){
+                  $('#dead_hide_others').hide();
+                  $('#dead_show_others').show();
+                  $('#rel_d').attr('value',res.rel_name);
+                  $('#rel_d_id').attr('value',res.relationship);
+                  $('#dead_comments').html(res.comments)
+                 }
+                else { 
+                  $('#dead_hide_others').show();
+                  $('#dead_show_others').hide();
               $('#rel_d').attr('value',res.rel_name);
               $('#gen_d').attr('value',res.gender);
               $('#dob_d').attr('value',res.dob);
               $('#marital_d').attr('value',res.marital_status);
-              $('#rel_id_d').attr('value',res.relationship);
-              $('#per_d').attr('value',res.percent);
-              var per = $('#per_d').val();
-              if(per == '')
-              {
-                $('#error_percent_d').html('No Property Allocated');
-                return false;
-              }
-
-            }
+              $('#rel_id_d').attr('value',res.relationship);  } }
+            } 
         });
 
  });
@@ -521,7 +681,6 @@ $.ajax({
 $('#fam').on('change',function(){
 var id = $('#fam').val();
 var im_id = $('#immove_prop').val();
-
 
 
 $.ajax({
@@ -552,12 +711,23 @@ $.ajax({
                 $('#rel_id').attr('value','');
 
                }
+
               else{
+                if(res.rel_name == "Others" ){
+                  $('#hide_others').hide();
+                  $('#show_others').show();
+                  $('#rel').attr('value',res.rel_name);
+                  $('#rel_id').attr('value',res.relationship);
+                  $('#comments').html(res.comments)
+                 }
+                else { 
+                  $('#hide_others').show();
+                  $('#show_others').hide();
               $('#rel').attr('value',res.rel_name);
               $('#gen').attr('value',res.gender);
               $('#dob').attr('value',res.dob);
               $('#marital').attr('value',res.marital_status);
-              $('#rel_id').attr('value',res.relationship); }
+              $('#rel_id').attr('value',res.relationship);  } }
             }
         });
 
@@ -590,6 +760,7 @@ $.ajax({
 
  });
 
+
 $('#immove_prop').on('change',function(){
 var id = $('#immove_prop').val();
 
@@ -612,55 +783,6 @@ $.ajax({
         });
 
  });
-
-// $('.mytest123').on('click','#edit_edit',function(){ 
-//  $('form[name=prop_alloc] input[name=action]').val("edit");
-//  console.log($('form[name=prop_alloc] input[name=action]').val()); 
-// });
-/* $('#subm').on('click',function(e){
-                    e.preventDefault();
-                      var alloc = $('#myallocation').val();
-                      var rem = $('#per').val();
-                      var mydata = 0;
-                       $.each($('#immove_prop').children(),function(k,v){
-                        
-                            if($(this).is(':selected')){
-                              mydata = $(this).attr('data');
-                            }
-                       }); 
-                      if(rem-alloc < 0){
-                         alert("please enter proper allocations");
-                      }else{
-                        $('#per').val(rem-alloc);
-                        
-                        $('#prop_'+mydata).val(rem-alloc);
-                        var p = $('#per').val();
-                        var pid= $('#immove_prop').val();
-                        var fid= $('#fam').val();                      
-                        var rid = $('#rel_id').val();
-                        var alloc = $('#myallocation').val();
-                        console.log($('#myallocation').val());
-                        $.ajax({
-
-                        type:"POST",
-                        url:"<?php // echo base_url(); ?>user/add_property_alloc",
-                        data: {property_id:pid, fam_id:fid, rel_id:rid , myallocation:alloc , imid:mydata },
-                        dataType:"json",
-                        success:function(res)
-                        {  
-                         // $('#d_name').attr('class',res.name);
-                          //$('#d_per').attr('class',res.percent);
-                          location.reload();
-                        }
-                         });
-
-
-                        
-
-                         }
-                         
-
-}); */
 
 $('.myclass').on('click',function(){
   $('#rel').attr('value','');
@@ -688,6 +810,12 @@ $('.myclass').on('click',function(){
                   if($('#rel').val() == ''){
                   $('#error_rel').html("Enter Relationship"); $('#rel').focus(); return false; }
 
+                  if($('#rel').val() == 'Others'){
+                    if($('#comments').val() == ''){
+                  $('#error_comments').html("Enter Comments"); $('#comments').focus(); return false; }
+                  } 
+
+                  else{
                   if($('#gen').val() == ''){
                   $('#error_gen').html("Enter Gender"); $('#gen').focus(); return false; }
 
@@ -695,7 +823,7 @@ $('.myclass').on('click',function(){
                   $('#error_dob').html("Enter DOB"); $('#dob').focus(); return false; }
 
                   if($('#marital').val() == ''){
-                  $('#error_marital').html("Enter Marital Status"); $('#marital').focus(); return false; }
+                  $('#error_marital').html("Enter Marital Status"); $('#marital').focus(); return false; } }
 
                   if($('#per').val() == '')
                   {

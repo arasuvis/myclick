@@ -1,4 +1,9 @@
-<style> .mygend{
+<style>
+#login_error{ color:red; }
+
+.error{ color:red; }
+
+ .mygend{
   font-style: normal;
   font-weight: 100} 
 
@@ -71,7 +76,7 @@
 <div class="form-group">
   
   <div class="col-md-12">
-  <input id="text" name="mname" type="text" placeholder="Middle Name" class="form-control input-md" required="" value="<?php echo set_value('mname') ?>">
+  <input id="text" name="mname" type="text" placeholder="Middle Name" class="form-control input-md"  value="<?php echo set_value('mname') ?>">
   <?php echo form_error('mname'); ?> 
   </div>
 </div>

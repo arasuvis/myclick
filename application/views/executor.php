@@ -80,8 +80,9 @@
                   <center><h5>Executor Details</h5></center>
                     <ul class="details  list-unstyled">
                     <li>
-                    <div class="row" id="a_details">
                     <?php foreach($executor as $ex) { ?>
+                    <div class="row" id="a_details">
+                    
                     <div class="col-md-8 col-xs-8">
                     <p id="d_name"><?php echo $ex->e_name; ?></p>
                     <span id="edit_edit"><a href='<?php echo base_url("user/edit_executor/$ex->e_id"); ?>'>Edit</a></span> | 

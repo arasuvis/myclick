@@ -141,6 +141,72 @@ class Property_model extends CI_Model
 		return $query;
     }
 
+     function dead_per(){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        $this->db->select('SUM(percentage) as percent_count');
+        $this->db->from('dead_alloc');
+        $this->db->where('will_id',$will_id);
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    function save_dead($a)
+    {
+    $a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
+        
+     $this->db->insert('dead_alloc', $a);
+    $query =    $this->db->insert_id();   
+        if($query > 0)
+        {
+            return $query;
+        }
+        else
+        {
+            return false;
+        }     
+    } 
+
+    function check_dead($fam_id){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+         $this->db->where('fam_id',$fam_id)
+                        ->where('will_id',$will_id)
+                        ->get('dead_alloc');
+
+        $res =  $this->db->affected_rows();
+        if($res > 0)
+        {
+            return true;
+        }   
+        else{
+            return false;
+        }
+    }
+
+    function get_dead(){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        $this->db->select('tbl_family.id,tbl_family.name,dead_alloc.dead_id,dead_alloc.fam_id,dead_alloc.percentage');
+        $this->db->from('dead_alloc');
+        $this->db->join('tbl_family','tbl_family.id=dead_alloc.fam_id','left');
+        $this->db->where('dead_alloc.will_id',$will_id);
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    function get_dead_ajax($id){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        $this->db->select('tbl_family.id,tbl_family.name,dead_alloc.fam_id,dead_alloc.percentage');
+        $this->db->from('dead_alloc');
+        $this->db->join('tbl_family','tbl_family.id=dead_alloc.fam_id','left');
+        $this->db->where('dead_alloc.dead_id',$id);
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+
      function update_immov($id,$data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
     //print_r($id); print_r($data); die();
@@ -322,7 +388,21 @@ function del_alloc($id)
                     return false;
                 }
     } 
-    
+   
+   function edit_dead_alloc($id)
+    {
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
+        $this->db->select('tbl_family.name as fam_name,tbl_family.id,dead_alloc.dead_id,dead_alloc.fam_id,dead_alloc.rel_id,dead_alloc.percentage,admin_relations.rel_id,admin_relations.name,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.comments');
+        $this->db->from('dead_alloc');
+        $this->db->join('tbl_family','tbl_family.id=dead_alloc.fam_id','left');
+        $this->db->join('admin_relations','admin_relations.rel_id=dead_alloc.rel_id','left');
+        $this->db->where('dead_alloc.will_id',$will_id);
+        $this->db->where('dead_alloc.dead_id',$id);
+        $query = $this->db->get();
+
+        return $query ;
+    }  
 
     
 }

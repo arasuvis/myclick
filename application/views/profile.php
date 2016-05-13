@@ -180,8 +180,8 @@ $('#persnl-submit').on('click',function(e) {
 var name = /^[a-zA-Z\s]+$/;
 var age = /^[0-9]+$/;
 var phone = /^\d{10}$/;
-var address = $('#address').val();
-var add = $.trim(address)
+//var address = $('#address').val();
+//var add = $.trim(address)
 
 $('.error').html('');
 
@@ -193,15 +193,6 @@ if($('#fname').val() == '')
 {
     $('#error_fname').html('Enter Alphabets');
     return false;
-}
-
-if($('#mname').val() == '')
-{   
-    $('#error_mname').html('Enter Middle Name');
-    return false;
-}else if(! (name.test($('#mname').val())) )
-{
-    $('#error_mname').html('Enter Alphabets'); return false;
 }
 
 if($('#lname').val() == '')
@@ -228,9 +219,9 @@ if($('#mobile').val() == ' '){
       return false;
     }
 
-if( add == ''){
+/*if( add == ''){
     $('#error_address').html("Enter Address");
-    $('#address').focus(); return false;}
+    $('#address').focus(); return false;}*/
 
 $('#form').submit();
 });

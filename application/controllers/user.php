@@ -1,3 +1,4 @@
+
 <?php 
 
 class User extends CI_Controller
@@ -79,14 +80,14 @@ class User extends CI_Controller
 		$data['gen'] = $this->family_model->get_gender()->result();
 		$data['m_sta'] = $this->family_model->get_marital_status()->result();
 		$this->form_validation->set_rules('fname','First Name','trim|required|alpha');
-		$this->form_validation->set_rules('mname','Middle Name','trim|required');
+		//$this->form_validation->set_rules('mname','Middle Name','trim|required');
 		$this->form_validation->set_rules('surname','Surname','trim|required');
 		$this->form_validation->set_rules('email','Email Id','trim|required|valid_email|is_unique[user_register.email]');
 		$this->form_validation->set_rules('password','Password','trim|required');
 		$this->form_validation->set_rules('confirm_password','Confirm Password','trim|required|matches[password]');
 		$this->form_validation->set_rules('dob','DOB','trim|required');
 		$this->form_validation->set_rules('gender','Gender','trim|required');
-		$this->form_validation->set_rules('address','Address','trim|required');
+		//$this->form_validation->set_rules('address','Address','trim|required');
 		$this->form_validation->set_rules('mobile','Mobile Number','trim|required|exact_length[10]|integer');
 
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
@@ -163,6 +164,8 @@ class User extends CI_Controller
 		$this->load->view('footer');
 	}
 
+	/*  START of Profile Panel      */
+
 	function profile()
 	{
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
@@ -197,6 +200,9 @@ class User extends CI_Controller
 		$this->user_model->profileUpdate($id,$profile);
 			redirect('user/family');
 	}
+
+	/*  END of Profile Panel      */
+
 	/*  START Of Family Panel      */
 
 	function family()
@@ -243,7 +249,8 @@ class User extends CI_Controller
 			
 			$family = array('name' => $this->input->post('name'),
 			'relationship'=>$this->input->post('relationship'),
-			'comments' => $this->input->post('comments'));
+			'comments' => $this->input->post('comments'),
+			'status' => 'Alive');
 		}
 			$id = $this->family_model->save($family);
 			if($id)
@@ -424,6 +431,8 @@ class User extends CI_Controller
 
 	/*  END Of Property Panel      */
 
+	/*  START of Property Allocation Panel      */
+
 	function property_alloc()
 	{
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
@@ -433,6 +442,8 @@ class User extends CI_Controller
 		$data['immov'] = $this->property_model->get_immov();		
 		
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
+		$data['dead'] = $this->property_model->get_dead()->result();
+		//echo "<pre>"; print_r($data); die();
 		insert_activity($this->will_id,1,3);
 		//
 		$data['tab'] = "property_alloc";
@@ -465,28 +476,88 @@ class User extends CI_Controller
 		//print_r($_POST); die();
 		$id = $_POST['id'];
 		$im_id = $_POST['im_id'];
+
+		$r = $this->family_model->check_comments($id)->row();
+		//print_r($res->comments); die();
+		if(empty($r->comments))
+		{
+			$res = $this->property_model->check($id,$im_id);
 		
-		$res = $this->property_model->check($id,$im_id);
-		
-		if($res){
+		   if($res){
 			echo 1;
+		    }
+			else{
+			$data = $this->family_model->fam_det($id)->result();
+			echo json_encode($data[0]); die();
+			}
 		}
 		else{
+			$res = $this->property_model->check($id,$im_id);
+		
+		   if($res){
+			echo 1;
+		    }
+			else{
 			$data = $this->family_model->fam_det($id)->result();
-		echo json_encode($data[0]); die();
+			echo json_encode($data[0]); die();
+			}
 		}
 		
+		
+	} 
+
+	function dead_per()
+	{
+		$data = $this->property_model->dead_per()->result();
+		//echo "pre"; print_r($data); die();
+	//	print_r($data[0]);
+		 if(empty($data[0]->percent_count)) echo 100; else  echo 100 - $data[0]->percent_count; die();
+	} 
+
+	
+	function save_dead()
+	{
+		$a = $_POST;
+		$id = $this->property_model->save_dead($a);
+			$data['per'] = $this->property_model->dead_per()->result();
+			$data['fam_details'] = $this->property_model->get_dead_ajax($id)->result();
+			if($data)
+			{
+				echo json_encode($data);
+			}
+			else {
+				echo 2 ; die();
+			}
 	} 
 
 	function get_dead_details()
 	{
-		//print_r($_POST); die();
-		$id = $_POST['id'];
-				
-		$data = $this->family_model->fam_det_d($id)->result(); 
-		//print_r($data); die();
-		echo json_encode($data[0]); die();
+		$id = $this->input->post('id');
 		
+		$r = $this->family_model->check_comments($id)->row();
+		if(empty($r->comments))
+		{
+			$res = $this->property_model->check_dead($id);
+			if($res){
+				echo 1;
+			}
+			else{		
+			$data = $this->family_model->fam_det_d($id)->result(); 
+			echo json_encode($data[0]); die();
+			}
+		}
+		else{
+			$res = $this->property_model->check_dead($id);
+			if($res){
+				echo 1;
+			}
+			else{		
+			$data = $this->family_model->fam_det_d($id)->result(); 
+			echo json_encode($data[0]); die();
+			}
+		}
+
+
 		
 	} 
 
@@ -553,7 +624,7 @@ class User extends CI_Controller
 		$data['immov'] = $this->property_model->get_immov();
 		$data['fam_a'] = $this->family_model->get_fam_a()->result();
 		$data['grantid'] = $id;
-		//print_r($data); die();
+		//echo "<pre>"; print_r($data); die();
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('property_alloc',$data);
@@ -603,11 +674,33 @@ class User extends CI_Controller
 		}
 	 }
 
+	 function edit_dead_alloc()
+	 {
+	 	$id = $this->input->post('id');
+	 	$fam = $this->input->post('fam');
+	 	$r = $this->family_model->check_comments($fam)->row();
+		if(empty($r->comments))
+		{
+			$data['fam_d'] = $this->property_model->edit_dead_alloc($id)->row();
+	 	$data['rem_p'] = $this->property_model->dead_per()->row();
+	 	echo json_encode($data); die();
+		}
+		else{
+			$data['fam_d'] = $this->property_model->edit_dead_alloc($id)->row();
+	 	$data['rem_p'] = $this->property_model->dead_per()->row();
+	 	echo json_encode($data); die();
+			}
+	 }
+
+	 /*  END of Property Allocation Panel      */
+
+	 /*  START of Reason Panel      */
+
 	function reason_for_not_alloc()
 	{
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
-		//$data['reason'] = $this->property_model->reason_not_alloc();
+		$data['reason'] = $this->property_model->reason_not_alloc();
 		//echo "<pre>";
 		//print_r($data); die();
 		$data['tab'] = "reason_for_not_alloc";
@@ -638,9 +731,11 @@ class User extends CI_Controller
 		else{
 			redirect('user/reason_for_not_alloc');
 		}
-		
-	
 	}
+
+	/*  END of Reason Panel      */
+
+	/*  START of Previous Will Panel      */
 
 	function previous_will()
 	{
@@ -655,6 +750,10 @@ class User extends CI_Controller
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
 	}
+
+	/*  END of Previous Will Panel      */
+
+	/*  START of Executor Panel      */
 
 	function executor()
 	{
@@ -726,6 +825,10 @@ class User extends CI_Controller
 			echo "error"; die();
 		}
 	}
+
+	/*  END of Executor Panel      */
+
+	/*  START of Doctor Panel      */
 
 	function doctor()
 	{
@@ -805,6 +908,10 @@ class User extends CI_Controller
 		}
 	}
 
+	/*  END of Doctor Panel      */
+
+	/*  START of Witness Panel      */
+
 	function witness()
 	{
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
@@ -874,6 +981,7 @@ class User extends CI_Controller
 		}
 	}
 
+	/*  END of Witness Panel      */
 
 	function finish()
 	{

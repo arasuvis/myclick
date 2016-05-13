@@ -90,7 +90,7 @@ class family_model extends CI_Model
     
     function fam_det($id){
     
-		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
+		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.comments,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name');
 		$this->db->from('tbl_family');
 		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
 		$this->db->where('id',$id);
@@ -102,7 +102,7 @@ class family_model extends CI_Model
 
     function fam_det_d($id){
     
-		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name,grant_immovable.fam_id,grant_immovable.percent');
+		$this->db->select('tbl_family.id,tbl_family.name,tbl_family.relationship,tbl_family.dob,tbl_family.comments,tbl_family.gender,tbl_family.marital_status,tbl_family.status ,admin_relations.rel_id,admin_relations.name as rel_name,grant_immovable.fam_id');
 		$this->db->from('tbl_family');
 		$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
 		$this->db->join('grant_immovable','grant_immovable.fam_id=tbl_family.id','left');
@@ -111,6 +111,13 @@ class family_model extends CI_Model
 		$query = $this->db->get();
 
 		return $query;
+    }
+
+    function check_comments($id){
+    $query =  $this->db->select('comments')
+    						->where('id', $id)
+   						  ->get('tbl_family');
+	return $query;
     }
 }
 
