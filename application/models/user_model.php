@@ -75,6 +75,7 @@ class User_model extends CI_Model
 		$sql = "Select * from user_register where email='$email' and password='$pass' ";
 		$res = $this->db->query($sql);
 		$result = $res->result();
+		
 		if(!empty($result))
 		{
 			return $result[0]->user_id;	
@@ -88,12 +89,13 @@ class User_model extends CI_Model
 
 	function get_will_id($log_id)
 	{
-				
+		//echo $log_id;		
 		$query = $this->db->select_max('will_id')
 				 ->where('user_id',$log_id)
 				 ->get('tbl_will');
 		
-		
+	//	print_r($query->row()->will_id);
+	//	exit;
 		if($query->row()->will_id)
 		{
 			return $query->row()->will_id;

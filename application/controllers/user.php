@@ -56,7 +56,7 @@ class User extends CI_Controller
 		if($valid_check == true)
 		{
 			$session_data = $this->session->userdata('is_userlogged_in');
-				$will_id=$this->user_model->get_will_id($session_data['user_id']);
+				$will_id=$this->user_model->get_will_id($valid_check);
 				$session_data['user_id'] = $valid_check;
 				$session_data['will_id'] = $will_id;
 				$this->session->set_userdata("is_userlogged_in", $session_data);
@@ -743,6 +743,7 @@ class User extends CI_Controller
 		{
 		//$data['personal'] = $this->user_model->personal_details();
 		$data['tab'] = "previous_will";
+		insert_activity($this->will_id,1,5);
 		$data['width'] = "76%";
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
@@ -763,6 +764,7 @@ class User extends CI_Controller
 		//print_r($data); die();
 		$data['tab'] = "executor";
 		$data['width'] = "85%";
+		insert_activity($this->will_id,1,6);
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('executor',$data);
@@ -837,6 +839,7 @@ class User extends CI_Controller
 		$data['doctor'] = $this->doctor_model->get_doctor()->result();
 		$data['tab'] = "doctor";
 		$data['width'] = "92%";
+		insert_activity($this->will_id,1,6);
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('doctor',$data);
@@ -919,6 +922,7 @@ class User extends CI_Controller
 		$data['witness'] = $this->doctor_model->get_witness()->result();
 		$data['tab'] = "witness";
 		$data['width'] = "100%";
+		insert_activity($this->will_id,1,7);
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		$this->load->view('witness',$data);

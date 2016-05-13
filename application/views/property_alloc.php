@@ -53,7 +53,7 @@
                                 </div>
                                 <span id="error_immove" class="error"></span>
                                 </div>
-                                 
+                                
                                     <br>
                                      <label>Select Family Member</label><br>
                                     <div class="allocation_style">
@@ -670,6 +670,7 @@ $.ajax({
                   $('#dead_hide_others').hide();
                   $('#dead_show_others').show();
                   $('#rel_d').attr('value',res.rel_name);
+				  alert(res.relationship);
                   $('#rel_d_id').attr('value',res.relationship);
                   $('#dead_comments').html(res.comments)
                  }
