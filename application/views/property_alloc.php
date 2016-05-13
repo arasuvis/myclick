@@ -440,13 +440,13 @@ $(document).ready(function(){
 $('.edit_dead').on('click',function(){
  var id = $(this).attr('data'); 
  var fam = $(this).attr('fam'); 
-
+alert('fs');
 $.ajax({
 
             type:"POST",
             url:"<?php echo base_url(); ?>user/edit_dead_alloc",
             data: {id:id,fam:fam},
-            dataType:"json",
+            //dataType:"json",
             success:function(res)
             {
                $('#fam_d').children().each(function(){
@@ -464,7 +464,8 @@ $.ajax({
 
               if(res)
               {
-                console.log(res['fam_id'][0]['comments']);
+                var a = $.parseJSON(res);
+                console.log(a.fam_d);
               }
               else
               {
@@ -670,7 +671,6 @@ $.ajax({
                   $('#dead_hide_others').hide();
                   $('#dead_show_others').show();
                   $('#rel_d').attr('value',res.rel_name);
-				  alert(res.relationship);
                   $('#rel_d_id').attr('value',res.relationship);
                   $('#dead_comments').html(res.comments)
                  }
@@ -681,7 +681,7 @@ $.ajax({
               $('#gen_d').attr('value',res.gender);
               $('#dob_d').attr('value',res.dob);
               $('#marital_d').attr('value',res.marital_status);
-              $('#rel_id_d').attr('value',res.relationship);  } }
+              $('#rel_d_id').attr('value',res.relationship);  } }
             } 
         });
 
