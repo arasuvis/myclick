@@ -197,7 +197,7 @@ class Property_model extends CI_Model
 
     function get_dead_ajax($id){
         $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-        $this->db->select('tbl_family.id,tbl_family.name,dead_alloc.fam_id,dead_alloc.percentage');
+        $this->db->select('tbl_family.id,tbl_family.name,dead_alloc.fam_id,dead_alloc.dead_id,dead_alloc.percentage');
         $this->db->from('dead_alloc');
         $this->db->join('tbl_family','tbl_family.id=dead_alloc.fam_id','left');
         $this->db->where('dead_alloc.dead_id',$id);

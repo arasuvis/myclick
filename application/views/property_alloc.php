@@ -265,7 +265,7 @@
                                    <?php foreach ($dead as $d) { ?> 
                                     <div class="col-md-8 col-xs-8">
                                     <p><?php echo $d->name; ?></p>
-                                    <span class="edit_dead" data ="<?php echo $d->dead_id; ?>" style="cursor:pointer;color:#187aff" fam="<?php echo $d->fam_id; ?>">Edit</a></span> | 
+                                    <span class="edit_dead" data ="<?php echo $d->dead_id; ?>" style="cursor:pointer;color:#187aff" fam="<?php echo $d->fam_id; ?>">Edit</span> | 
                     <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo "1"; ?>">Delete</span>
                                     </div>
                                     <div class="col-md-4 col-xs-4">
@@ -464,7 +464,7 @@ $.ajax({
 
               if(res)
               {
-                console.log('true');
+                console.log(res['fam_id'][0]['comments']);
               }
               else
               {
@@ -517,9 +517,12 @@ if(per_d > rem_d){
               var rem_per = a['per'][0].percent_count;
               var name = a['fam_details'][0].name;
               var per = a['fam_details'][0].percentage;
+              var dead_id = a['fam_details'][0].dead_id;
+              var fam_id = a['fam_details'][0].fam_id;
               var str ='';
-              str += '<div class="col-md-8 col-xs-8"><p>'+name+'</p><span id="edit_edit"><a href=\'<?php echo base_url("user/edit_dead_alloc/"); ?>\'>Edit</a></span> | <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo "1"; ?>">Delete</span></div><div class="col-md-4 col-xs-4"><p>'+per+'</p></div>';
+              str += '<div class="col-md-8 col-xs-8"><p>'+name+'</p><span class="edit_dead"data ="'+dead_id+'" style="cursor:pointer;color:#187aff" fam="'+ fam_id +'">Edit</span> | <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo "1"; ?>">Delete</span></div><div class="col-md-4 col-xs-4"><p>'+per+'</p></div>';
 
+              
               $('#dead_alloc_details').append(str)
               /*$('#dead_name').text(name);
               $('#dead_per').text(per);*/
@@ -635,6 +638,12 @@ $('.mychoice').on('click',function(){
 
 $('#fam_d').on('change',function(){
 var id = $('#fam_d').val();
+
+$('#rel_d').attr('value','');
+$('#gen_d').attr('value','');
+$('#dob_d').attr('value','');
+$('#marital_d').attr('value','');
+$('#rel_id_d').attr('value',''); 
 
 $.ajax({
 

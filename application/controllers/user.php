@@ -519,7 +519,7 @@ class User extends CI_Controller
 	{
 		$a = $_POST;
 		$id = $this->property_model->save_dead($a);
-			$data['per'] = $this->property_model->dead_per()->result();
+		$data['per'] = $this->property_model->dead_per()->result();
 			$data['fam_details'] = $this->property_model->get_dead_ajax($id)->result();
 			if($data)
 			{
