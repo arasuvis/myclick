@@ -1,3 +1,4 @@
+<!--script src="<?php// echo base_url('js/jquery.form.js'); ?>"></script-->
 <style type="text/css">
 .memberbutton01 .dropdown {
   margin-bottom: 30px;
@@ -63,36 +64,39 @@ padding-top: 0px !important;
                       <div class="content-head">
                           <h4>FAMILY DETAILS</h4>
                       </div>
+
+
                       
                         <div class="memberbutton01 text-right">
                             <div class="dropdown">
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Members
                              </button>
                            
-                              <ul class="dropdown-menu list-unstyled">
-							  
-							   <?php foreach($lis as $list) {  ?>
-							   <li>
-                              <ul class="list-inline innerul-witness">
-                               <li class="width-resize"><?php echo $list->name; ?></li>  
-                               <li class="width-resize1"><a href="<?php echo base_url("user/family/{$list->id}");?>">Edit</a>|&nbsp;<span class="deleterec" style="cursor:pointer" id="<?php echo $list->id; ?>">Delete</span></li>
-                              </ul>
-                            </li>  
-							<?php } ?>
-							
-                           
+                              <ul class="dropdown-menu list-unstyled"  id="family_mem_details">
 
+                                   <?php foreach($lis as $list) {  ?>
+                                   <div class = "myid_<?php echo $list->id; ?>" rel="<?php echo $list->relationship; ?>" marital="<?php echo $list->marital_status; ?>">
+                                    <li><p><?php echo $list->name; ?></p>
+                                    <span class="edit_mem" style="cursor:pointer;color:#187aff" data ="<?php echo $list->id; ?>">Edit </span>|
+                                    <span class="delete_mem" style="cursor:pointer;color:#187aff" id="<?php echo $list->id; ?>">Delete</span>
+                                    </li>
+                                    </div>
+                                  <?php } ?>
+                       
+			                         </ul>
                             <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
                             <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
                                 
-                              </ul>
+                              
                             </div>
                         </div>
 						<?php if(isset($families->id)) $var = 'user/updateFamily'; else $var = 'user/addFamily';?>
-                          <form id = "form" action="<?php echo base_url($var); ?>" method="POST">
-                          <div class="family_form">
+                          <!--form id = "form" action="<?php// echo base_url($var); ?>" method="POST"-->
+                          <form id="form" method="post">
+
+                         <div class="family_form">
                           <br>
-						  <input autocomplete="off" type="hidden" name="id" value="<?php if(isset($families->id)) echo $families->id;?>">
+						  <input autocomplete="off" type="hidden" id="f_id" name="id" value="<?php if(isset($families->id)) echo $families->id;?>">
                               <div class="row family">
                                 <div class="col-md-6" style="padding-left: 0;">
                                   <label>Name</label><br>
@@ -176,7 +180,7 @@ padding-top: 0px !important;
 
                               <br><br><br>
                               <div class="continue">
-                                 <span style="display: inline;"><input id="submt" type="submit" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
+                                 <span style="display: inline;"><input id="save_family" type="submit" class="addFamily" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
                               </div>
                            
                           </div>
@@ -213,8 +217,7 @@ padding-top: 0px !important;
             
           </div>
         </div>
-    </section>
-
+    </section>                    
 </article>
 
 </div>
@@ -225,10 +228,11 @@ padding-top: 0px !important;
 </section>
 <link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
     
-    <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
+<script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
-    <script type="text/javascript">
+    
+<script type="text/javascript">
  
 $('#relationship').on('change',function(){ 
  if($('#relationship').val() == 16){
@@ -241,46 +245,14 @@ else{
 
 });
 
-$('.deleterec').on('click',function(e){ 
-var id = $(this).attr('id');
-            e.preventDefault();
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this record again",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, I am sure!',
-                cancelButtonText: "No, Proceed!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            
-           function(isConfirm) {
-                if (isConfirm) {
-                    swal({
-                        title: 'Successfully Deleted!',
-                        type: 'success'
-                    }, function() {
-                        window.location = "<?php echo base_url("user/delete");?>/"+id;
-                    });
-                    
-                } else {
-                    swal("Cancelled");
-                }
-            }); 
-
-});
-        </script>
+</script>
 
 <script type="text/javascript">
-
 $(document).ready(function(){ 
 if($('#relationship').val() == 16){ 
   $('#hide_others').hide(); 
   $('#c').show();
 }
-
 });
 
 $('#form').on('keyup','input',function(){
@@ -292,131 +264,464 @@ $(this).val($.trim($(this).val()));
 });
 
 
- $('#submt').on('click',function(e){
-  $('.error').html('');
-  e.preventDefault();
-  var name = /^[a-zA-Z\s]+$/;
-  var age = /^[0-9]+$/;
-  var rel = $('#relationship').val();
-  var comments = $('#comments').val();
+$('#contnu').on('click',function(){
 
-  if($('#name').val() == ''){
-    $('#error_name').html("Enter Name");
-    $('#name').focus(); return false;}
-  else if(! (name.test($('#name').val()))) {
-    $('#error_name').html("Enter only Alphabets");$('#name').focus(); return false; }
+  $.ajax({
+        type: "POST",
+        url: "<?php echo base_url('user/parents_check'); ?>",
+        //data: family_data,
+        type: 'POST',
+        success: function(response) {
+          //alert(response);
+          if(response == 1)
+          {
+            count =0;
+               $('#family_mem_details').children().each(function(){ 
+                    var rel = parseInt($(this).attr('rel'));
+                    var marital = $(this).attr('marital');
 
-  if($('select').val()=='none'){
-    $('#error_relation').html('Please, choose an option');
-  $('select').focus(); return false; }
-  
-  if(rel != 16){
+                    if(rel == 3){
+                            if(marital == "Married"){
+                              count =1;
+                            }
+                    }
+                  });
+                if(count == 1){
+                          swal({
+                            title: "You have married Son",
+                            text: "Are you willing to add your son's wife and children details",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, I am!',
+                            cancelButtonText: "No, Proceed!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                          },
+                          function(isConfirm) {
+                            if (isConfirm) {
+                                           window.location="<?php echo base_url('user/family');?>";
+                                
+                            } else {
+                                 window.location="<?php echo base_url('user/property');?>";
+                            }
+                          });   
+                }
 
-  if($('#dob').val() == ''){
-    $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
+          }
+          else{
+                  sweetAlert(
+                      'Oops...',
+                      'Father or Mother details not entered!',
+                      'error'
+                    )
+          }
 
-  if( $('input[name=gender]:checked').length<=0 ) { 
-    $('#error_gender').html("Select gender"); $('input[name=gender]:checked').focus(); return false; }
 
-  if( $('input[name=marital_status]:checked').length<=0 ) { 
-    $('#error_marital').html("Select Marital Status"); $('input[name=marital_status]:checked').focus(); return false; }
+        }
 
-  if( $('input[name=status]:checked').length<=0 ) { 
-    $('#error_status').html("Select Status");
-     $('input[name=status]:checked').focus(); return false; } }
+    });
+});  
 
-  else{
-  if( comments == '' ) { 
-    $('#error_comments').html("Enter Comments");
-     $('#comments').focus(); return false; } }
+</script>
 
-    $('#form').submit();
+<!-- var list = $.parseJSON($('#list').val());
+              var rel = $.parseJSON($('#rel').val());
+
+              var id = new Array();
+              var name= new Array();
+              var i=0;
+              var selected = 1;
+
+              $.each(rel,function(k,v){
+                  if(v['name']=="Son"){
+                   
+                    $.each(list,function(key,ele){
+                    if(ele['relationship'] == v['rel_id'])
+                    {
+                       if(ele['marital_status'] == "Married")
+                        {
+                          selected = 2;     
+
+                          swal({
+                            title: "You have married Son",
+                            text: "Are you willing to add your son's wife and children details",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, I am!',
+                            cancelButtonText: "No, Proceed!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                          },
+                          function(isConfirm) {
+                            if (isConfirm) {
+                                           window.location="<?php //echo base_url('user/family');?>";
+                                
+                            } else {
+                                 window.location="<?php // echo base_url('user/property');?>";
+                            }
+                          });               
+                        }
+                        else
+                        {
+                             window.location="<?php // echo base_url('user/property');?>"; 
+                        } 
+                     return false;  
+                        } 
+                      }); 
+                    }
+                    
+                  });
+ -->
+
+<script>
+$(function() {
+
+  $('#save_family').on('click',function(e){
+    //alert(); 
+    $('.error').html('');
+    e.preventDefault();
+    var name = /^[a-zA-Z\s]+$/;
+    var age = /^[0-9]+$/;
+    var rel = $('#relationship').val();
+    var comments = $('#comments').val();
+
+      if($('#name').val() == ''){
+        $('#error_name').html("Enter Name");
+        $('#name').focus(); return false;}
+      else if(! (name.test($('#name').val()))) {
+        $('#error_name').html("Enter only Alphabets");$('#name').focus(); return false; }
+
+      if($('select').val()=='none'){
+        $('#error_relation').html('Please, choose an option');
+      $('select').focus(); return false; }
+      
+      if(rel != 16){
+
+      if($('#dob').val() == ''){
+        $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
+
+      if( $('input[name=gender]:checked').length<=0 ) { 
+        $('#error_gender').html("Select gender"); $('input[name=gender]:checked').focus(); return false; }
+
+      if( $('input[name=marital_status]:checked').length<=0 ) { 
+        $('#error_marital').html("Select Marital Status"); $('input[name=marital_status]:checked').focus(); return false; }
+
+      if( $('input[name=status]:checked').length<=0 ) { 
+        $('#error_status').html("Select Status");
+         $('input[name=status]:checked').focus(); return false; } }
+      else{
+      if( comments == '' ) { 
+        $('#error_comments').html("Enter Comments");
+         $('#comments').focus(); return false; } }
+
+
+    if($('#save_family').hasClass("addFamily")){
+
+      var family_data = $('#form').serialize();
+
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url('user/addFamily'); ?>",
+        data: family_data,
+        type: 'POST',
+        //dataType:'json',
+      success: function(response) {
+       // alert(response);
+        if(response == 2){
+                alert('something went wrong');
+              }else {
+                       
+             $('#name').val('');
+             $('#dob').val('');
+              $('#relationship').children().each(function(k,l){
+                  if($(this).is(':selected')){
+                      $(this).attr('selected',false);
+                  }
+                });
+              $('input[name="gender"]').each(function(k,l){
+                  if($(this).is(':checked')){
+                      $(this).attr('checked',false);
+                  }
+                });
+              $('input[name="marital_status"]').each(function(k,l){
+                  if($(this).is(':checked')){
+                      $(this).attr('checked',false);
+                  }
+                });
+              $('input[name="status"]').each(function(k,l){
+                  if($(this).is(':checked')){
+                      $(this).attr('checked',false);
+                  }
+                });
+
+               
+
+               $('#comments').val('');
+               $('#hide_others').show(); 
+               $('#c').hide();
+
+              var a = $.parseJSON(response);
+              var name = a['family'].name;
+              var fam_id = a['family'].id;
+              var rel = a['family'].relationship;
+              var marital = a['family'].marital_status;
+              var str ='';
+
+              str = '<div class = "myid_'+fam_id+'" rel="'+rel+'" marital="'+marital+'"><li><p>'+name+'</p><span class="edit_mem" style="cursor:pointer;color:#187aff" data ="'+fam_id+'">Edit </span>|<span class="delete_mem" style="cursor:pointer;color:#187aff" id="'+fam_id+'">Delete</span></li></div>';
+
+              $('#family_mem_details').append(str)
+              swal({
+                        title: 'Successfully added!',
+                        type: 'success'
+                    }); 
+              }
+          }
+        });
+      }
+      else if($('#save_family').hasClass("updateFamily")){
+        var family_data = $('#form').serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('user/updateFamily'); ?>",
+            data: family_data,
+            type: 'POST',
+            //dataType:'json',
+          success: function(response) {
+            //alert(response);
+            if(response == 2){
+                    alert('something went wrong');
+                  }else {
+                // console.log($.parseJSON(response));            
+                 $('#name').val('');
+                 $('#dob').val('');
+                  $('#relationship').children().each(function(k,l){
+                      if($(this).is(':selected')){
+                          $(this).attr('selected',false);
+                      }
+                    });
+                  $('input[name="gender"]').each(function(k,l){
+                      if($(this).is(':checked')){
+                          $(this).attr('checked',false);
+                      }
+                    });
+                  $('input[name="marital_status"]').each(function(k,l){
+                      if($(this).is(':checked')){
+                          $(this).attr('checked',false);
+                      }
+                    });
+                  $('input[name="status"]').each(function(k,l){
+                      if($(this).is(':checked')){
+                          $(this).attr('checked',false);
+                      }
+                    });
+                  $('#comments').val('');
+                  $('#hide_others').show(); 
+                  $('#c').hide();
+
+                  var a = $.parseJSON(response);
+                  var name = a['family'].name;
+                  var fam_id = a['family'].id;
+
+                   $('#family_mem_details').children().each(function(){ 
+
+                                var clas = $(this).attr('class');
+                                var k = clas.split("_");
+                                var val = k[1];
+
+                                if(k[1] == fam_id){
+                                  $(this).children().children().first().html(name);
+                                }
+                                $('#save_family').removeClass('updateFamily');
+                                $('#save_family').addClass('addFamily');
+                                
+                              });
+
+                              swal({
+                                        title: 'Successfully updated!',
+                                        type: 'success'
+                                    }); 
+                            }
+                        }
+                   });
+               }      
+              });
 });
 
-    
-    
-  /*  function del_family(id,ele){ 
-        if(confirm('Want to Delete'))
-        {
-        var data = {id:id};
-        //console.log(data);
-        $.ajax({
-
+ $('#family_mem_details').on('click','.edit_mem',function(){
+  var id = $(this).attr('data');
+ // alert($(this).attr('data'))
+ 
+$.ajax({
             type:"POST",
-            url:"<?php // echo base_url(); ?>user/delete",
-            data:data,
+            url:"<?php echo base_url(); ?>user/edit_family",
+            data: {id:id},
+            //dataType:"json",
             success:function(res)
-            {  console.log(ele.parent().parent().remove());
-                return false;
-             //  window.location="<?php // echo base_url('user/family'); ?>";
-            }
-        });
-        return false;
-        }
-        else
-        {
-            return false;
-        }
-    } */
+            { 
+             console.log($.parseJSON(res));
+              var a = $.parseJSON(res);
 
-    $('#contnu').on('click',function(){
-        
-        var list = $.parseJSON($('#list').val());
-        var rel = $.parseJSON($('#rel').val());
-        var id = new Array();
-        var name= new Array();
-        var i=0;
-		var selected = 1;
-        $.each(rel,function(k,v){
-             if(v['name']=="Son"){
-				 
-                     $.each(list,function(key,ele){
-              if(ele['relationship'] == v['rel_id'])
+              var id = a['family'].id;
+              var name = a['family'].name;
+              var dob = a['family'].dob;
+              var gen = a['family'].gender;
+              var marital_status = a['family'].marital_status;  
+              var status = a['family'].status;
+
+              var rel_id = a['families'][0].rel_id;
+              var rel_name = a['families'][0].name;
+
+              if(rel_id == 16)
               {
-                    if(ele['marital_status'] == "Married")
-                    {
-						 selected = 2;
-                        
-						  swal({
-                title: "You have married Son",
-                text: "Are you willing to add your son's wife and children details",
+                var comments = a['family'].comments;
+
+                  $('#hide_others').hide(); 
+                  $('#c').show();
+                  $('#f_id').attr('value',id);
+                  $('#name').val(name);
+                 
+                  $('#relationship').children().each(function(){
+                      var r = $(this).attr('value');
+                        if( r == rel_id)
+                        {
+                          $(this).prop('selected',true);
+                        }
+                  });
+                  $('#comments').val(comments);
+
+              }else{
+              $('#hide_others').show(); 
+              $('#c').hide();
+               
+              $('#name').val(name);
+              $('#dob').val(dob);
+            //  $('#name').attr('value',name);
+             // $('#dob').attr('value',dob);
+              $('#f_id').attr('value',id);
+
+               $('#relationship').children().each(function(){
+                          var r = $(this).attr('value');
+                         
+                          if( r == rel_id)
+                          {
+                            $(this).prop('selected',true);
+                          }
+                        });
+
+               $('input[name="gender"]').each(function(){
+                  var p = $(this).attr('value');
+      
+                  if( p == gen)
+                  {
+                    $(this).prop('checked',true);
+                  }
+              });
+
+              $('input[name="marital_status"]').each(function(){
+                  var p = $(this).attr('value');
+                  if( p == marital_status)
+                  {
+                    $(this).prop('checked',true);
+                  }
+              }); 
+
+               $('input[name="status"]').each(function(){
+                  var p = $(this).attr('value');
+                  if( p == status)
+                  {
+                    $(this).prop('checked',true);
+                  }
+              }); 
+            }
+              $('#save_family').removeClass('addFamily');
+              $('#save_family').addClass('updateFamily');         
+              }
+             
+          });
+});
+
+
+$('#family_mem_details').on('click','.delete_mem',function(e){ 
+        var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, I am!',
-                cancelButtonText: "No, Proceed!",
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
             
            function(isConfirm) {
                 if (isConfirm) {
-                               window.location="<?php echo base_url('user/family');?>";
+                    $.ajax({
+                    url: "<?php echo base_url("user/delete");?>",
+                    type: "POST",
+                    data: { id: id },
+                    success: function(res) {
+                      if(res == 1){ swal("Oops!", "Something went wrong", "warning") } 
+                      else{
+                        swal("Done!", "It was succesfully deleted!", "success");
+
+                        
+                        var a = $.parseJSON(res);
+                        var id = a.id;
+                        $('#family_mem_details').children().each(function(){ 
+
+                          var clas = $(this).attr('class');
+                          var r = clas.split("_");
+                          var val = r[1];
+
+                            if(r[1] == id){
+                              $(this).remove();
+                            }
+                        }); 
+                         $('#name').val('');
+                         $('#dob').val('');
+                          $('#relationship').children().each(function(k,l){
+                              if($(this).is(':selected')){
+                                  $(this).attr('selected',false);
+                              }
+                            });
+                          $('input[name="gender"]').each(function(k,l){
+                              if($(this).is(':checked')){
+                                  $(this).attr('checked',false);
+                              }
+                            });
+                          $('input[name="marital_status"]').each(function(k,l){
+                              if($(this).is(':checked')){
+                                  $(this).attr('checked',false);
+                              }
+                            });
+                          $('input[name="status"]').each(function(k,l){
+                              if($(this).is(':checked')){
+                                  $(this).attr('checked',false);
+                              }
+                            });
+                          $('#comments').val('');
+                      }
+                    }
+                  });
                     
                 } else {
-                     window.location="<?php echo base_url('user/property');?>";
+                    swal("Cancelled");
                 }
-            });
-                       
-                    }
-                    else
-                     {
-                         // window.location="<?php echo base_url('user/property');?>"; 
-                     } 
-					 return false;
-				
-              } 
-			 
-                  }); }
-           
 
-        });
-		//alert(selected);
-        if(selected == 1)
-		window.location="<?php echo base_url('user/property');?>"; 
-   
+                if($('#save_family').hasClass("updateFamily")){
+                  $('#save_family').removeClass('updateFamily');
+                  $('#save_family').addClass('saveAndCon');
+                }
+            }); 
 
-     });
-	 
-	
-  </script>
+}); 
+</script>
+
+
+

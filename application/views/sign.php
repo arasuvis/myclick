@@ -25,13 +25,13 @@
 					<form>
 						<div class=" row form-group">
 							<div class="col-md-12">
-      							<input type="text" class="form-control" name="name" id="name" placeholder="user name">
+      							<input type="text" class="form-control" name="name" id="name" placeholder="Email Address">
     						</div>
 							 <span class="error" id="name_error"></span>
 						</div>
 						<div class=" row form-group">
 							<div class="col-md-12">
-      							<input type="password" class="form-control" name="pass" id="pass" placeholder="password">
+      							<input type="password" class="form-control" name="pass" id="pass" placeholder="Password">
     						</div>
 							 <span class="error" id="name_error"></span>
 						</div>

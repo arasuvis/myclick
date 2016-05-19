@@ -12,7 +12,7 @@
                     <h4>REASON FOR NOT ALLOCATING ANYTHING</h4>
                   </div>
                   <div class="form-section">
-                  	<form method="post" action ="<?php echo base_url('user/save_reason'); ?>">
+                  	<form method="post" action ="" id="form_reason">
                   	<div class="form-group">
                     <?php foreach($reason as $r) {?>
                   		<label class="control-label col-md-3 text-left" ><h5><?php echo $r->name ?></h5></label>
@@ -24,9 +24,7 @@
                   		</div>
                       <?php  } ?>
                   	</div>
-                    
-                  	 	
-                  	 	
+                                     	 	
                   	<div class="form-group col-md-5 col-md-offset-6">
                   	
                   		<input type="submit" class="btn btn-warning Continue-btn" id="saveandcont" value="Save & Continue &gt;&gt;">
@@ -73,6 +71,10 @@
 		
 	</div>
 </div>
+
+<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
+  
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
  
 <script type="text/javascript">
 $(document).ready(function(){ 
@@ -80,27 +82,55 @@ $(':input').blur(function(){
 $(this).val($.trim($(this).val()));
 });
 });
-  $('#saveandcont').on('submit',function(e){
-   e.preventDefault();
-   var allFieldsComplete = true;
+
+  $('#saveandcont').on('click',function(eve){
+   eve.preventDefault();
+
+  var allFieldsComplete = true;
    $( ".reason-textarea" ).each(function( index ) {
   
    if($.trim($( this ).val()) == '')
    {
-    // alert($( this ).val());
-  //  $('.error').html("Enter Reason");
-   // $(this).focus();
     allFieldsComplete = false;
    }  
 });
+
  if(!allFieldsComplete){
-    alert('Please complete all required fields');
+    swal({
+          title: 'Please Fill Reason for all Member!',
+          type: 'warning'
+      }); 
   }
   else
   {
-    location.href="<?php echo site_url();?>user/previous_will";
+   var details = $('#form_reason').serialize();
+   $.ajax({ 
+      type:"post",
+      data:{details},
+      url:"<?php echo base_url('user/save_reason'); ?>",
+      success: function(res){ 
+        if(res == 1){
+          swal({
+          title: 'Sucessfully Saved',
+          type: 'success'
+           },
+           function () {
+            window.location.href = "<?php echo site_url();?>user/previous_will";
+            }); 
+          /*setTimeout(function() {
+              window.location.href = "<?php //echo site_url();?>user/previous_will";
+            }, 2000);*/
+          //location.href="<?php echo site_url();?>user/previous_will";
+        }
+        else if(res == 2){
+          alert('something went wrong');
+        }
+      } });
+
+    //console.log('else');
+    //location.href="<?php //echo site_url();?>user/previous_will";
   }
-  //console.log( index + ": " + $( this ).text() );
+
 });
   
 

@@ -22,7 +22,29 @@ class Property_model extends CI_Model
     
     function save_imov($im_pro){
     	$im_pro['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-		return $this->db->insert('immovable_propertys', $im_pro); 
+		$this->db->insert('immovable_propertys', $im_pro); 
+        $query =    $this->db->insert_id();
+        if($query > 0){
+            return $query;
+        } 
+        else
+        {
+            return false;
+        }
+    }
+
+     function get_prop($id){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        
+     
+        $query = $this->db->select('immovable_propertys.Immovable_id,immovable_propertys.name,admin_property.prop_name,admin_property.prop_id ')
+                            ->from('immovable_propertys')
+                            ->join('admin_property','admin_property.prop_id=immovable_propertys.name','left')
+        
+                            ->where('will_id',$will_id)
+                            ->where('immovable_propertys.Immovable_id',$id)
+                            ->get();
+        return $query ;
     }
 
     function get_prop_list(){
@@ -47,6 +69,21 @@ class Property_model extends CI_Model
         //$this->db->join('admin_relations','admin_relations.rel_id=grant_immovable.rel_id','left');
         $this->db->where('immovable_propertys.will_id',$will_id);
         $this->db->where('immovable_propertys.name',$id);
+        $query = $this->db->get();
+
+        return $query;
+
+    }
+    
+     function prop_list($id){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
+        $this->db->select('grant_immovable.grant_im_id,grant_immovable.property_id ,grant_immovable.fam_id, grant_immovable.percent, admin_property.prop_name ,admin_property.prop_id,tbl_family.id,tbl_family.name');
+        $this->db->from('grant_immovable');
+        $this->db->join('admin_property','admin_property.prop_id=grant_immovable.property_id','left');
+        $this->db->join('tbl_family','tbl_family.id=grant_immovable.fam_id','left');
+        $this->db->where('grant_immovable.will_id',$will_id);
+        $this->db->where('grant_immovable.property_id',$id);
         $query = $this->db->get();
 
         return $query;
@@ -110,23 +147,16 @@ class Property_model extends CI_Model
      
     function insert_immov($data){
     $data['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-    return $query = $this->db->insert('grant_immovable', $data);
-   
-     //$query = $this->db->insert_id();
-    
-
-    /*if($query)
-    {
-    	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
-    	$this->db->select('tbl_family.name,grant_immovable.percent,grant_immovable.grant_im_id');
-    	$this->db->from('grant_immovable');
-    	$this->db->join('tbl_family','tbl_family.id=grant_immovable.fam_id','left');
-    	$this->db->where('grant_immovable.grant_im_id',$query);
-    	$this->db->where('grant_immovable.will_id',$will_id);
-    	$q = $this->db->get();
-
-       	return $q; 
-    } */
+    $this->db->insert('grant_immovable', $data);
+    $query =    $this->db->insert_id();     
+        if($query > 0)
+        {
+            return $query;
+        }
+        else
+        {
+            return false;
+        }
 
     }
  function prop_det($id){
@@ -214,6 +244,28 @@ class Property_model extends CI_Model
     							->update('grant_immovable', $data); 
 	}
 
+    function update_dead_alloc($dead_id,$a_per)
+    {
+         $query = $this->db->set('percentage',$a_per)
+                    ->where('dead_id', $dead_id)
+                    ->update('dead_alloc'); 
+            
+            if($query > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+    } 
+
+    function get_dead_alloc($dead_id){
+        return $this->db->select('percentage')
+                        ->where('dead_id',$dead_id)
+                        ->get('dead_alloc');
+    }
+
     function edit_property($id)
     {
         $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
@@ -248,10 +300,10 @@ class Property_model extends CI_Model
     function update_property($id,$a)
     {
         $a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-          $this->db->where('Immovable_id', $id)
+         $query =  $this->db->where('Immovable_id', $id)
                     ->update('immovable_propertys', $a); 
-            $query = $this->db->affected_rows();
-            if($query > 0)
+            
+            if($query)
             {
                 return true;
             }
@@ -261,19 +313,64 @@ class Property_model extends CI_Model
             }
     }
 
+    function name_property($id)
+    {
+    $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        
+        $this->db->select('immovable_propertys.Immovable_id,admin_property.prop_name,immovable_propertys.type');
+        $this->db->from('immovable_propertys');
+        $this->db->join('admin_property','admin_property.prop_id=immovable_propertys.name','left');
+        $this->db->where('immovable_propertys.will_id',$will_id);
+        $this->db->where('immovable_propertys.Immovable_id',$id);
+        $query = $this->db->get();
+    
+        if($query)
+        {
+            return $query->row();
+        }
+        else
+        {
+            return false;
+        }     
+    } 
+
+    function name_pro_alloc($id)
+    {
+    $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        
+        $this->db->select('grant_immovable.grant_im_id,tbl_family.name,grant_immovable.percent');
+        $this->db->from('grant_immovable');
+        $this->db->join('tbl_family','tbl_family.id=grant_immovable.fam_id','left');
+        $this->db->where('grant_immovable.will_id',$will_id);
+        $this->db->where('grant_immovable.grant_im_id',$id);
+        $query = $this->db->get();
+    
+        if($query)
+        {
+            return $query->row();
+        }
+        else
+        {
+            return false;
+        }     
+    } 
+
     function dist(){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
     	$this->db->select('count(DISTINCT(name)) as na');  
    		$this->db->from('immovable_propertys');  
-     
+        $this->db->where('will_id',$will_id);
    		return $query=$this->db->get();  
     }
 
     function comp_det(){
-    
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
 		$this->db->select('count(status) as st') ;
 		$this->db->from('grant_immovable');
 		//$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
 		$this->db->where('status',1);
+        $this->db->where('will_id',$will_id);
+
 		//$this->db->order_by('tbl_family','asc');
 		$query = $this->db->get();
 
@@ -284,7 +381,7 @@ class Property_model extends CI_Model
     	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
      	
 		$this->db->select('grant_immovable.property_id,grant_immovable.grant_im_id,grant_immovable.percent,
-			admin_property.prop_name ,admin_property.prop_id,grant_immovable.fam_id,grant_immovable.rel_id,tbl_family.name,tbl_family.id,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,admin_relations.rel_id as rela_id,admin_relations.name as rel_name');
+			admin_property.prop_name ,admin_property.prop_id,grant_immovable.fam_id,grant_immovable.rel_id,tbl_family.name,tbl_family.id,tbl_family.dob,tbl_family.gender,tbl_family.marital_status,tbl_family.comments,admin_relations.rel_id as rela_id,admin_relations.name as rel_name');
 		
 		$this->db->from('grant_immovable');
 		$this->db->join('admin_property','admin_property.prop_id=grant_immovable.property_id','left');
@@ -332,7 +429,8 @@ class Property_model extends CI_Model
     
 
        function save_reason($data){
-foreach($data as $key => $val){
+    
+    foreach($data as $key => $val){
 
 	$family['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
 	$family['member_id'] = $key;
@@ -350,24 +448,6 @@ foreach($data as $key => $val){
                  $this->db->where('member_id',$family['member_id'])
                 ->update('not_allocated_details', $family);
             }
-  //  print_r($q->result());exit;
-    /*$m_id = $key;
-
-    $q = $this->db->select('id')
-                ->where('member_id',$m_id)
-                ->get('not_allocated_details');
-    $id = 0;
-    if($q){
-    $id = parseInt($q->row()->id); }
-    if($id > 0){
-        $this->db->where('id',$id)
-                ->update('not_allocated_details', $family);
-    }
-    else{ */
-     //   $this->db->insert('not_allocated_details', $family);
-   // }
-	
-	
 	
 	} return 1;
        
@@ -402,6 +482,22 @@ function del_alloc($id)
         $query = $this->db->get();
 
         return $query ;
+    } 
+
+    function delete_dead_alloc($id)
+    {
+         $this->db->where('dead_id', $id)
+                                ->delete('dead_alloc');
+
+                $query =  $this->db->affected_rows();
+                if($query > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
     }  
 
     

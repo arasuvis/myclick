@@ -12,10 +12,29 @@ class Doctor_model extends CI_Model
 	$a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
 		
 	 $this->db->insert('tbl_executor', $a);
-	$query =	$this->db->affected_rows();		
+	$query =	$this->db->insert_id();	
 		if($query > 0)
 		{
-			return true;
+			return $query;
+		}
+		else
+		{
+			return false;
+		}     
+    } 
+
+    function name_executor($doc)
+    {
+	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+		
+	 $query = $this->db->select('e_name,e_id,e_mobile')
+	 			->where('e_id', $doc)
+	 			->where('will_id',$will_id)
+	 			->get('tbl_executor');
+	
+		if($query)
+		{
+			return $query->row();
 		}
 		else
 		{
@@ -28,10 +47,48 @@ class Doctor_model extends CI_Model
 	$a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
 		
 	 $this->db->insert('tbl_doctor', $a);
-		$query =	$this->db->affected_rows();		
+		$query =	$this->db->insert_id();		
 		if($query > 0)
 		{
-			return true;
+			return $query;
+		}
+		else
+		{
+			return false;
+		}     
+    } 
+
+    function name_doctor($doc)
+    {
+	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+		
+	 $query = $this->db->select('d_name,d_id,d_mobile')
+	 			->where('d_id', $doc)
+	 			->where('will_id',$will_id)
+	 			->get('tbl_doctor');
+	
+		if($query)
+		{
+			return $query->row();
+		}
+		else
+		{
+			return false;
+		}     
+    } 
+
+    function name_witness($doc)
+    {
+	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+		
+	 $query = $this->db->select('w_name,w_id')
+	 			->where('w_id', $doc)
+	 			->where('will_id',$will_id)
+	 			->get('tbl_witness');
+	
+		if($query)
+		{
+			return $query->row();
 		}
 		else
 		{
@@ -46,10 +103,10 @@ class Doctor_model extends CI_Model
 	$a['modified_date']= date("Y-m-d H:i:s");
 		
 	 $this->db->insert('tbl_witness', $a);
-		$query =	$this->db->affected_rows();		
+		$query =	$this->db->insert_id();		
 		if($query > 0)
 		{
-			return true;
+			return $query;
 		}
 		else
 		{
@@ -81,9 +138,9 @@ class Doctor_model extends CI_Model
 	function update_executor($id,$a)
     {
     	$a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-		  $this->db->where('e_id', $id)
+		 $query = $this->db->where('e_id', $id)
 					->update('tbl_executor', $a); 
-			$query = $this->db->affected_rows();
+			 
 			if($query > 0)
 			{
 				return true;
@@ -103,10 +160,10 @@ class Doctor_model extends CI_Model
 	function update_doctor($id,$a)
     {
     	$a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-		  $this->db->where('d_id', $id)
+		  $query = $this->db->where('d_id', $id)
 					->update('tbl_doctor', $a); 
-			$query = $this->db->affected_rows();
-			if($query > 0)
+			
+			if($query)
 			{
 				return true;
 			}
@@ -125,9 +182,9 @@ class Doctor_model extends CI_Model
 	function update_witness($id,$a)
     {
     	$a['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
-		  $this->db->where('w_id', $id)
+		 $query =  $this->db->where('w_id', $id)
 					->update('tbl_witness', $a); 
-			$query = $this->db->affected_rows();
+			
 			if($query > 0)
 			{
 				return true;

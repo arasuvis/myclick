@@ -17,8 +17,8 @@
                     <h4>EXECUTOR DETAIL</h4>
                   </div>
 
-                  <?php if(isset($exec)) {$var='user/update_executor'; } else {$var='user/save_executor';} ?>
-                  <form action="<?php echo base_url($var);?>" method="post">
+                  
+                  <form action="" method="post" id="form_exec">
                    <!-- <div class="row">
 	            		<div class="col-md-6">
 	            			<h5 class="meraClass">&nbsp;&nbsp;&nbsp;Is Your Previous Will Registred?</h5>
@@ -43,32 +43,32 @@
 
                   <div class="form-group">
                   <label class="control-label customise-label">Executor Name</label>
-                  <input class="form-control customise-input" type="text" name ="e_name" id="ex_name" value="<?php if(isset($exec->e_name)) echo $exec->e_name; ?> ">
+                  <input class="form-control customise-input" type="text" name ="e_name" id="e_name" value="">
                   <span id="error_name" class="error"></span>
                 </div>
-                <input type="text" hidden name ="e_id" value="<?php if(isset($exec->e_id)) echo $exec->e_id; ?> ">
+                <input type="text" hidden readonly name ="e_id" id="e_id" value="">
                 <div class="form-group">
                   <label class="control-label customise-label">Mobile Number</label>
-                  <input class="form-control customise-input" type="text" name ="e_mobile" id="e_mobile" value="<?php if(isset($exec->e_mobile)) echo $exec->e_mobile; ?> ">
+                  <input class="form-control customise-input" type="text" name ="e_mobile" id="e_mobile" value="">
                   <span id="error_mobile" class="error"></span>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control custom-textarea" placeholder="Who the Executor is?" rows="4" name ="e_about" id="e_about"><?php if(isset($exec->e_about)) echo $exec->e_about; ?></textarea>
+                  <textarea class="form-control custom-textarea" placeholder="Who the Executor is?" rows="4" name ="e_about" id="e_about"></textarea>
                   <span id="error_about" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label class="control-label customise-label">Address</label>
-                  <textarea class="form-control custom-textarea" name ="e_address" id="e_address"><?php if(isset($exec->e_address)) echo $exec->e_address; ?></textarea>
+                  <textarea class="form-control custom-textarea" name ="e_address" id="e_address"></textarea>
                   <span id="error_address" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label class="control-label customise-label">City</label>
-                  <input class="form-control customise-input" type="text" name ="city_name" id="city_name" value="<?php if(isset($exec->city_name)) echo $exec->city_name; ?> ">
+                  <input class="form-control customise-input" type="text" name ="city_name" id="city_name" value="">
                   <span id="error_city" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label class="control-label customise-label">State</label>
-                  <input class="form-control customise-input" type="text" name ="state_name" id="state_name" value="<?php if(isset($exec->state_name)) echo $exec->state_name; ?> ">
+                  <input class="form-control customise-input" type="text" name ="state_name" id="state_name" value="">
                   <span id="error_state" class="error"></span>
                 </div><br/><br/>
               
@@ -80,20 +80,22 @@
                   <center><h5>Executor Details</h5></center>
                     <ul class="details  list-unstyled">
                     <li>
+                    <div class="row" id="e_details">
                     <?php foreach($executor as $ex) { ?>
-                    <div class="row" id="a_details">
-                    
+                    <div class="myid_<?php echo $ex->e_id; ?>">
                     <div class="col-md-8 col-xs-8">
-                    <p id="d_name"><?php echo $ex->e_name; ?></p>
-                    <span id="edit_edit"><a href='<?php echo base_url("user/edit_executor/$ex->e_id"); ?>'>Edit</a></span> | 
+                    <p class="e_name"><?php echo $ex->e_name; ?></p>
+                    <span class="edit_edit" style="cursor:pointer;color:#187aff" data ="<?php echo $ex->e_id; ?>">Edit</span> | 
                     <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $ex->e_id ?>">Delete</span>
                     </div>
                     <div class="col-md-4 col-xs-4">
                     <p>Mobile</p>
-                    <span id="d_per"><?php echo $ex->e_mobile; ?></span>
+                    <span class="e_mob"><?php echo $ex->e_mobile; ?></span>
                     </div>
                     </div>
                     <?php } ?>
+                    </div>
+
                     </li>
                     </ul>
                 </div>
@@ -161,7 +163,8 @@ $(this).val($.trim($(this).val()));
 });
 });
 
-  $('#submt').on('click',function(){
+  $('#submt').on('click',function(e){
+    e.preventDefault();
 
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
@@ -169,11 +172,11 @@ $(this).val($.trim($(this).val()));
   var address = $('#e_address').val();
   var about = $('#e_about').val(); 
 
-  if($.trim($('#ex_name').val() ) == ''){
+  if($.trim($('#e_name').val() ) == ''){
     $('#error_name').html("Enter Name");
-    $('#ex_name').focus(); return false;}
-  else if(! (name.test($('#ex_name').val()))) {
-    $('#error_name').html("Enter only Alphabets");$('#ex_name').focus(); return false; }
+    $('#e_name').focus(); return false;}
+  else if(! (name.test($('#e_name').val()))) {
+    $('#error_name').html("Enter only Alphabets");$('#e_name').focus(); return false; }
 
   if($('#e_mobile').val() == ' '){
     $('#error_mobile').html("Enter Mobile Number");
@@ -207,9 +210,143 @@ $(this).val($.trim($(this).val()));
     $('#error_state').html("Enter only Alphabets");$('#state_name').focus(); return false; }
 
 
+  if($('#submt').hasClass("saveAndCon")){
+    var exec_data = $('#form_exec').serialize();
+
+    $.ajax({ 
+      type:"post",
+      data:{exec_data},
+      url:"<?php echo base_url('user/save_executor'); ?>" ,
+      success: function(res){
+        if(res == 2)
+        {
+          alert('something went wrong');
+        }
+        else{
+          var a =  $.parseJSON(res);
+          var e_name = a.name.e_name;
+          var e_id = a.name.e_id;
+          var e_mobile = a.name.e_mobile;
+
+          var str = '';
+          str += ' <div class="myid_'+e_id+'"><div class="col-md-8 col-xs-8"><p id="e_name">'+e_name+'</p><span class="edit_edit" style="cursor:pointer;color:#187aff" data ="'+e_id+'">Edit </span> | <span class="deleterec"  style="cursor:pointer;color:#187aff" id="'+e_id+'">Delete</span></div><div class="col-md-4 col-xs-4"><p>Mobile</p><span id="e_mob">'+e_mobile+'</span></div></div> ';
+
+          $('#e_details').append(str);
+
+          $('#e_name').val('');
+          $('#e_address').val('');
+          $('#e_mobile').val('');
+          $('#e_id').val('');
+          $('#e_about').val('');
+          $('#city_name').val('');
+          $('#state_name').val('');
+
+          swal({
+              title: 'Successfully Added!',
+              type: 'success'
+          }); 
+        }
+
+      }
+
+    });
+  }
+  else if($('#submt').hasClass("edit_save")){
+    var id = $('#e_id').val();
+    var details = $('#form_exec').serialize();
+
+     $.ajax({ 
+      type:"post",
+      data:{id,details},
+      url:"<?php echo base_url('user/update_executor'); ?>",
+      success: function(res){
+        if(res == 2)
+        {
+          alert('something went wrong');
+        }
+        else{
+          $('#e_name').val('');
+          $('#e_address').val('');
+          $('#e_mobile').val('');
+          $('#e_id').val('');
+          $('#e_about').val('');
+          $('#city_name').val('');
+          $('#state_name').val('');
+
+          var a = $.parseJSON(res);
+          var name = a.ex.e_name;
+          var id = a.ex.e_id;
+          var mob = a.ex.e_mobile;
+          
+          $('#e_details').children().each(function(){ 
+
+            var clas = $(this).attr('class');
+            var r = clas.split("_");
+            var val = r[1];
+
+            
+            if(r[1] == id){
+              $(this).children().children().first().html(name);
+              $(this).children().next().children().first().next().html(mob);
+            }
+            
+            $('#submt').removeClass('edit_save');
+            $('#submt').addClass('saveAndCon');
+            
+            swal({
+                title: 'Successfully Updated!',
+                type: 'success'
+            }); 
+          });
+
+
+        }
+
+
+      } });
+  }
+
+
   });
 
-$('.deleterec').on('click',function(e){ 
+ $('#e_details').on('click','.edit_edit',function(){
+  
+    var id = $(this).attr('data');
+
+    $.ajax({ 
+      type:"post",
+      data:{id},
+      url:"<?php echo base_url('user/edit_executor'); ?>",
+      success: function(res){
+        if(res == 2){
+          alert('something went wrong');
+        }
+        else{
+          var a = $.parseJSON(res);
+          var name = a.ex.e_name;
+          var add = a.ex.e_address;
+          var mob = a.ex.e_mobile;
+          var e_id = a.ex.e_id;
+          var about = a.ex.e_about;
+          var city = a.ex.city_name;
+          var state = a.ex.state_name;
+
+          $('#e_name').val(name);
+          $('#e_id').val(e_id);
+          $('#e_mobile').val(mob);
+          $('#e_address').val(add);
+          $('#e_about').val(about);
+          $('#city_name').val(city);
+          $('#state_name').val(state);
+          
+          $('#submt').addClass('edit_save');
+          $('#submt').removeClass('saveAndCon');
+        }
+      }
+    });
+  });
+
+$('#e_details').on('click','.deleterec',function(e){ 
 var id = $(this).attr('id');
             e.preventDefault();
             swal({
@@ -226,15 +363,49 @@ var id = $(this).attr('id');
             
            function(isConfirm) {
                 if (isConfirm) {
-                    swal({
-                        title: 'Successfully Deleted!',
-                        type: 'success'
-                    }, function() {
-                        window.location = "<?php echo base_url("user/delete_executor");?>/"+id;
-                    });
+                    $.ajax({
+                    url: "<?php echo base_url("user/delete_executor");?>",
+                    type: "POST",
+                    data: { id: id },
+                    success: function(res) {
+                      if(res == 1){ swal("Oops!", "Something went wrong", "warning") } 
+                      else{
+                        swal("Done!", "It was succesfully deleted!", "success");
+
+                        $('#e_name').val('');
+                        $('#e_address').val('');
+                        $('#e_mobile').val('');
+                        $('#e_id').val('');
+                        $('#e_about').val('');
+                        $('#city_name').val('');
+                        $('#state_name').val('');
+
+                        var a = $.parseJSON(res);
+                        var id = a.id;
+                        $('#e_details').children().each(function(){ 
+
+                          var clas = $(this).attr('class');
+                          var r = clas.split("_");
+                          var val = r[1];
+
+                            if(r[1] == id){
+                              $(this).remove();
+                            }
+                        }); 
+                      }
+                    }
+                  });
                     
                 } else {
-                    swal("Cancelled");
+                    swal({
+                        title: 'Cancelled!',
+                        type: 'error'
+                    }); 
+                }
+
+                if($('#submt').hasClass("edit_save")){
+                  $('#submt').removeClass('edit_save');
+                  $('#submt').addClass('saveAndCon');
                 }
             }); 
 

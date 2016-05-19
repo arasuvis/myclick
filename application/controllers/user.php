@@ -210,7 +210,9 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$id = $this->uri->segment(3,0);
+		//echo "<pre>";
 		$data['lis'] = $this->family_model->get_paged_list()->result();
+		//print_r($data); die();
 		$data['rel'] = $this->family_model->get_relation()->result();
 		$data['gen'] = $this->family_model->get_gender()->result();
 		$data['m_sta'] = $this->family_model->get_marital_status()->result();
@@ -228,6 +230,7 @@ class User extends CI_Controller
 		$this->load->view('family',$data);}
 		$this->load->view('footer'); }
 		else { redirect('user/signin');}
+
 	}
 
 	function addFamily()
@@ -253,13 +256,57 @@ class User extends CI_Controller
 			'status' => 'Alive');
 		}
 			$id = $this->family_model->save($family);
-			if($id)
+			$data['family'] = $this->family_model->get_by_id($id)->row();
+			if($data)
 			{
-			redirect('user/family');}
-			else{
-				echo "error"; die();
-			}		
-	}		
+				echo json_encode($data);
+			}
+			else {
+				echo 2 ; die();
+			}			
+	}
+
+	function edit_family()
+	 {
+	 	$id = $this->input->post('id');
+	 	//$fam = $this->input->post('fam');
+	 	$data['family'] = $this->family_model->get_by_id($id)->row();
+	 	$data['families'] = $this->family_model->get_family_mem($id);
+		echo json_encode($data); die();	
+	 }
+
+	 function parents_check()
+	 {
+	 	$will_id = $this->will_id;
+        $d1 = $this->family_model->check_family($will_id); 
+
+        $d2 = json_encode($d1);
+
+        $d3= json_decode($d2,TRUE);
+
+       if($this->check_array('Father', $d3, 'name') && $this->check_array('Mother', $d3, 'name')) 
+        {
+        	echo "1";
+        }else
+        {
+        	echo "0";
+        }
+ 
+	 }	
+
+	  function check_array($text,$myarray,$key){
+        $i = 0;
+        foreach($myarray as $k=>$val){
+            if(trim($val[$key]) == trim($text)){
+              $i =1;
+            }
+        }
+        if($i == 1){
+            return true;
+        }else{
+        return false;
+        }
+        }		
 	
 	function updateFamily()
 	{
@@ -277,16 +324,31 @@ class User extends CI_Controller
 			'comments' => $this->input->post('comments'));
 			}
 							
-			$this->family_model->update($id,$family);
-			redirect('user/family');
+			$data['f'] = $this->family_model->update($id,$family);
+
+			$data['family'] = $this->family_model->get_by_id($id)->row();
+			if($data)
+			{
+
+				echo json_encode($data);
+			}
+			else {
+				echo 2 ; die();
+			}
 	}
 
-	function delete($id)
+	function delete()
 	{
-		//$id = $this->input->post('id');
-		$this->family_model->delete($id);
-
-		redirect('user/family','refresh');
+		$id = $this->input->post('id');
+            $pro = $this->family_model->delete($id);
+            if($pro)
+            {
+                $data['id'] = $this->input->post('id');
+                echo json_encode($data);
+            }
+            else {
+            echo 2; die();
+        }
 	}
 
 	/*  END Of Family Panel      */
@@ -330,53 +392,55 @@ class User extends CI_Controller
 	function addProperty()
 	{
 		//print_r($_POST); die();
-			$prop = $this->input->post('property'); 
-			if($prop == "immovable")
+		parse_str($_POST['prop_data'], $searcharray);
+			 
+			if($searcharray['property'] == "immovable")
 			{
 				$im_pro = array(
-				'name' => $_POST['immov_prop'],
-				'nature_of_ownership' => $_POST['ownership'],
-				'municipal_number' => $_POST['muncipal'],
-				'year_of_purchase' => $_POST['year_of_purchase'],
-				'area' => $_POST['area'],
-				'address' => $_POST['address'],
+				'name' => $searcharray['immov_prop'],
+				'nature_of_ownership' => $searcharray['ownership'],
+				'municipal_number' => $searcharray['muncipal'],
+				'year_of_purchase' => $searcharray['year_of_purchase'],
+				'area' => $searcharray['area'],
+				'address' => $searcharray['address'],
 				'type' => 1,
 				'created_date' => date("Y-m-d H:i:s"),
 				'modified_date'=> date("Y-m-d H:i:s") );
 
 				$id = $this->property_model->save_imov($im_pro);
-				if($id){
-					redirect('user/property');
+				if($id > 0){
+					 $data['lis'] = $this->property_model->get_prop($id)->result();
+					 echo json_encode($data); die();
 				} else{ 
-					echo "error"; die();
+					echo 1; die();
 				}
 			}
-			else{
-				$im_prop = array('name' => $this->input->post('name_mov'),
-				'comments' => $this->input->post('comments') ,
+			else if($searcharray['property'] == "movable"){
+				$im_prop = array('name' => $searcharray['name_mov'],
+				'comments' => $searcharray['comments'] ,
 				'type' => 2
 				 );
 
 				$id = $this->property_model->save_imov($im_prop);
-				if($id){
-					redirect('user/property');
+				if($id > 0){
+					$data['lis'] = $this->property_model->get_prop($id)->result();
+					 echo json_encode($data); die();
 				} else{ 
-					echo "error"; die();
+					echo 1; die();
 				}
 			}	
 	}
 
-	function edit_property($id){
-		//echo $id; die();
-		$data['lis'] = $this->property_model->get_prop_list()->result();
-		$data['pro'] = $this->property_model->get_immov_property()->result();
-		$data['own'] = $this->property_model->get_owner()->result();
-		$data['e_pro'] = $this->property_model->edit_property($id)->row();
-		//echo "<pre>"; print_r($data); die();
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('property',$data);
-		$this->load->view('footer');
+	function edit_property(){
+
+		$id = $this->input->post('id');
+		$data['pro'] = $this->property_model->edit_property($id)->row();
+		if($data){
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
 		
 	}
 
@@ -384,47 +448,49 @@ class User extends CI_Controller
 	function update_property() {
 	
 		//print_r($_POST); die();
-		$id = $this->input->post('up_id');
-		$prop = $this->input->post('property'); 
-			if($prop == "immovable")
+		$id = $this->input->post('id');
+		parse_str($_POST['details'], $searcharray); 
+			if($searcharray['property'] == "immovable")
 			{
 				$a = array(
-				'nature_of_ownership' => $_POST['ownership'],
-				'municipal_number' => $_POST['muncipal'],
-				'year_of_purchase' => $_POST['year_of_purchase'],
-				'area' => $_POST['area'],
-				'address' => $_POST['address'],
+				'nature_of_ownership' => $searcharray['ownership'],
+				'municipal_number' => $searcharray['muncipal'],
+				'year_of_purchase' => $searcharray['year_of_purchase'],
+				'area' => $searcharray['area'],
+				'address' => $searcharray['address'],
 				'type' => 1,
 				'created_date' => date("Y-m-d H:i:s"),
 				'modified_date'=> date("Y-m-d H:i:s") );
 			}
-			else if($prop == "movable"){
+			else if($searcharray['property'] == "movable"){
 				$a = array(
-				'name' => $this->input->post('name_mov'),
-				'comments' => $this->input->post('comments'),
+				'comments' => $searcharray['comments'],
 				'type'=> 2 );
 			}
 		
 		$pro = $this->property_model->update_property($id,$a);
 		if($pro)
 		{
-			redirect('user/property');
+			$data['pro']=$this->property_model->name_property($id);
+			echo json_encode($data);
 		}
 		else {
-			echo "error"; die();
+			echo 2; die();
 		}
 				
 	}
 
-	function delete_property($id)
+	function delete_property()
 	{
+			$id = $this->input->post('id');
 			$pro = $this->property_model->delete_prop($id);
 			if($pro)
 			{
-				redirect('user/property');
+				$data['id'] = $this->input->post('id');
+				echo json_encode($data);
 			}
 			else {
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 	
@@ -466,10 +532,22 @@ class User extends CI_Controller
 	{
 	    $id = $_POST['id'];
 		$data = $this->property_model->prop_det($id)->result();
-		//echo "pre"; print_r($data); die();
-	//	print_r($data[0]);
+		
 		 if(empty($data[0]->percent_count)) echo 100; else  echo 100 - $data[0]->percent_count; die();
 	} 
+	
+	function get_property_list()
+	{
+	    $id = $_POST['id'];
+		$data = $this->property_model->prop_list($id)->result();
+		if($data){
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
+
+			} 
 
 	function get_details()
 	{
@@ -563,35 +641,35 @@ class User extends CI_Controller
 
 	function add_property_alloc()
 	{		
-		$fam_id = $this->input->post('fam_id');
-		//$id = $this->family_model->del_id($fam_id);
-		$percent = $this->input->post('percent');
-		$myallocation = $this->input->post('myallocation');
+		parse_str($_POST['p_alloc_data'] , $searcharray);
+		
+		$fam_id = $searcharray['fam_id'];
+		$percent = $searcharray['percent'];
+		$myallocation = $searcharray['myallocation'];
+		//print_r($fam_id); echo $percent; echo $myallocation; die();
 		$var =  $percent - $myallocation;
 		if($var == 0)
 		{
-			$data = array( 'property_id' => $this->input->post('property_id'),
-		 'fam_id' => $this->input->post('fam_id'),
-		 'rel_id' => $this->input->post('rel_id'),
-		 'percent' => $this->input->post('myallocation'),
+			$data = array( 'property_id' => $searcharray['property_id'],
+		 'fam_id' => $searcharray['fam_id'],
+		 'rel_id' => $searcharray['rel_id'],
+		 'percent' => $searcharray['myallocation'],
 		 'status' => '1'
 		 );
 		}
 		else{
-			$data = array( 'property_id' => $this->input->post('property_id'),
-		 'fam_id' => $this->input->post('fam_id'),
-		 'rel_id' => $this->input->post('rel_id'),
-		 'percent' => $this->input->post('myallocation'),
+			$data = array( 'property_id' => $searcharray['property_id'],
+		 'fam_id' => $searcharray['fam_id'],
+		 'rel_id' => $searcharray['rel_id'],
+		 'percent' => $searcharray['myallocation'],
 		 'status' => 0 );
-		}
-		//echo "<pre>"; print_r($data); 
-		//die();			
+		}			
 
 			$v = $this->property_model->insert_immov($data);
-			if($v)
+			if($v > 0)
 			{
-				//echo json_encode($v[0]); die();
-				redirect('user/property_alloc');
+				$dat['p'] = $this->property_model->name_pro_alloc($v);
+				echo json_encode($dat); die();
 			}
 			else{ echo "error"; die();}
 	}
@@ -614,63 +692,67 @@ class User extends CI_Controller
 				
 	}
 
-	function edit_alloc($id){
+	function edit_alloc(){
 
-		$pid = $this->uri->segment(4,0);
-		$data['rem'] = $this->property_model->percentage($pid);
-		//print_r($data); die();
+		$pid = $this->input->post('pid');
+		$id = $this->input->post('id');
 		$data['allpro'] = $this->property_model->get_by_id($id);
-		//print_r($data); die();
-		$data['immov'] = $this->property_model->get_immov();
-		$data['fam_a'] = $this->family_model->get_fam_a()->result();
-		$data['grantid'] = $id;
-		//echo "<pre>"; print_r($data); die();
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('property_alloc',$data);
-		$this->load->view('footer'); 
+
+		if($data){
+			$data['rem'] = $this->property_model->percentage($pid);
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
 	}
 
 	function update_property_alloc(){
 		//print_r($_POST); die();
-		$id = $_POST['grantid'];
-		$per = $_POST['myallocation'];
-		$rem = $_POST['percent'];
-		$before = $_POST['data'];
+		$id = $this->input->post('id');
+		parse_str($_POST['details'], $searcharray);
+
+		$per = $searcharray['myallocation'];
+		$rem = $searcharray['percent'];
+		$before = $this->input->post('data');
 		
 		$add = $before + $rem;
 		
 		if($per == $add)
 		{
 			$data = array( 
-		 'percent' => $this->input->post('myallocation'),
+		 'percent' => $searcharray['myallocation'],
 		 'status' => 1 );
 		}
 		else
 		{
 			$data = array( 
-		 'percent' => $this->input->post('myallocation'),
+		 'percent' => $searcharray['myallocation'],
 		 'status' => 0 );
 		}
 		
 		$v = $this->property_model->update_immov($id,$data);
 			if($v)
 			{
-				redirect('user/property_alloc');
+				$data['p']=$this->property_model->name_pro_alloc($id);
+				echo json_encode($data); 
 			}
-			else{ echo "error"; die();}
+			else{ echo 2; die();
+		}
 		
 	}
 
-	function del_alloc($id){
-		//echo $id; die();
-		$alloc = $this->property_model->del_alloc($id);
+	function del_alloc(){
+
+		$id = $this->input->post('id');
+			$alloc = $this->property_model->del_alloc($id);
 			if($alloc)
 			{
-				redirect('user/property_alloc');
+				$data['id'] = $this->input->post('id');
+				echo json_encode($data);
 			}
 			else {
-			echo "error"; die();
+			echo 2; die();
 		}
 	 }
 
@@ -692,6 +774,41 @@ class User extends CI_Controller
 			}
 	 }
 
+	 function update_dead_alloc(){
+	 	$dead_id = $this->input->post('dead_id');
+	 	$a_per = $this->input->post('a_per');
+
+		$dead = $this->property_model->update_dead_alloc($dead_id,$a_per);
+
+		if($dead)
+		{
+			$data['id'] = $this->input->post('dead_id');	
+			$data['alloc'] = $this->property_model->get_dead_alloc($dead_id)->row();
+		    $data['per'] = $this->property_model->dead_per()->row();
+			echo json_encode($data);
+		}
+		else {
+			echo 2;
+		}
+
+	 }
+
+	 function delete_dead_alloc()
+	 {
+	 		$id = $this->input->post('id');
+
+			$dead = $this->property_model->delete_dead_alloc($id);
+			if($dead)
+			{
+				$data['id'] = $this->input->post('id');
+				$data['rem_p'] = $this->property_model->dead_per()->row();
+				echo json_encode($data);
+			}
+			else {
+			echo 1; die();
+		}
+	}
+
 	 /*  END of Property Allocation Panel      */
 
 	 /*  START of Reason Panel      */
@@ -701,8 +818,6 @@ class User extends CI_Controller
 		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
 		{
 		$data['reason'] = $this->property_model->reason_not_alloc();
-		//echo "<pre>";
-		//print_r($data); die();
 		$data['tab'] = "reason_for_not_alloc";
 		$data['width'] = "66%";
 		insert_activity($this->will_id,1,4);
@@ -715,21 +830,15 @@ class User extends CI_Controller
 
 	function save_reason()
 	{  
-		//print_r($_POST); die();
-		$a = $_POST;
-		/*print_r($a); die();
-		foreach($a as $as)
-		{
-			print_r($as); 
-		}*/
-		//die();
-		$res = $this->property_model->save_reason($a);
+		parse_str($_POST['details'],$searcharray);
+				
+		$res = $this->property_model->save_reason($searcharray);
 		if($res)
 		{
-			redirect('user/previous_will');
+			echo 1;
 		}
 		else{
-			redirect('user/reason_for_not_alloc');
+			echo 2;
 		}
 	}
 
@@ -774,57 +883,61 @@ class User extends CI_Controller
 
 	function save_executor()
 	{
-
 		//print_r($_POST); die();
-		$a = $_POST;
-
-		$ex = $this->doctor_model->save_executor($a);
+		parse_str($_POST['exec_data'], $searcharray);
+		$ex = $this->doctor_model->save_executor($searcharray);
 		if($ex)
 		{
-			redirect('user/executor');
+			$data['name']=$this->doctor_model->name_executor($ex);
+			echo json_encode($data); 
 		}
 		else{
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
-	function edit_executor($id){
-		$data['executor'] = $this->doctor_model->get_executor()->result();
-		$data['exec'] = $this->doctor_model->edit_executor($id)->row();
+	function edit_executor(){		
 
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('executor',$data);
-		$this->load->view('footer');
+		$id = $this->input->post('id');
+		$data['ex'] = $this->doctor_model->edit_executor($id)->row();
+		if($data){
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
 		
 	}
 
 
 	function update_executor() {
-		$id = $this->input->post('e_id');
-		$a = $_POST;
-		unset($a['e_id']);
+
+		$id = $this->input->post('id');
+		parse_str($_POST['details'], $searcharray);
+		$a = $searcharray;
 		
 		$ex = $this->doctor_model->update_executor($id,$a);
 		if($ex)
 		{
-			redirect('user/executor');
+			$data['ex']=$this->doctor_model->name_executor($id);
+			echo json_encode($data); 
 		}
 		else {
-			echo "error"; die();
-		}
-				
+			echo 2; die();
+		}			
 	}
 
-	function delete_executor($id)
+	function delete_executor()
 	{
+		$id = $this->input->post('id');
 			$ex = $this->doctor_model->delete_executor($id);
 			if($ex)
 			{
-				redirect('user/executor');
+				$data['id'] = $this->input->post('id');
+				echo json_encode($data);
 			}
 			else {
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
@@ -849,65 +962,59 @@ class User extends CI_Controller
 
 	function save_doctor()
 	{
-
-		//print_r($_POST); die();
-		$d_name = trim($this->input->post('d_name'));
-		$d_address = $this->input->post('d_address');
-		$d_mobile = $this->input->post('d_mobile');
-		$a = array(
-		'd_name' => $d_name,
-		'd_address' => $d_address,
-		'd_mobile' => $d_mobile );
-		$a = $_POST;
-
-		$doc = $this->doctor_model->save_doctor($a);
+		parse_str($_POST['doc_data'], $searcharray);
+		
+		$doc = $this->doctor_model->save_doctor($searcharray);
 		if($doc)
 		{
-			redirect('user/doctor');
+			$data['name']=$this->doctor_model->name_doctor($doc);
+			echo json_encode($data); 
 		}
 		else{
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
-	function edit_doctor($id){
-
-		$data['doctor'] = $this->doctor_model->get_doctor()->result();
+	function edit_doctor(){
+		$id = $this->input->post('id');
 		$data['d'] = $this->doctor_model->edit_doctor($id)->row();
-
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('doctor',$data);
-		$this->load->view('footer');
+		if($data){
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
 		
 	}
 
 	function update_doctor() {
-
-		$id = $this->input->post('d_id');
-		$a = $_POST;
-		unset($a['d_id']);
+		///print_r($_POST); die();
+		$id = $this->input->post('id');
+		parse_str($_POST['details'], $searcharray);
+		$a = $searcharray;
 		
 		$doc = $this->doctor_model->update_doctor($id,$a);
 		if($doc)
 		{
-			redirect('user/doctor');
+			$data['name']=$this->doctor_model->name_doctor($id);
+			echo json_encode($data); 
 		}
 		else {
-			echo "error"; die();
+			echo 2; die();
 		}
 				
 	}
 
-	function delete_doctor($id)
-	{
+	function delete_doctor()
+	{		$id = $this->input->post('id');
 			$doc = $this->doctor_model->delete_doctor($id);
 			if($doc)
 			{
-				redirect('user/doctor');
+				$data['id'] = $this->input->post('id');
+				echo json_encode($data);
 			}
 			else {
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
@@ -932,56 +1039,62 @@ class User extends CI_Controller
 
 	function save_witness()
 	{
-		//print_r($_POST); die();
-		$a = $_POST;
-
-		$doc = $this->doctor_model->save_witness($a);
-		if($doc)
+		parse_str($_POST['wit_data'], $searcharray);
+		
+		$wit = $this->doctor_model->save_witness($searcharray);
+		if($wit)
 		{
-			redirect('user/witness');
+			$data['name']=$this->doctor_model->name_witness($wit);
+			echo json_encode($data); 
 		}
 		else{
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
-	function edit_witness($id){
+	function edit_witness(){
 
-		$data['witness'] = $this->doctor_model->get_witness()->result();
-		$data['wit'] = $this->doctor_model->edit_witness($id)->row();
-
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('witness',$data);
-		$this->load->view('footer');
+		$id = $this->input->post('id');
+		$data['w'] = $this->doctor_model->edit_witness($id)->row();
+		if($data){
+			echo json_encode($data);
+		}
+		else{
+			echo 2; die();
+		}
+		
 		
 	}
 
 	function update_witness() {
-		$id = $this->input->post('w_id');
-		$a = $_POST;
-		unset($a['w_id']);
+		
+		$id = $this->input->post('id');
+		parse_str($_POST['details'], $searcharray);
+		$a = $searcharray;
 		
 		$wit = $this->doctor_model->update_witness($id,$a);
 		if($wit)
 		{
-			redirect('user/witness');
+			$data['wit']=$this->doctor_model->name_witness($id);
+			echo json_encode($data); 
 		}
 		else {
-			echo "error"; die();
+			echo 2; die();
 		}
 				
 	}
 
-	function delete_witness($id)
+	function delete_witness()
 	{
+		$id = $this->input->post('id');
 			$wit = $this->doctor_model->delete_witness($id);
 			if($wit)
 			{
-				redirect('user/witness');
+				$data['id'] = $this->input->post('id');
+				echo json_encode($data);
 			}
 			else {
-			echo "error"; die();
+			echo 2; die();
 		}
 	}
 
@@ -1001,11 +1114,27 @@ class User extends CI_Controller
 		else { redirect('user/signin');
 	}
 	}
+
+	function p_a()
+	{
+		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
+		{
+			
+		$data['immov'] = $this->property_model->get_immov();		
 		
-
-	
-
-	
+		$data['fam_a'] = $this->family_model->get_fam_a()->result();
+		$data['dead'] = $this->property_model->get_dead()->result();
+		//echo "<pre>"; print_r($data); die();
+		//insert_activity($this->will_id,1,3);
+		//
+		$data['tab'] = "p_a";
+		$data['width'] = "48%";
+		$this->load->view('header');
+		$this->load->view('navbar',$data);
+		$this->load->view('p_a',$data);
+		$this->load->view('footer'); }
+		else { redirect('user/signin');}
+	}
 	
 }
 

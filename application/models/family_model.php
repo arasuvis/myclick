@@ -39,10 +39,18 @@ class family_model extends CI_Model
 	}
 
 	function save($family){	
-	$session_variable = $this->session->userdata('is_userlogged_in');
-		$family['will_id'] = $session_variable['will_id'];
+		$family['will_id'] = $this->session->userdata('is_userlogged_in')['will_id'];
 		 $this->db->insert('tbl_family', $family);
-		 return $this->db->insert_id();
+		 $query = $this->db->insert_id();
+
+         if($query > 0)
+         {
+            return $query;
+         }
+         else
+         {
+            return false;
+         }  
 	}
 
 	public function get_by_id($id){
@@ -51,16 +59,45 @@ class family_model extends CI_Model
 						  ->get('tbl_family');
 				  
 	}
+
+	public function get_family_mem($id){
+		$this->db->select('*');
+	    $this->db->from('tbl_family');
+	    $this->db->join('admin_relations', 'admin_relations.rel_id = tbl_family.relationship'); 
+	    $this->db->where('tbl_family.id', $id);
+		$query = $this->db->get();
+		return $query->result();
+
+	}
+
+	public function check_family($id){
+        $this->db->select('*');
+	    $this->db->from('tbl_family');
+	    $this->db->join('admin_relations', 'admin_relations.rel_id = tbl_family.relationship'); 
+	    
+	    $this->db->where('tbl_family.will_id', $id);
+	    $query = $this->db->get();
+		return $query->result();
+	}
 	
 	public function update($id,$family){
-
-		$this->db->where('id', $id);
-		$this->db->update('tbl_family', $family);
+		return $query = $this->db->where('id',$id)
+    							->update('tbl_family', $family); 
 	}
 
 	public function delete($id){
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_family');
+		 $this->db->where('id', $id)
+                  ->delete('tbl_family');
+
+                $query =  $this->db->affected_rows();
+                if($query > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
 	}
 
 
@@ -80,9 +117,8 @@ class family_model extends CI_Model
     }
 
     function del_id($fam_id){
-    	//echo $fam_id; die();
-    	$query = $this->db->where('member_id', $fam_id)
-				->delete('not_allocated_details'); 
+      	$query = $this->db->where('member_id', $fam_id)
+		        		  ->delete('not_allocated_details'); 
 		if($query){
 			return true; 
 		} else{ return false;}
@@ -118,6 +154,19 @@ class family_model extends CI_Model
     						->where('id', $id)
    						  ->get('tbl_family');
 	return $query;
+    }
+
+    function get_family_check($id){
+    $My = array('will_id' => $id, 'relationship' => '1','relationship' => '2');
+
+     $this->db->where($My);
+      //$this->db->where('relationship', 1);
+      // $this->db->where('relationship', 2);
+
+       return $this->db->get('tbl_family')->result();
+		//$query = $this->db->get('tbl_family');
+		//return $query->result();
+    
     }
 }
 

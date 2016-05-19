@@ -293,7 +293,25 @@ body {
     font-weight: 800;
     text-align: center;
   }
+
+.edit_save{
+    background-color: #156BDC !important;
+    color: #fff;
+   padding: 11px 33px;
+    font-weight: 800;
+    text-align: center;
+  }
+
   .dead-Addmore{
+    background-color: #01AEF0 !important;
+    color: #fff;
+   padding: 11px 33px;
+    font-weight: 800;
+    text-align: center;
+    float: right;
+    margin-top: 33%;
+  }
+  .save_edit_dead{
     background-color: #01AEF0 !important;
     color: #fff;
    padding: 11px 33px;

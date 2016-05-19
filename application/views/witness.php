@@ -37,13 +37,15 @@
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All witness list
                              </button>
                            
-                              <ul class="dropdown-menu">
-                              <?php if(!empty($witness)) { foreach($witness as $w) {?>
-                                <li><span><?php echo $w->w_name; ?><a href='<?php echo base_url("user/edit_witness/$w->w_id");?>'>Edit</a>|
-                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->w_id ?>">Delete</span></span></li>
-                            <?php } } else { ?>
-                            <li><span>No Records Found</span></li>
-                              <?php } ?>
+                              <ul class="dropdown-menu" id="witness">
+                              <?php /*if(!empty($witness)) { */ foreach($witness as $w) {?>
+                              <div class="myid_<?php echo $w->w_id; ?>">
+                                <li><p><?php echo $w->w_name; ?></p>
+                                <span class="edit_edit" style="cursor:pointer;color:#187aff" data ="<?php echo $w->w_id; ?>">Edit </span>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $w->w_id ?>">Delete</span></li></div>
+                            <?php } /*} else {*/ ?>
+                            <!-- <li><span>No Records Found</span></li> -->
+                              <?php // } ?>
 
                             
                                 
@@ -66,22 +68,21 @@
        </div> -->
        <!-- row ends -->
         </div>
-        <?php if(isset($wit)) {$var='user/update_witness'; } else {$var='user/save_witness';} ?>
-          <form action="<?php echo base_url($var);?>" method="post">
+          <form action="" method="post" id="form_wit">
           <div class="wit-add">
             <div class="row">
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Witness Name</label>
-                    <input class="form-control customise-input" type="text" name="w_name" id="w_name" value="<?php if(isset($wit->w_name)) echo $wit->w_name; ?> ">
+                    <input class="form-control customise-input" type="text" name="w_name" id="w_name" value="">
                   </div>
                   <span id="error_name" class="error"></span>
               </div>
-              <input  type="text" hidden name="w_id" value="<?php if(isset($wit->w_id)) echo $wit->w_id; ?> ">
+              <input  type="text" readonly hidden name="w_id" id="w_id" value="">
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Witness Mobile Number</label>
-                    <input class="form-control customise-input" type="text" name="w_mobile" id="w_mobile" minlength="10" value="<?php if(isset($wit->w_mobile)) echo $wit->w_mobile; ?> ">
+                    <input class="form-control customise-input" type="text" name="w_mobile" id="w_mobile" minlength="10" value="">
                   </div>
                   <span id="error_mobile" class="error"></span>
               </div>
@@ -91,14 +92,14 @@
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Permanent Address </label>
-                    <textarea class="form-control custom-textarea" id="w_permanent" name ="permanent_address"><?php if(isset($wit->permanent_address)) echo $wit->permanent_address; ?></textarea>
+                    <textarea class="form-control custom-textarea" id="w_permanent" name ="permanent_address"></textarea>
                   </div>
                   <span id="error_per_address" class="error"></span>
               </div>
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Present Address </label>
-                    <textarea class="form-control custom-textarea" id="w_present" name ="present_address"><?php if(isset($wit->present_address)) echo $wit->present_address; ?></textarea>
+                    <textarea class="form-control custom-textarea" id="w_present" name ="present_address"></textarea>
                   </div>
                   <span id="error_pre_address" class="error"></span>
               </div>
@@ -107,14 +108,14 @@
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Landmark</label>
-                    <input class="form-control customise-input" type="text" id="w_landmark" name="w_landmark" value="<?php if(isset($wit->w_landmark)) echo $wit->w_landmark; ?> " >
+                    <input class="form-control customise-input" type="text" id="w_landmark" name="w_landmark" value="" >
                   </div>
                   <span id="error_landmark" class="error"></span>
               </div>
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Pincode</label>
-                    <input class="form-control customise-input" type="text" id="w_pincode" name="w_pincode" value="<?php if(isset($wit->w_pincode)) echo $wit->w_pincode; ?> ">
+                    <input class="form-control customise-input" type="text" id="w_pincode" name="w_pincode" value="">
                   </div>
                   <span id="error_pincode" class="error"></span>
               </div>
@@ -123,14 +124,14 @@
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">Locality</label>
-                    <input class="form-control customise-input" type="text" id="w_locality" name="w_locality" value="<?php if(isset($wit->w_locality)) echo $wit->w_locality; ?> ">
+                    <input class="form-control customise-input" type="text" id="w_locality" name="w_locality" value="">
                   </div>
                   <span id="error_locality" class="error"></span>
               </div>
               <div class="col-md-6 Padleft">
                 <div class="form-group">
                     <label class="control-label customise-label">City</label>
-                    <input class="form-control customise-input" type="text" id="w_city" name="w_city" value="<?php if(isset($wit->w_city)) echo $wit->w_city; ?> ">
+                    <input class="form-control customise-input" type="text" id="w_city" name="w_city" value="">
                   </div>
                   <span id="error_city" class="error"></span>
               </div>
@@ -199,38 +200,8 @@ $(this).val($.trim($(this).val()));
 });
 
 
-  $('.deleterec').on('click',function(e){ 
-var id = $(this).attr('id');
-            e.preventDefault();
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this record again",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, I am sure!',
-                cancelButtonText: "No, cancel it!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            
-           function(isConfirm) {
-                if (isConfirm) {
-                    swal({
-                        title: 'Successfully Deleted!',
-                        type: 'success'
-                    }, function() {
-                        window.location = "<?php echo base_url("user/delete_witness");?>/"+id;
-                    });
-                    
-                } else {
-                    swal("Cancelled");
-                }
-            }); 
-
-    });
-
-  $('#submt').on('click',function(){
+$('#submt').on('click',function(e){
+    e.preventDefault();
   
   $('.error').html('');
   var name = /^[a-zA-Z\s]+$/;
@@ -244,31 +215,20 @@ var id = $(this).attr('id');
   if($.trim($('#w_name').val() ) == ''){
     $('#error_name').html("Enter Name");
     $('#w_name').focus(); return false;}
-  else if(! (name.test($('#w_name').val()))) {
+
+  if(! (name.test($('#w_name').val()))) {
     $('#error_name').html("Enter only Alphabets");$('#w_name').focus(); return false; }
 
   if($('#w_mobile').val()  == ''){
     $('#error_mobile').html("Enter Mobile Number");
     $('#w_mobile').focus(); return false; 
-  }//console.log(parseInt($("#w_mobile").val());
+  }
    if(!(phone.test(parseInt($("#w_mobile").val()))))
     {
-     // alert(2);
       $('#error_mobile').html("Enter 10 Digits");
       $('#w_mobile').focus();
-      //$("#w_mobile").focus().attr("placeholder","Enter 10 digit phone number").val('');
       return false;
     }
-  /*if (e.charCode >= 32 && e.charCode < 127 && !/^-?\d*[.,]?\d*$/.test(this.value + '' + String.fromCharCode(e.charCode))) {  $('#error_name').html("Enter Digits"); return false; }
-  else if(! (/^\d*$/.test(a))) {
-    $('#error_mobile').html("Enter Digits");
-    $('#w_mobile').focus(); return false; }
-  else if(a.length != 10){
-    $('#error_mobile').html("Enter 10 Digits");
-    $('#w_mobile').focus(); return false; }*/
-
-  //var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    
     
   if($.trim(per) == ''){
     $('#error_per_address').html("Enter Address");
@@ -281,8 +241,6 @@ var id = $(this).attr('id');
   if($.trim($('#w_landmark').val()) == ''){
     $('#error_landmark').html("Enter Landmark");
     $('#w_landmark').focus(); return false;}
-
- 
 
   if($('#w_pincode').val() == ''){
     $('#error_pincode').html("Enter Pincode");
@@ -302,9 +260,218 @@ var id = $(this).attr('id');
   if($.trim($('#w_city').val() ) == ''){
     $('#error_city').html("Enter city");
     $('#w_city').focus(); return false;}
-  else if(! (name.test($('#w_city').val()))) {
+  if(! (name.test($('#w_city').val()))) {
     $('#error_city').html("Enter only Alphabets");$('#w_city').focus(); return false; }
 
-  
+
+  if($('#submt').hasClass("saveAndCon")){
+    var wit_data = $('#form_wit').serialize();
+
+    $.ajax({ 
+      type:"post",
+      data:{wit_data},
+      url:"<?php echo base_url('user/save_witness'); ?>" ,
+      success: function(res){
+        if(res == 2)
+        {
+          alert('something went wrong');
+        }
+        else{
+          var a =  $.parseJSON(res);
+          var w_name = a.name.w_name;
+          var w_id = a.name.w_id;
+
+          var str = '';
+
+          str += ' <div class="myid_'+w_id+'"><li><p>'+w_name+'</p><span class="edit_edit" style="cursor:pointer;color:#187aff" data ="'+w_id+'">Edit </span>|<span class="deleterec" style="cursor:pointer;color:#187aff" id="'+w_id+'">Delete</span></li></div> ';
+
+          $('#witness').append(str);
+
+          $('#w_name').val('');
+          $('#w_mobile').val('');
+          $('#w_present').val('');
+          $('#w_permanent').val('');
+          $('#w_pincode').val('');
+          $('#w_landmark').val('');
+          $('#w_locality').val('');
+          $('#w_city').val('');
+
+          swal({
+              title: 'Successfully Added!',
+              type: 'success'
+          }); 
+        }
+
+      }
+
+    });
+  }
+  else if($('#submt').hasClass("edit_save")){
+    var id = $('#w_id').val();
+    var details = $('#form_wit').serialize();
+
+     $.ajax({ 
+      type:"post",
+      data:{id,details},
+      url:"<?php echo base_url('user/update_witness'); ?>",
+      success: function(res){
+        if(res == 2)
+        {
+          alert('something went wrong');
+        }
+        else{
+          $('#w_name').val('');
+          $('#w_id').val('');
+          $('#w_mobile').val('');
+          $('#w_present').val('');
+          $('#w_permanent').val('');
+          $('#w_pincode').val('');
+          $('#w_landmark').val('');
+          $('#w_locality').val('');
+          $('#w_city').val('');
+
+          var a = $.parseJSON(res);
+          var name = a.wit.w_name;
+          var id = a.wit.w_id;
+          
+          //console.log(id);
+          $('#witness').children().each(function(){ 
+
+            var clas = $(this).attr('class');
+            var r = clas.split("_");
+            var val = r[1];
+
+            //console.log(clas);
+            //console.log(val);
+
+            if(r[1] == id){
+              $(this).children().children().first().html(name);
+            }
+            else{
+              console.log('false');
+            }
+            $('#submt').removeClass('edit_save');
+            $('#submt').addClass('saveAndCon');
+            
+            swal({
+                  title: 'Successfully Updated!',
+                  type: 'success'
+              }); 
+          });
+
+
+        }
+
+
+      } });
+  }
+});
+
+
+$('#witness').on('click','.deleterec',function(e){ 
+var id = $(this).attr('id');
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record again",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            
+           function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                    url: "<?php echo base_url("user/delete_witness");?>",
+                    type: "POST",
+                    data: { id: id },
+                    success: function(res) {
+                      if(res == 1){ swal("Oops!", "Something went wrong", "warning") } 
+                      else{
+                        swal("Done!", "It was succesfully deleted!", "success");
+
+                        $('#w_name').val('');
+                        $('#w_id').val('');
+                        $('#w_mobile').val('');
+                        $('#w_present').val('');
+                        $('#w_permanent').val('');
+                        $('#w_pincode').val('');
+                        $('#w_landmark').val('');
+                        $('#w_locality').val('');
+                        $('#w_city').val('');
+                        
+                        var a = $.parseJSON(res);
+                        var id = a.id;
+                        $('#witness').children().each(function(){ 
+
+                          var clas = $(this).attr('class');
+                          var r = clas.split("_");
+                          var val = r[1];
+                          
+                            if(r[1] == id){
+                              $(this).remove();
+                            }
+                        }); 
+                      }
+                    }
+                  });
+                    
+                } else {
+                    swal({
+                        title: 'Cancelled!',
+                        type: 'error'
+                    }); 
+                }
+
+                if($('#submt').hasClass("edit_save")){
+                  $('#submt').removeClass('edit_save');
+                  $('#submt').addClass('saveAndCon');
+                }
+            }); 
+});
+
+$(document).ready(function(){
+ $('#witness').on('click','.edit_edit',function(){
+    var id = $(this).attr('data');
+
+    $.ajax({ 
+      type:"post",
+      data:{id},
+      url:"<?php echo base_url('user/edit_witness'); ?>",
+      success: function(res){
+        if(res == 2){
+          alert('something went wrong');
+        }
+        else{
+          var a = $.parseJSON(res);
+          var name = a.w.w_name;
+          var mob = a.w.w_mobile;
+          var w_id = a.w.w_id;
+          var permanent = a.w.permanent_address;
+          var present = a.w.present_address;
+          var landmark = a.w.w_landmark;
+          var pincode = a.w.w_pincode;
+          var locality = a.w.w_locality;
+          var city = a.w.w_city;
+
+          $('#w_name').val(name);
+          $('#w_id').val(w_id);
+          $('#w_permanent').val(permanent);
+          $('#w_present').val(present);
+          $('#w_landmark').val(landmark);
+          $('#w_mobile').val(mob);
+          $('#w_pincode').val(pincode);
+          $('#w_locality').val(locality);
+          $('#w_city').val(city);
+          $('#submt').addClass('edit_save');
+          $('#submt').removeClass('saveAndCon');
+        }
+      }
+    });
   });
+ });  
 </script>

@@ -61,17 +61,18 @@
                               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">See All Properties List
                              </button>
                            
-                              <ul class="dropdown-menu">
+                              <ul class="dropdown-menu" id = "prop_lis">
                               <?php foreach($lis as $l) { ?>
-                                <li><span><span class="resize-width"><?php echo $l->prop_name; ?><span><a href='<?php echo base_url("user/edit_property/$l->Immovable_id");?>'>Edit</a>|
-                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $l->Immovable_id ?>">Delete</span></span></li>
+                              <div class = "myid_<?php echo $l->Immovable_id; ?>" >
+                                <li><p><?php echo $l->prop_name; ?></p>
+                                <span class="edit_edit" style="cursor:pointer;color:#187aff" data ="<?php echo $l->Immovable_id; ?>">Edit </span>|
+                                <span class="deleterec" style="cursor:pointer;color:#187aff" id="<?php echo $l->Immovable_id ?>">Delete</span></li></div>
                             <?php } ?>
                             
 
                            
 
-                            <input id="list" type="text" value='<?php echo json_encode($lis); ?>' hidden>
-                            <input id="rel" type="text" value='<?php echo json_encode($rel); ?>' hidden>
+                          
                                 
                               </ul>
                             </div>
@@ -80,19 +81,19 @@
                         </div>
                        
                       <div class="details">
-                      <?php if(isset($e_pro->Immovable_id)) {$var='user/update_property';} else {$var='user/addProperty';} ?>
-                        <form action="<?php echo base_url($var);?>" method="post">
+                      
+                        <form action="" method="post" id="form_prop">
                                               
                             <div class="move">
                                 <div class="radio2">
-                                    <input id="immovable" type="radio" name="property" value="immovable" <?php if(isset($e_pro->type)) {if($e_pro->type == 1) {echo "checked";}} else echo "checked"; ?> >
+                                    <input id="immovable" type="radio" name="property" value="immovable" checked >
                                     <label for="immovable">Immovable</label>
-                                    <input id="movable" type="radio" name="property" value="movable" <?php if( isset($e_pro->type)) if($e_pro->type == 2) echo "checked"; ?> >
+                                    <input id="movable" type="radio" name="property" value="movable"  >
                                     <label for="movable">Movable</label>
                                 </div>
                             </div>
 
-                            <input id="up_id" type="text" name="up_id" hidden value="<?php if( isset($e_pro->Immovable_id)) echo $e_pro->Immovable_id; ?>" >
+                            <input id="up_id" type="text" hidden readonly name="up_id"  value="" >
                               <div id="immov">
                                 <div class="row property">
                                 <div class="col-md-6">
@@ -101,8 +102,8 @@
                                   <select name="immov_prop" id="immov_prop">
                                   <option value="none"></option>
                             <?php  foreach($pro as $property) {  
-                            if($property->type == 1){ ?>
-                            <option <?php if(isset($e_pro->name)) if($e_pro->name == $property->prop_id) { echo "selected"; } ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
+                            if($property->type == 1){  ?>
+                            <option value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
                             <?php } } ?> 
                                   </select>
                                   
@@ -115,7 +116,7 @@
                                   <select name="ownership" id="ownership">
                                   <option value="none"></option>
                             <?php  foreach($own as $owner) {  ?>
-                            <option <?php if(isset($e_pro->nature_of_ownership)) if($e_pro->nature_of_ownership == $owner->own_id) { echo "selected";} ?> value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
+                            <option value="<?php echo $owner->own_id; ?>"> <?php echo $owner->own_name; ?></option>
                             <?php } ?> 
                                   </select>
                                 </div>
@@ -126,13 +127,13 @@
                               <div class="row registration">
                                   <div class="col-md-6">
                                     <label>Muncipal Registration Number</label><br>
-                                    <input type="text" name="muncipal" id="muncipal" value="<?php if(isset($e_pro->municipal_number)) echo $e_pro->municipal_number;  ?>">
+                                    <input type="text" name="muncipal" id="muncipal" value="">
                                     <span id="error_muncipal" class="error"></span>
                                   </div>
                                   <div class="col-md-6">
                                     <label>Year of Purchase</label><br>
                                     <div class="input-daterange" id="datepicker">
-                                    <input class="" name="year_of_purchase" id="year_of_purchase" type="text" value="<?php if(isset($e_pro->year_of_purchase)) echo $e_pro->year_of_purchase;  ?>" >
+                                    <input class="" name="year_of_purchase" id="year_of_purchase" type="text" value="" >
                                     </div>
                                     <span id="error_year_of_purchase" class="error"></span>
                                   </div>                                  
@@ -141,12 +142,12 @@
                               <div class="row registration">
                                   <div class="col-md-6">
                                     <label>Address</label><br>
-                                    <textarea name="address" id="address"><?php if(isset($e_pro->address)) echo $e_pro->address;  ?></textarea>
+                                    <textarea name="address" id="address"></textarea>
                                     <span id="error_address" class="error"></span>
                                   </div>
                                   <div class="col-md-6">
                                   <label>Property Area</label><br>
-                                  <input type="text" name="area" id="area" maxlength="30" value="<?php if(isset($e_pro->area)) echo $e_pro->area;  ?>">
+                                  <input type="text" name="area" id="area" maxlength="30" value="">
                                   <span id="error_area" class="error"></span>
                                 </div>
                               </div>
@@ -161,7 +162,7 @@
                                   <option value="none"></option>
                             <?php  foreach($pro as $property) { 
                             if($property->type == 2){ ?>
-                            <option <?php if(isset($e_pro->name)) if($e_pro->name == $property->prop_id) { echo "selected";} ?> value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
+                            <option value="<?php echo $property->prop_id; ?>"> <?php echo $property->prop_name; ?></option>
                             <?php } } ?> 
                                   </select>
                                 </div>
@@ -169,7 +170,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <label>Comments</label><br>
-                                  <input type="text" name="comments" id="comments" value="<?php if(isset($e_pro->comments)) { echo $e_pro->comments;} ?>">
+                                  <input type="text" name="comments" id="comments" value="">
                                   <span id="error_comments" class="error"></span>
                                 </div>
                               </div>
@@ -180,7 +181,7 @@
                             </div> -->
 
                             <div class="continue">
-                                <span ><input id="submt" type="submit" value="Save & Add More"/>
+                                <span ><input id="submt" type="submit" class="saveAndCon" value="Save & Add More"/>
                                 <a>or</a>
                                 <a href="<?php echo base_url('user/property_alloc');?>">
                                 <input id="contnu" type="button" value="Continue&#62;&#62;"/></a></span>
@@ -233,17 +234,7 @@
 <script>
 $(document).ready(function(){
  
-      var str = '<?php echo $this->uri->segment(3,0); ?>';
-          if(str != 0 ){
-           $('#immov_prop')
-                .attr("disabled", true);
-          }
-
-      if($('input[name="property"]:checked').val() == "movable") {
-        $('#mov').show();
-        $('#immov').hide();
-      }   
-   
+       
           $(':input').blur(function(){ 
           $(this).val($.trim($(this).val()));
           });
@@ -252,51 +243,7 @@ $(document).ready(function(){
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
 
-                $('#immov_prop').on('change',function(){ 
-                  var id =$('#immov_prop').val();
 
-                  $.ajax({
-                      type:"POST",
-                      url:"<?php echo base_url(); ?>user/check_prop_details",
-                      data: {id:id},
-                      dataType:"json",
-                      success:function(res)
-                      { 
-                       if(res == 1)
-                       {
-                         swal(
-                            '',
-                            'Property Already Allocated',
-                            'warning'
-                          )
-                        $('#immov_prop').val('');
-                       }
-                      }
-                  });
-                });
-
-                $('#name_mov').on('change',function(){ 
-                  var id =$('#name_mov').val();
-
-                  $.ajax({
-                      type:"POST",
-                      url:"<?php echo base_url(); ?>user/check_prop_details",
-                      data: {id:id},
-                      dataType:"json",
-                      success:function(res)
-                      { 
-                       if(res == 1)
-                       {
-                         swal(
-                            '',
-                            'Property Already Allocated',
-                            'warning'
-                          )
-                        $('#name_mov').val('');
-                       }
-                      }
-                  });
-                });
 
                 $('#immovable').on('click',function(){ 
                 $('#immov').show();
@@ -308,8 +255,13 @@ $(document).ready(function(){
                 $('#mov').show();
                 });
 
-                $('#submt').on('click',function(){ 
+           });
 
+          $('#submt').on('click',function(e){ 
+
+                  e.preventDefault();
+
+                  $('.error').html('');
                   if($('#immovable').is(':checked'))
                   { 
                   if($('#immov_prop').val()=='none'){
@@ -334,21 +286,219 @@ $(document).ready(function(){
                   }
 
                   else if($('#movable').is(':checked'))
-                  { 
+                  {
+
                   if($('#name_mov').val() == 'none'){
                   $('#error_mov').html("Please, choose an option"); $('#name_mov').focus(); return false; }  
 
                   if($('#comments').val() == ''){
                   $('#error_comments').html("Enter Comments"); $('#comments').focus(); return false; } 
+                  
                   } 
 
+                   if($('#submt').hasClass("saveAndCon")){
+                    var prop_data = $('#form_prop').serialize();
+
+                    $.ajax({ 
+                      type:"post",
+                      data:{prop_data},
+                      url:"<?php echo base_url('user/addProperty'); ?>" ,
+                      success: function(res){ 
+                        
+                        
+                        if(res==1)
+                        {
+                          alert('something went wrong');
+                        }
+                        else
+                        {
+                          var a= $.parseJSON(res);
+                          var name = a.lis[0].prop_name;
+                          var im_id = a.lis[0].Immovable_id;
+                          var str = '';
+                          
+                          str = '<div class = "myid_'+im_id+'" ><li><p>'+name+'</p><span class="edit_edit" style="cursor:pointer;color:#187aff" data ="'+im_id+'">Edit </span>|<span class="deleterec" style="cursor:pointer;color:#187aff" id="'+im_id+'">Delete</span></li></div>';
+
+                           $('#prop_lis').append(str);
+
+                            $('#immov_prop').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });
+
+                             $('#ownership').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });                            
+                            $('#muncipal').val('');
+                            $('#year_of_purchase').val('');
+                            $('#address').val('');
+                            $('#area').val('');
+                            $('#name_mov').val('');
+                            $('#comments').val('');
+
+                            swal({
+                                title: 'Successfully Added!',
+                                type: 'success'
+                            }); 
+                        }
+                      }
+                     }); 
+                  }
+            else if( $('#submt').hasClass("edit_save")) {
+
+                    var id = $('#up_id').val();
+                    var details = $('#form_prop').serialize();
+                     $.ajax({ 
+                      type:"post",
+                      data:{id,details},
+                      url:"<?php echo base_url('user/update_property'); ?>",
+                      success: function(res){
+
+                        if(res == 2)
+                        {
+                          alert('something went wrong');
+                        }
+                        else{
+                          $('#immov_prop').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });
+                          $('#immov_prop').prop('disabled',false);
+                          $('#ownership').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });                            
+                            $('#muncipal').val('');
+                            $('#year_of_purchase').val('');
+                            $('#address').val('');
+                            $('#area').val('');
+                            $('#name_mov').val('');
+                            $('#comments').val('');
+                            $('#up_id').val('');
+                            $('#name_mov').prop('disabled',false);
+
+                          var a= $.parseJSON(res);
+                          var name = a.pro.prop_name;
+                          var im_id = a.pro.Immovable_id;
+                          $('#prop_lis').children().each(function(){ 
+
+                            var clas = $(this).attr('class');
+                            var r = clas.split("_");
+                            var val = r[1];
+
+                            if(r[1] == id){
+                              $(this).children().children().first().html(name);
+                            }
+
+                            swal({
+                            title: 'Successfully Updated!',
+                            type: 'success'
+                            });
+
+                            $('#submt').removeClass('edit_save');
+                            $('#submt').addClass('saveAndCon');
+                            
+                          });
+
+                       }
+                       } 
+                    });
+                   }
                 });
 
+                $('#prop_lis').on('click','.edit_edit',function(){
+                  var id = $(this).attr('data');
 
-           });
+                  $.ajax({ 
+                    type:"post",
+                    data:{id},
+                    url:"<?php echo base_url('user/edit_property'); ?>",
+                    success: function(res){
+                      if(res == 2){
+                        alert('something went wrong');
+                      }
+                      else{
+                        
+                        var a = $.parseJSON(res);
+                        if(a.pro.type == 1){
+                        $('#immov').show();
+                        $('#mov').hide();
+                        $('#movable').prop('checked',false);
+                        $('#immovable').prop('checked',true);
+                          
+                        $('#address').val(a.pro.address);
+                        $('#area').val(a.pro.area);
+                        $('#muncipal').val(a.pro.municipal_number);
+                        $('#up_id').val(a.pro.Immovable_id);
+                        $('#immov_prop').children().each(function(){ 
+                          var p = $(this).attr('value');
+                          if( p == a.pro.name)
+                          {
+                            $(this).prop('selected',true);
+                          }
+                        });
+                        $('#immov_prop').prop('disabled',true);
+                        $('#ownership').children().each(function(){ 
+                          var o = $(this).prop('value');
+                          if( o == a.pro.own_id)
+                          {
+                            $(this).prop('selected',true);
+                          }
+                        });
+                        $('#year_of_purchase').val(a.pro.year_of_purchase);
+                        $('#submt').addClass('edit_save');
+                        $('#submt').removeClass('saveAndCon');
+                      }
+                      else if(a.pro.type == 2){
+                        $('#immov').hide();
+                        $('#mov').show();                         
+                        $('#movable').prop('checked',true);
+                        $('#immovable').prop('checked',false);
+                  
 
-$('.deleterec').on('click',function(e){ 
-var id = $(this).attr('id');
+                        $('#name_mov').children().each(function(){ 
+                          var p = $(this).attr('value');
+                          if( p == a.pro.name)
+                          {
+                            $(this).prop('selected',true);
+                          }
+                        });
+                         $('#name_mov').prop('disabled',true);
+                         $('#comments').val(a.pro.comments);
+                         $('#up_id').val(a.pro.Immovable_id);
+                         $('#submt').addClass('edit_save');
+                        $('#submt').removeClass('saveAndCon');
+                      }
+
+                        
+                      }
+                    }
+                  });
+                  });
+
+         $('input[name="property"]').on('change',function(){ 
+                $('#immov_prop').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });
+                          $('#immov_prop').prop('disabled',false);
+                          $('#ownership').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });                            
+                            $('#muncipal').val('');
+                            $('#year_of_purchase').val('');
+                            $('#address').val('');
+                            $('#area').val('');
+                            $('#name_mov').val('');
+                            $('#comments').val('');
+                            $('#up_id').val('');
+                            $('#name_mov').prop('disabled',false);
+         }); 
+
+         $('#prop_lis').on('click','.deleterec',function(e){ 
+        var id = $(this).attr('id');
             e.preventDefault();
             swal({
                 title: "Are you sure?",
@@ -364,26 +514,110 @@ var id = $(this).attr('id');
             
            function(isConfirm) {
                 if (isConfirm) {
-                    swal({
-                        title: 'Successfully Deleted!',
-                        type: 'success'
-                    }, function() {
-                        window.location = "<?php echo base_url("user/delete_property");?>/"+id;
-                    });
+                    $.ajax({
+                    url: "<?php echo base_url("user/delete_property");?>",
+                    type: "POST",
+                    data: { id: id },
+                    success: function(res) {
+                      if(res == 1){ swal("Oops!", "Something went wrong", "warning") } 
+                      else{
+                        swal("Done!", "It was succesfully deleted!", "success");
+
+                        $('#immov_prop').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });
+
+                             $('#ownership').children().each(function(){ 
+                                if($(this).is(':selected')){
+                                $(this).prop('selected',false) }
+                            });                            
+                            $('#muncipal').val('');
+                            $('#year_of_purchase').val('');
+                            $('#address').val('');
+                            $('#area').val('');
+                            $('#name_mov').val('');
+                            $('#comments').val('');
+                            $('#up_id').val('');
+                            $('#immov_prop').prop('disabled',false);
+                            $('#name_mov').prop('disabled',false);
+                        
+                        var a = $.parseJSON(res);
+                        var id = a.id;
+                        $('#prop_lis').children().each(function(){ 
+
+                          var clas = $(this).attr('class');
+                          var r = clas.split("_");
+                          var val = r[1];
+
+                            if(r[1] == id){
+                              $(this).remove();
+                            }
+                        }); 
+                      }
+                    }
+                  });
                     
                 } else {
-                    swal("Cancelled,hello");
+                    swal({
+                        title: 'Cancelled!',
+                        type: 'error'
+                    }); 
+                }
+
+                if($('#submt').hasClass("edit_save")){
+                  $('#submt').removeClass('edit_save');
+                  $('#submt').addClass('saveAndCon');
                 }
             }); 
-          });
 
- 
+}); 
 
+ $('#immov_prop').on('change',function(){ 
+                  var id =$('#immov_prop').val();
 
+                  $.ajax({
+                      type:"POST",
+                      url:"<?php echo base_url(); ?>user/check_prop_details",
+                      data: {id:id},
+                      dataType:"json",
+                      success:function(res)
+                      { 
+                       if(res == 1)
+                       {
+                         swal(
+                            '',
+                            'Property Already Allocated',
+                            'warning'
+                          )
+                        $('#immov_prop').val('');
+                       }
+                      }
+                  });
+                });
 
+        $('#name_mov').on('change',function(){ 
+                  var id =$('#name_mov').val();
 
- 
-          
+                  $.ajax({
+                      type:"POST",
+                      url:"<?php echo base_url(); ?>user/check_prop_details",
+                      data: {id:id},
+                      dataType:"json",
+                      success:function(res)
+                      { 
+                       if(res == 1)
+                       {
+                         swal(
+                            '',
+                            'Property Already Allocated',
+                            'warning'
+                          )
+                        $('#name_mov').val('');
+                       }
+                      }
+                  });
+                }); 
 
 </script>
 
