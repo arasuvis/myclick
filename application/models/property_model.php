@@ -160,11 +160,13 @@ class Property_model extends CI_Model
 
     }
  function prop_det($id){
-    
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+
 		$this->db->select('SUM(percent) as percent_count');
 		$this->db->from('grant_immovable');
 		//$this->db->join('admin_relations','admin_relations.rel_id=tbl_family.relationship','left');
 		$this->db->where('property_id',$id);
+        $this->db->where('will_id',$will_id);
 		//$this->db->order_by('tbl_family','asc');
 		$query = $this->db->get();
 

@@ -185,10 +185,8 @@ class User extends CI_Controller
 
 	function profileUpdate()
 	{
-		//$gender = $this->input->post(); print_r($gender) ; die();
-		//print_r($_POST); die();
+
 		$id = $this->input->post('id');
-		//echo $id; die();
 		$profile = array('fname' => $this->input->post('fname'),
 			'mname' => $this->input->post('mname'),
 			'surname' => $this->input->post('surname'),
@@ -196,8 +194,7 @@ class User extends CI_Controller
 			'gender'=>$this->input->post('gender'),
 			'address' => $this->input->post('address'),
 			'mobile' => $this->input->post('mobile'));
-
-		$this->user_model->profileUpdate($id,$profile);
+				$this->user_model->profileUpdate($id,$profile);
 			redirect('user/family');
 	}
 
@@ -219,6 +216,7 @@ class User extends CI_Controller
 		$data['st'] = $this->family_model->get_status()->result();
 		$data['tab'] = "family";
 		$data['width'] = "21%";
+		insert_activity($this->will_id,1,1);
 		$this->load->view('header');
 		$this->load->view('navbar',$data);
 		if(isset($id)){
@@ -228,7 +226,8 @@ class User extends CI_Controller
 			$this->load->view('family',$data);
 		}else{
 		$this->load->view('family',$data);}
-		$this->load->view('footer'); }
+		$this->load->view('footer'); 
+		}
 		else { redirect('user/signin');}
 
 	}

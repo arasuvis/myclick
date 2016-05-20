@@ -72,21 +72,21 @@
 <!-- jquery library file -->
 
 	<!-- bootstrap js link -->
+	  <script type="text/javascript" src="<?php echo base_url('plugins/jquery-ui-1.11.4/jquery-ui.js')?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('plugins/bootstrap/js/bootstrap.js');?>"></script>
 
   <script type="text/javascript" src="<?php echo base_url('plugins/bootstrap/js/jquery.bootstrap.wizard.min.js');?>"></script>
     <!-- jquery ui js links -->
-  <script type="text/javascript" src="<?php echo base_url('plugins/jquery-ui-1.11.4/jquery-ui.js')?>"></script> 
+ 
 
 <script>
     $(document).ready(function() {
-        $('#rootwizard').bootstrapWizard({click: function(tab, navigation, index) {
-			alert(1);
-            var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = ($current/$total) * 100;
-            $('#rootwizard .progress-bar').css({width:$percent+'%'});
-        }});
+        // $('#rootwizard').bootstrapWizard({click: function(tab, navigation, index) {
+        //     var $total = navigation.find('li').length;
+        //     var $current = index+1;
+        //     var $percent = ($current/$total) * 100;
+        //     $('#rootwizard .progress-bar').css({width:$percent+'%'});
+        // }});
     });
     </script>
   </body>

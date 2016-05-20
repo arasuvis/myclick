@@ -29,6 +29,10 @@
   width: 80px;
 }
 
+textarea { color: black; 
+font-weight: 600;
+}
+
 </style>
 <div class="container">
 
@@ -132,8 +136,8 @@
                                   </div>
                                   <div class="col-md-6">
                                     <label>Year of Purchase</label><br>
-                                    <div class="input-daterange" id="datepicker">
-                                    <input class="" name="year_of_purchase" id="year_of_purchase" type="text" value="" >
+                                    <div class="input-daterange" id="datepicker1">
+                                    <input class="" name="year_of_purchase" id="year_of_purchase1" type="text" value="" >
                                     </div>
                                     <span id="error_year_of_purchase" class="error"></span>
                                   </div>                                  
@@ -239,9 +243,13 @@ $(document).ready(function(){
           $(this).val($.trim($(this).val()));
           });
     
-                $('#year_of_purchase').datepicker({
-                    todayHighlight: true,dateFormat:'yy-mm-dd'
-                });
+                 $('#year_of_purchase1').datepicker({
+                     format: " yyyy", // Notice the Extra space at the beginning
+                      viewMode: "years", 
+                    minViewMode: "years"
+                }).on('changeDate', function(e){
+    $(this).datepicker('hide');
+});
 
 
 
@@ -275,8 +283,8 @@ $(document).ready(function(){
                   if($('#muncipal').val() == ''){
                   $('#error_muncipal').html("Enter Municipal Number"); $('#muncipal').focus(); return false; }
 
-                  if($('#year_of_purchase').val() == ''){
-                  $('#error_year_of_purchase').html("Enter Year of Purchase"); $('#year_of_purchase').focus(); return false; }
+                  if($('#year_of_purchase1').val() == ''){
+                  $('#error_year_of_purchase').html("Enter Year of Purchase"); $('#year_of_purchase1').focus(); return false; }
 
                   if($('#address').val() == ''){
                   $('#error_address').html("Enter Address"); $('#address').focus(); return false; }
@@ -331,7 +339,7 @@ $(document).ready(function(){
                                 $(this).prop('selected',false) }
                             });                            
                             $('#muncipal').val('');
-                            $('#year_of_purchase').val('');
+                            $('#year_of_purchase1').val('');
                             $('#address').val('');
                             $('#area').val('');
                             $('#name_mov').val('');
@@ -370,7 +378,7 @@ $(document).ready(function(){
                                 $(this).prop('selected',false) }
                             });                            
                             $('#muncipal').val('');
-                            $('#year_of_purchase').val('');
+                            $('#year_of_purchase1').val('');
                             $('#address').val('');
                             $('#area').val('');
                             $('#name_mov').val('');
@@ -446,7 +454,7 @@ $(document).ready(function(){
                             $(this).prop('selected',true);
                           }
                         });
-                        $('#year_of_purchase').val(a.pro.year_of_purchase);
+                        $('#year_of_purchase1').val(a.pro.year_of_purchase);
                         $('#submt').addClass('edit_save');
                         $('#submt').removeClass('saveAndCon');
                       }
@@ -488,7 +496,7 @@ $(document).ready(function(){
                                 $(this).prop('selected',false) }
                             });                            
                             $('#muncipal').val('');
-                            $('#year_of_purchase').val('');
+                            $('#year_of_purchase1').val('');
                             $('#address').val('');
                             $('#area').val('');
                             $('#name_mov').val('');
@@ -533,7 +541,7 @@ $(document).ready(function(){
                                 $(this).prop('selected',false) }
                             });                            
                             $('#muncipal').val('');
-                            $('#year_of_purchase').val('');
+                            $('#year_of_purchase1').val('');
                             $('#address').val('');
                             $('#area').val('');
                             $('#name_mov').val('');

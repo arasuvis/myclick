@@ -20,9 +20,7 @@
                        <h4>PROPERTY ALLOCATION</h4>
                        </div>
                       
-                       <form action="" id="form" method="post" name="prop_alloc">
-                       
-                        <label>Property Type</label>
+                       <label>Property Type</label>
                        <div class="propert_detailss move">
                                 <div class="radio2">
                                     <input class="mychoice" id="alive" name="status" value="alive" checked="" type="radio">
@@ -31,8 +29,9 @@
                                     <label for="dead">In Case of Death</label>
                                 </div>
                             </div>
-                       
 
+                       <form action="" id="form" method="post" name="prop_alloc">
+                   
                           <div class="allocation_form">
                             <div class="row">
                               <div class="col-md-7" >
@@ -235,8 +234,8 @@
                                           </div>
                                           <span id="error_percent_d" class="error"></span>
                                         </div>
-                                        <div class="col-md-6 text-right">
-                                          <button class="btn dead-Addmore" id="add_more">&plus;&nbsp;Add More</button>
+                                        <div class="col-md-7 text-right">
+                                          <button class="btn dead-Addmore" id="add_more"><!-- &plus;&nbsp; --> Save &amp; Add More</button>
                                           <button class="btn dead-Addmore" style="display:none" id="save_edit_dead">Save</button>
                                         </div>
                                       </div>
@@ -661,11 +660,12 @@ $.ajax({
                 else { 
                   $('#hide_others').show();
                   $('#show_others').hide();
-              $('#rel').attr('value',res.rel_name);
-              $('#gen').attr('value',res.gender);
-              $('#dob').attr('value',res.dob);
-              $('#marital').attr('value',res.marital_status);
-              $('#rel_id').attr('value',res.relationship);  } }
+                   $('#rel').attr('value',res.rel_name);
+                    $('#gen').attr('value',res.gender);
+                     $('#dob').attr('value',res.dob);
+                     $('#marital').attr('value',res.marital_status);
+                      $('#rel_id').attr('value',res.relationship);
+          } }
             }
         });
 
@@ -673,6 +673,7 @@ $.ajax({
 
   $('#immove_prop').on('change',function(){
 var id = $('#immove_prop').val();
+
 $('#prop_details').show();
 
 $.ajax({
@@ -868,41 +869,10 @@ var id = $(this).attr('id');
 });
  
  $('input[name="status"]').on('change',function(){ 
-                         $('#immove_prop').children().each(function(){ 
-                                if($(this).is(':selected')){
-                                $(this).prop('selected',false) }
-                            });
-                         
-                            $('#fam').children().each(function(){ 
-                                if($(this).is(':selected')){
-                                $(this).prop('selected',false) }
-                            }); 
-                            
-                            $('#rel').attr('value','');
-                            $('#gen').attr('value','');
-                            $('#dob').attr('value','');
-                            $('#marital').attr('value','');
-                            $('#rel_id').attr('value','');
-                            $('#comments').html('');
-                            $('#myallocation').val('');
-                            $('#per').val('');
-                            $('#g_im_id').val('');
-                            $('#prop_details').hide();
-                            $('#fam_d').children().each(function(){
-                            if($(this).is(':selected')){
-                              $(this).prop('selected',false)
-                            } });
-                            $('#fam_d').prop('disabled',false);
-                            $('#dead_id').attr('value','');
-                            $('#rem_d').attr('value','');
-                            $('#rel_d').attr('value','');
-                            $('#gen_d').attr('value','');
-                            $('#dob_d').attr('value','');
-                            $('#marital_d').attr('value','');
-                            $('#rel_d_id').attr('value','');
-                            $('#per_d').val('');
-                            $('#dead_comments').html('');
 
+  $('input[type=text]').attr('value','');
+  $('#form')[0].reset();
+                         
  }); 
     
     $('#fam_d').on('change',function(){

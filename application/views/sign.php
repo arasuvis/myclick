@@ -133,7 +133,7 @@
  
   <div class="col-md-12"> 
     <?php foreach($gen as $gender) {  
-	$checked = ($gender->gender_type == "Male") ? ' checked="checked"' : '';
+	$checked = ($gender->gender_type == "Male") ? ' checked="checked" ' : '';
 	?>
     <input  id="<?php echo $gender->id_value ?>" type="radio"  name="gender" value="<?php echo $gender->gender_type; ?>" <?php echo $checked;?>  class = "gend" >
     <label class="mygend" for="<?php echo $gender->id_value ?>"><?php echo $gender->gender_type ?></label>
@@ -147,7 +147,7 @@
   <div class="col-md-12"> 
   
    <?php foreach($m_sta as $m_status) { 
-   $checked = ($m_status->status_type == "Unmarried") ? ' checked="checked"' : '';
+   $checked = ($m_status->status_type == "Married") ? ' checked="checked"' : '';
    ?>
    <input  id="<?php echo $m_status->id_value ?>" type="radio" name="marital_status" value="<?php echo $m_status->status_type ?>" <?php echo $checked;?>>
     <label class="mysta" for="<?php echo $m_status->id_value ?>"><?php echo $m_status->status_type ?></label>

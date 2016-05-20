@@ -160,11 +160,12 @@
 </section>
 </section>
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
            $(document).ready(function(){
                 $('#dob').datepicker({
                     todayHighlight: true,dateFormat:'yy-mm-dd'
                 });
+
                 $('input').attr('maxlength',30);
 
                 $(':input').blur(function(){ 
@@ -173,33 +174,29 @@
 
            });
 
-        </script>
-<script>
-$('#persnl-submit').on('click',function(e) {
+$('#persnl-submit').on('click',function(){
 
 var name = /^[a-zA-Z\s]+$/;
 var age = /^[0-9]+$/;
 var phone = /^\d{10}$/;
-//var address = $('#address').val();
-//var add = $.trim(address)
 
 $('.error').html('');
 
-if($('#fname').val() == '')
+if( $('#fname').val() == '')
 {   
     $('#error_fname').html('Enter First Name');
     return false;
-}else if(! (name.test($('#fname').val())) )
+}else if(!(name.test($('#fname').val())) )
 {
     $('#error_fname').html('Enter Alphabets');
     return false;
 }
 
-if($('#lname').val() == '')
+if( $('#lname').val() == '')
 {   
     $('#error_lname').html('Enter Last Name');
     return false;
-}else if(! (name.test($('#lname').val())) )
+}else if(!(name.test($('#lname').val())) )
 {
     $('#error_lname').html('Enter Alphabets');
     return false;
@@ -209,7 +206,7 @@ if($('#lname').val() == '')
     $('#error_dob').html("Enter Date of Birth"); $('#dob').focus(); return false; }
 
 
-if($('#mobile').val() == ' '){
+if( $('#mobile').val() == ' '){
     $('#error_mobile').html("Enter Mobile Number");
     $('#mobile').focus(); return false;}
   if(!(phone.test(parseInt($("#mobile").val()))))
@@ -219,12 +216,7 @@ if($('#mobile').val() == ' '){
       return false;
     }
 
-/*if( add == ''){
-    $('#error_address').html("Enter Address");
-    $('#address').focus(); return false;}*/
-
 $('#form').submit();
 });
 
 </script>
-

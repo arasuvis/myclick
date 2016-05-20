@@ -40,8 +40,8 @@
 .innerul-witness{
 padding-top: 0px !important;
 }
+.error{color:red;}
 </style>
-</style><?php //print_r($rel); echo "<pre>"; print_r($families) ;die();?><style>.error{color:red;}</style>
 
 <div class="container">
 
@@ -180,7 +180,7 @@ padding-top: 0px !important;
 
                               <br><br><br>
                               <div class="continue">
-                                 <span style="display: inline;"><input id="save_family" type="submit" class="addFamily" value="Save & Add More"/> <a>or</a>  <!-- <a href="<?php //echo base_url('user/property'); ?>"> --><input id="contnu" type="button" value="Continue&#62;&#62;" /> <!-- </a> --> </span>
+                                 <span style="display: inline;"><input id="save_family" type="submit" class="addFamily" value="Save & Add More"/> <a>or</a>  <input id="contnu" type="button" value="Continue&#62;&#62;" />  </span>
                               </div>
                            
                           </div>
@@ -226,13 +226,20 @@ padding-top: 0px !important;
 
 </section>
 </section>
-<link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
+<link   rel="stylesheet" href="<?php echo base_url('css/sweet-alert.min.css'); ?>" />
     
-<script data-require="sweet-alert@*" data-semver="0.4.2" src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
+<script   src="<?php echo base_url('js/sweet-alert.min.js'); ?>"></script>
 
 <script type="text/javascript" src="<?php echo base_url('js/bootstrap-datepicker.min.js');?>"></script>
     
 <script type="text/javascript">
+
+$(document).ready(function(){ 
+if($('#relationship').val() == 16){ 
+  $('#hide_others').hide(); 
+  $('#c').show();
+}
+});
  
 $('#relationship').on('change',function(){ 
  if($('#relationship').val() == 16){
@@ -245,15 +252,6 @@ else{
 
 });
 
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-if($('#relationship').val() == 16){ 
-  $('#hide_others').hide(); 
-  $('#c').show();
-}
-});
 
 $('#form').on('keyup','input',function(){
   $(this).next().html('');
@@ -269,10 +267,7 @@ $('#contnu').on('click',function(){
   $.ajax({
         type: "POST",
         url: "<?php echo base_url('user/parents_check'); ?>",
-        //data: family_data,
-        type: 'POST',
         success: function(response) {
-          //alert(response);
           if(response == 1)
           {
             count =0;
@@ -295,17 +290,20 @@ $('#contnu').on('click',function(){
                             confirmButtonColor: '#DD6B55',
                             confirmButtonText: 'Yes, I am!',
                             cancelButtonText: "No, Proceed!",
-                            closeOnConfirm: false,
+                            closeOnConfirm: true,
                             closeOnCancel: false
                           },
                           function(isConfirm) {
                             if (isConfirm) {
-                                           window.location="<?php echo base_url('user/family');?>";
+                                           //window.location="<?php echo base_url('user/family');?>";
                                 
                             } else {
                                  window.location="<?php echo base_url('user/property');?>";
                             }
                           });   
+                }
+                else{
+                  window.location="<?php echo base_url('user/property');?>";
                 }
 
           }
@@ -323,59 +321,7 @@ $('#contnu').on('click',function(){
     });
 });  
 
-</script>
 
-<!-- var list = $.parseJSON($('#list').val());
-              var rel = $.parseJSON($('#rel').val());
-
-              var id = new Array();
-              var name= new Array();
-              var i=0;
-              var selected = 1;
-
-              $.each(rel,function(k,v){
-                  if(v['name']=="Son"){
-                   
-                    $.each(list,function(key,ele){
-                    if(ele['relationship'] == v['rel_id'])
-                    {
-                       if(ele['marital_status'] == "Married")
-                        {
-                          selected = 2;     
-
-                          swal({
-                            title: "You have married Son",
-                            text: "Are you willing to add your son's wife and children details",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: '#DD6B55',
-                            confirmButtonText: 'Yes, I am!',
-                            cancelButtonText: "No, Proceed!",
-                            closeOnConfirm: false,
-                            closeOnCancel: false
-                          },
-                          function(isConfirm) {
-                            if (isConfirm) {
-                                           window.location="<?php //echo base_url('user/family');?>";
-                                
-                            } else {
-                                 window.location="<?php // echo base_url('user/property');?>";
-                            }
-                          });               
-                        }
-                        else
-                        {
-                             window.location="<?php // echo base_url('user/property');?>"; 
-                        } 
-                     return false;  
-                        } 
-                      }); 
-                    }
-                    
-                  });
- -->
-
-<script>
 $(function() {
 
   $('#save_family').on('click',function(e){
@@ -524,6 +470,8 @@ $(function() {
                   var a = $.parseJSON(response);
                   var name = a['family'].name;
                   var fam_id = a['family'].id;
+                  var rel = a['family'].relationship;
+                  var marital = a['family'].marital_status;
 
                    $('#family_mem_details').children().each(function(){ 
 
@@ -532,6 +480,8 @@ $(function() {
                                 var val = k[1];
 
                                 if(k[1] == fam_id){
+                                  $(this).attr('marital',marital);
+                                  $(this).attr('rel',rel);
                                   $(this).children().children().first().html(name);
                                 }
                                 $('#save_family').removeClass('updateFamily');
@@ -722,6 +672,3 @@ $('#family_mem_details').on('click','.delete_mem',function(e){
 
 }); 
 </script>
-
-
-
