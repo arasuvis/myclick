@@ -527,6 +527,7 @@ class User extends CI_Controller
 
 		echo json_encode($data); die();
 	}
+
 	function get_property_details()
 	{
 	    $id = $_POST['id'];
@@ -579,7 +580,6 @@ class User extends CI_Controller
 			echo json_encode($data[0]); die();
 			}
 		}
-		
 		
 	} 
 
@@ -682,7 +682,8 @@ class User extends CI_Controller
 		
 		if($original == $got)
 		{
-			echo 1;
+			$per['per'] = $this->property_model->comp_dead_det()->row();
+			echo json_encode($per); die();
 		}
 		else
 		{
@@ -1111,30 +1112,9 @@ class User extends CI_Controller
 		$this->load->view('finish',$data);
 		$this->load->view('footer'); }
 		else { redirect('user/signin');
-	}
+		}
 	}
 
-	function p_a()
-	{
-		if($session = $this->session->userdata('is_userlogged_in')['user_id'])
-		{
-			
-		$data['immov'] = $this->property_model->get_immov();		
-		
-		$data['fam_a'] = $this->family_model->get_fam_a()->result();
-		$data['dead'] = $this->property_model->get_dead()->result();
-		//echo "<pre>"; print_r($data); die();
-		//insert_activity($this->will_id,1,3);
-		//
-		$data['tab'] = "p_a";
-		$data['width'] = "48%";
-		$this->load->view('header');
-		$this->load->view('navbar',$data);
-		$this->load->view('p_a',$data);
-		$this->load->view('footer'); }
-		else { redirect('user/signin');}
-	}
-	
 }
 
 ?>

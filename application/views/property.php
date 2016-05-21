@@ -486,23 +486,9 @@ $(document).ready(function(){
                   });
 
          $('input[name="property"]').on('change',function(){ 
-                $('#immov_prop').children().each(function(){ 
-                                if($(this).is(':selected')){
-                                $(this).prop('selected',false) }
-                            });
-                          $('#immov_prop').prop('disabled',false);
-                          $('#ownership').children().each(function(){ 
-                                if($(this).is(':selected')){
-                                $(this).prop('selected',false) }
-                            });                            
-                            $('#muncipal').val('');
-                            $('#year_of_purchase1').val('');
-                            $('#address').val('');
-                            $('#area').val('');
-                            $('#name_mov').val('');
-                            $('#comments').val('');
-                            $('#up_id').val('');
-                            $('#name_mov').prop('disabled',false);
+
+          $('#form_prop').reset();
+              
          }); 
 
          $('#prop_lis').on('click','.deleterec',function(e){ 

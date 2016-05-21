@@ -650,12 +650,13 @@ $.ajax({
                }
 
               else{
+
                 if(res.rel_name == "Others" ){
                   $('#hide_others').hide();
                   $('#show_others').show();
                   $('#rel').attr('value',res.rel_name);
                   $('#rel_id').attr('value',res.relationship);
-                  $('#comments').html(res.comments)
+                  $('#comments').html(res.comments);
                  }
                 else { 
                   $('#hide_others').show();
@@ -665,7 +666,8 @@ $.ajax({
                      $('#dob').attr('value',res.dob);
                      $('#marital').attr('value',res.marital_status);
                       $('#rel_id').attr('value',res.relationship);
-          } }
+                    } 
+        }
             }
         });
 
@@ -868,10 +870,15 @@ var id = $(this).attr('id');
 
 });
  
- $('input[name="status"]').on('change',function(){ 
+ $('input[name="status"]').on('change',function(){
 
   $('input[type=text]').attr('value','');
   $('#form')[0].reset();
+  $('#immove_prop').attr('disabled',false);
+  $('#fam').attr('disabled',false);
+  $('#comments').val('');
+  $('#hide_others').show();
+  $('#show_others').hide();
                          
  }); 
     
@@ -1270,11 +1277,23 @@ $.ajax({
             url:"<?php echo base_url(); ?>user/comp_det",
             success:function(res)
             {
-              if(res == 1){ window.location.href = "<?php echo base_url('user/reason_for_not_alloc');?>";}
-              else{  swal({
+               if(res == 2){ swal({
                             title: 'Some Property Not Allocated',
                             type: 'warning'
-                        }); 
+                        });  }
+              else{ 
+                      var a = $.parseJSON(res);
+                      var per = parseInt(a.per.per);
+                      if(per == 100){
+                        window.location.href = "<?php echo base_url('user/reason_for_not_alloc');?>";
+                      }
+                      else{
+                        swal({
+                            title: 'In Case of Dead Section not Completed ',
+                            type: 'warning'
+                        });
+                      }
+                    
                  }
   
             }

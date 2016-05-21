@@ -379,6 +379,16 @@ class Property_model extends CI_Model
 		return $query;
     }
 
+    function comp_dead_det(){
+        $will_id = $this->session->userdata('is_userlogged_in')['will_id'];
+        $this->db->select('sum(percentage) as per') ;
+        $this->db->from('dead_alloc');
+        $this->db->where('will_id',$will_id);
+        $query = $this->db->get();
+
+        return $query;
+    }
+
     function get_by_id($id){
     	$will_id = $this->session->userdata('is_userlogged_in')['will_id'];
      	
